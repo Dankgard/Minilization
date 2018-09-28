@@ -6,7 +6,7 @@ Minilization is a turn-based game. In a turn, each player can move its units alo
 
 Towns take a few turns to produce units, as workers take a few turns to build buildings. A town cannot produce the next unit until the prior has been generated. The player who destroys the opponent´s town wins the game.
 
-
+________________________________________________________________________________________________________________________________
 
 Minilization es un juego de estrategia basado en la saga Civilization. En Minilization, 2 jugadores humanos tomarán el liderazgo de las ciudades de Humanes y Algete, y se enfrentarán para intentar destruir la ciudad del otro y demostrar quien se encuentra en la cima del reino.
 
@@ -14,7 +14,7 @@ Minilization es un juego por turnos. En cada turno, cada jugador podrá mover a 
 
 Las ciudades tardan varios turnos en producir unidades, al igual que los trabajadores en construir edificios, y no se puede producir la siguiente unidad hasta que no se ha generado la anterior. Gana la partida el jugador que destruya la ciudad del oponente.
 
-
+________________________________________________________________________________________________________________________________
 
 Minilization是一款基于文明传奇的策略游戏。在Minilization，2名人的玩家将采取HUMANES和阿尔赫特镇的铅，将面临对方试图摧毁对手的小镇，以显示谁是山的真正的王者。
 
@@ -22,7 +22,7 @@ Minilization是一款回合制游戏。在一个回合中，每个玩家可以�
 
 城镇需要几个转弯来生产单位，因为工人需要几个回合来建造建筑物。在生成之前，城镇不能生产下一个单位。摧毁对手城镇的玩家赢得比赛。
 
-
+________________________________________________________________________________________________________________________________
 
 Minilization ni mchezo wa mkakati kulingana na saga ya Ustaarabu. Katika Minilization, 2 wachezaji binadamu itachukua kiongozi wa miji ya Humanes na Algete, na uso kila mmoja kwa kujaribu kuharibu mji mpinzani na kuonyesha nani ni mfalme wa kweli wa kilima.
 
@@ -30,7 +30,7 @@ Minilization ni mchezo wa kugeuka. Kwa upande wake, kila mchezaji anaweza hoja p
 
 Maji kuchukua zamu kadhaa ili kuzalisha vitengo, kama wafanyakazi kuchukua zamu chache kujenga majengo. Mji hauwezi kuzalisha kitengo cha pili mpaka kabla ya kuzalishwa. Mchezaji ambaye huharibu mji wa mpinzani atashinda mchezo.
 
-
+________________________________________________________________________________________________________________________________
 
 Miniligo estas strategia ludo bazita sur la Civilizo-saga. En Minilization, 2 homaj ludantoj prenos la plumbo de la vilaĝoj de Humanes kaj Algete, kaj alfrontos unu la alian por provi detrui la kontraŭulo urbo kaj montri kiu estas la vera reĝo de la monteto.
 
