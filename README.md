@@ -1,35 +1,90 @@
-![Image of Minilization](https://github.com/Dankgard/Minilization/blob/master/design/retro-videogame-Minilization.jpg)
+![Image of Minilization](https://github.com/Dankgard/Minilization/blob/master/design/Images/retro-videogame-Minilization.jpg)
 
 Minilization is a strategy game based on the Civilization saga. In Minilization, 2 human players will take the lead of the towns of Humanes and Algete, and will face each other to try to destroy the opponent´s town and to show who is the true king of the hill.
 
-Minilization is a turn-based game. In a turn, each player can move its units along the different squares of the map and do several actions with them. The towns can generate 4 different types of units in exchange of gold: workers, who can build buildings to contribute to the defense of the town, or work on the resource squares distributed along the map. These resource squares will appear randomly on some positions of the map to help each game to feel unique and will generate gold each turn while a worker stands on them. Each player will possess 1 worker at the beginning of the game. The towns can generate 3 combat units too: infantry units, cavalry units and archers. Infantry units, slow and with great endurance, can move 1 square per turn and have a range of attack of 1. Cavalry units, fast but vulnerable, can move 2 squares per turn and have a range of attack of 1. Archers, weak but with a greater range, can move 1 square per turn and have a range of attack of 2. These 3 units form an elemental triangle, where infantry units are strong against archers, archers are strong against cavalry, and cavalry units are strong against infantry.
+![Image of City](https://github.com/Dankgard/Minilization/blob/master/design/Images/plantean-volver-a-ciudades-medievales-para-hoy-viv-jpg_700x0.jpg)
+
+Minilization is a turn-based game. In a turn, each player can move its units along the different squares of the map and do several actions with them. The towns can generate 4 different types of units in exchange of gold: 
+
+## -Workers:
+Who can build buildings to contribute to the defense of the town, or work on the resource squares distributed along the map. These resource squares will appear randomly on some positions of the map to help each game to feel unique and will generate gold each turn while a worker stands on them. 
+
+Each player will possess 1 worker at the beginning of the game. The towns can generate 3 combat units too: 
+
+## -Infantry units:
+Infantry units, slow and with great endurance, can move 1 square per turn and have a range of attack of 1. 
+
+![Image of infatry](https://github.com/Dankgard/Minilization/blob/master/design/Images/Guard-seeker-AC2.png)
+
+
+
+## -Cavalry units:
+Fast but vulnerable, can move 2 squares per turn and have a range of attack of 1. 
+
+![Image of jinete](https://github.com/Dankgard/Minilization/blob/master/design/Images/stock-vector-cowboy-ride-a-horse-hand-drawn-illustration-658991053.jpg)
+
+
+
+## -Archers:
+Weak but with a greater range, can move 1 square per turn and have a range of attack of 2. 
+
+![Image of arquero](https://github.com/Dankgard/Minilization/blob/master/design/Images/Guard-archer-AC2.png)
+
+
+
+These 3 units form an elemental triangle, where infantry units are strong against archers, archers are strong against cavalry, and cavalry units are strong against infantry.
 
 Towns take a few turns to produce units, as workers take a few turns to build buildings. A town cannot produce the next unit until the prior has been generated. The player who destroys the opponent´s town wins the game.
 
+![Image of esquema](https://github.com/Dankgard/Minilization/blob/master/design/Images/Esquema%20de%20juego.png)
+
 ________________________________________________________________________________________________________________________________
 
-![Image of Minilization](https://github.com/Dankgard/Minilization/blob/master/design/retro-videogame-Minilization.jpg)
+![Image of Minilization](https://github.com/Dankgard/Minilization/blob/master/design/Images/retro-videogame-Minilization.jpg)
 
 
 Minilization es un juego de estrategia basado en la saga Civilization. En Minilization, 2 jugadores humanos tomarán el liderazgo de las ciudades de Humanes y Algete, y se enfrentarán para intentar destruir la ciudad del otro y demostrar quien se encuentra en la cima del reino.
 
+![Image of City](https://github.com/Dankgard/Minilization/blob/master/design/Images/plantean-volver-a-ciudades-medievales-para-hoy-viv-jpg_700x0.jpg)
+
 Minilization es un juego por turnos. En cada turno, cada jugador podrá mover a sus unidades por las diferentes casillas cuadradas del mapa y realizar diversas acciones con ellas. Las ciudades pueden generar 4 tipos distintos de unidades a cambio de oro:
 
-**Trabajadores:** que podrán construir varios edificios, que contribuirán a la defensa de la ciudad, o bien ponerse a trabajar en las casillas de recursos que se encuentran dispersas por el mapa. Estas casillas de recursos se crearán aleatoriamente en varias posiciones del mapa para ayudar a que cada partida se sienta distinta y generarán oro por turno mientras los trabajadores permanezcan en ellas.
+## -Trabajadores: 
+Que podrán construir varios edificios, que contribuirán a la defensa de la ciudad, o bien ponerse a trabajar en las casillas de recursos que se encuentran dispersas por el mapa. Estas casillas de recursos se crearán aleatoriamente en varias posiciones del mapa para ayudar a que cada partida se sienta distinta y generarán oro por turno mientras los trabajadores permanezcan en ellas.
 
 Cada jugador al inicio de la partida tendrá en su poder un trabajador. Las ciudades también generan 3 unidades de combate: 
 
-**Soldados de infantería:** jinetes y arqueros. Los soldados de infantería, lentos pero con un gran aguante, puede mover 1 casilla por turno y tiene un rango de ataque de 1. 
+## -Soldados de infantería:
+Los soldados de infantería, lentos pero con un gran aguante, puede mover 1 casilla por turno y tiene un rango de ataque de 1. 
 
-**Los jinetes:** rápidos pero vulnerables, se mueven 2 por turno y tienen un rango de ataque de 1 
+![Image of infatry](https://github.com/Dankgard/Minilization/blob/master/design/Images/Guard-seeker-AC2.png)
 
-**Los arqueros:** débiles pero con un alcance mayor, se mueven 1 por turno y tienen un rango de ataque de 2. 
+
+
+## -Los jinetes: 
+Rápidos pero vulnerables, se mueven 2 por turno y tienen un rango de ataque de 1 
+
+![Image of jinete](https://github.com/Dankgard/Minilization/blob/master/design/Images/stock-vector-cowboy-ride-a-horse-hand-drawn-illustration-658991053.jpg)
+
+
+
+
+## -Los arqueros:
+Débiles pero con un alcance mayor, se mueven 1 por turno y tienen un rango de ataque de 2. 
+
+![Image of arquero](https://github.com/Dankgard/Minilization/blob/master/design/Images/Guard-archer-AC2.png)
+
+
 
 Además, estas tres forman un triángulo elemental, en el que infantería es fuerte contra arqueros, arqueros son fuertes contra jinetes, y jinetes son fuertes contra infantería.
 
 Las ciudades tardan varios turnos en producir unidades, al igual que los trabajadores en construir edificios, y no se puede producir la siguiente unidad hasta que no se ha generado la anterior. Gana la partida el jugador que destruya la ciudad del oponente.
 
+![Image of esquema](https://github.com/Dankgard/Minilization/blob/master/design/Images/Esquema%20de%20juego.png)
+
 ________________________________________________________________________________________________________________________________
+
+![Image of Minilization](https://github.com/Dankgard/Minilization/blob/master/design/Images/retro-videogame-Minilization.jpg)
 
 Minilization是一款基于文明传奇的策略游戏。在Minilization，2名人的玩家将采取HUMANES和阿尔赫特镇的铅，将面临对方试图摧毁对手的小镇，以显示谁是山的真正的王者。
 
@@ -39,6 +94,8 @@ Minilization是一款回合制游戏。在一个回合中，每个玩家可以�
 
 ________________________________________________________________________________________________________________________________
 
+![Image of Minilization](https://github.com/Dankgard/Minilization/blob/master/design/Images/retro-videogame-Minilization.jpg)
+
 Minilization ni mchezo wa mkakati kulingana na saga ya Ustaarabu. Katika Minilization, 2 wachezaji binadamu itachukua kiongozi wa miji ya Humanes na Algete, na uso kila mmoja kwa kujaribu kuharibu mji mpinzani na kuonyesha nani ni mfalme wa kweli wa kilima.
 
 Minilization ni mchezo wa kugeuka. Kwa upande wake, kila mchezaji anaweza hoja pamoja vitengo mbalimbali mraba WAKE ya ramani na kufanya vitendo kadhaa Pamoja nao. miji inaweza kuzalisha 4 aina tofauti ya vitengo badala ya dhahabu: Wafanyakazi, WHO unaweza kujenga majengo kwa Changia ulinzi wa mji, au kazi ya mraba rasilimali kusambazwa pamoja ramani. mraba hizi Kuonekana nasibu rasilimali katika baadhi ya nafasi ya ramani ya kusaidia kila mchezo wa kuhisi kipekee na itazalisha dhahabu kila upande huku mfanyakazi anasimama juu yao. Kila mchezaji atakuwa na mfanyakazi 1 mwanzoni mwa mchezo. miji inaweza kuzalisha tatu kupambana vitengo pia: vipande infantry, vitengo cavalry na wapiga upinde. Infantry vitengo, mwepesi na kwa uvumilivu mkubwa, unaweza kuendelea mraba moja kwa upande na kuwa na aina mbalimbali ya mashambulizi ya 1. Cavalry vitengo, haraka lakini katika mazingira magumu, inaweza hoja mraba 2 kwa kila upande na kuwa na aina mbalimbali ya mashambulizi ya 1. wapiga mishale, lakini dhaifu na aina zaidi, unaweza kuendelea mraba moja kwa upande na kuwa na aina mbalimbali ya mashambulizi ya 2. hivi vipande kuunda msingi tatu pembetatu, wapi wana nguvu mbele ya infantry vitengo wapiga mishale, wapiga upinde wana nguvu mbele ya cavalry, na vitengo cavalry wana nguvu mbele ya infantry.
@@ -46,6 +103,8 @@ Minilization ni mchezo wa kugeuka. Kwa upande wake, kila mchezaji anaweza hoja p
 Maji kuchukua zamu kadhaa ili kuzalisha vitengo, kama wafanyakazi kuchukua zamu chache kujenga majengo. Mji hauwezi kuzalisha kitengo cha pili mpaka kabla ya kuzalishwa. Mchezaji ambaye huharibu mji wa mpinzani atashinda mchezo.
 
 ________________________________________________________________________________________________________________________________
+
+![Image of Minilization](https://github.com/Dankgard/Minilization/blob/master/design/Images/retro-videogame-Minilization.jpg)
 
 Miniligo estas strategia ludo bazita sur la Civilizo-saga. En Minilization, 2 homaj ludantoj prenos la plumbo de la vilaĝoj de Humanes kaj Algete, kaj alfrontos unu la alian por provi detrui la kontraŭulo urbo kaj montri kiu estas la vera reĝo de la monteto.
 
