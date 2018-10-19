@@ -1,10 +1,27 @@
 - Casilla
-- Recurso
-- Ciudad
-- Muralla
-- Torre de vigilancia
+   -pos x,y;
+   -tipo (que hay en esa casilla)
+- Edificio
+	pos
+	vida
+	- Ciudad
+	- Muralla
+	- Torre de vigilancia
+		daño
+		alcance
 - Cursor
-- Unidad de combate
-- Trabajador
+	pos
+- Unidad
+   pos x,y;
+   movimiento
+   vida
+   - Unidad de combate
+		- alcance
+		- daño
+		- elemento
+   - Trabajador
+   
+ 
+- Estado
 
 
