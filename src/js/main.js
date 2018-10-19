@@ -58,17 +58,45 @@ class Player {
 }
 
 class Square  {
-  constructor(x, y, type, sprite)
+  constructor(x, y, type, sprite, goldPerTurn)
   {
     this.x = x;
     this.y = y;
-    this.type = type; // nothing, forest, mine, ruins
+    this.type = type;
     this.sprite = sprite;
   }
 }
 
+class EmptySquare extends Square {
+  constructor(x, y)
+  {
+    super(x, y, "empty", "empty.png", 0);
+  }
+}
+
+class ForestSquare extends Square {
+  constructor(x, y)
+  {
+    super(x, y, "forest", "forest.png", 1);
+  }
+}
+
+class MineSquare extends Square {
+  constructor(x, y)
+  {
+    super(x, y, "mine", "mine.png", 2);
+  }
+}
+
+class RuinsSquare extends Square {
+  constructor(x, y)
+  {
+    super(x, y, "ruins", "ruins.png", 3);
+  }
+}
+
 class Building {
-  constructor(x, y, hp, player)
+  constructor(x, y, hp, player,sprite)
   {
     this.x = x;
     this.y = y;
@@ -79,29 +107,30 @@ class Building {
 }
 
 class Town extends Building {
-  constructor()
+  constructor(x, y, player)
   {
-
+    super(x, y, 1000, player,"town.png");
   }
 
-  createUnit()
+  createUnit(type)
   {
 
   }
 }
 
 class Wall extends Building {
-  constructor()
+  constructor(x, y, player)
   {
-
+    super(x, y, 100, player, "wall.png");
   }
 }
 
 class Watchtower extends Building {
-  constructor(range,damage)
+  constructor(x, y, player)
   {
-    this.range = range;
-    this.damage = damage;
+    super(x, y, 50, player, "watchtower.png");
+    this.range = 3;
+    this.damage = 20;
   }
 
   attack()
@@ -123,9 +152,9 @@ class Unit {
 }
 
 class Worker extends Unit {
-  constructor()
+  constructor(x, y, player)
   {
-
+    super(x, y, 20, 1, "worker.png", player);
   }
 
   work()
@@ -133,15 +162,16 @@ class Worker extends Unit {
 
   }
 
-  build()
+  build(type)
   {
 
   }
 }
 
 class CombatUnit extends Unit {
-  constructor(range, damage, element)
+  constructor(x, y, hp, moves, sprite, player, range, damage, element)
   {
+    super(x, y, hp, moves, sprite, player);
     this.range = range;
     this.damage = damage;
     this.element = element;
@@ -154,23 +184,32 @@ class CombatUnit extends Unit {
 }
 
 class Archer extends CombatUnit {
-  constructor()
+  constructor(x, y, player)
   {
-
+    super(x, y, 30, 1, "archer.png", player, 2, 10, "archer");
   }
 }
 
 class Infantry extends CombatUnit {
-  constructor()
+  constructor(x, y, player)
   {
-
+    super(x, y, 50, 1, "infantry.png", player, 1, 10, "infantry");
   }
 }
 
 class Cavalry extends CombatUnit {
-  constructor()
+  constructor(x, y, player)
   {
+    super(x, y, 40, 2, "cavalry.png", player, 1, 10, "cavalry");
+  }
+}
 
+class Cursor {
+  constructor(x, y)
+  {
+    this.x = x;
+    this.y = y;
+    this.sprite = "cursor.png";
   }
 }
 
