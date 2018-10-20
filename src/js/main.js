@@ -95,8 +95,8 @@ class RuinsSquare extends Square {
   }
 }
 
-class Building {
-  constructor(x, y, hp, player,sprite)
+class Unit {
+  constructor(x, y, hp, player, sprite)
   {
     this.x = x;
     this.y = y;
@@ -104,9 +104,21 @@ class Building {
     this.sprite = sprite;
     this.player = player;
   }
+
+  takeDamage(damage)
+  {
+    this.hp -= damage;
+    if(this.hp <= 0)
+      destroy();
+  }
+
+  destroy()
+  {
+
+  }
 }
 
-class Town extends Building {
+class Town extends Unit {
   constructor(x, y, player)
   {
     super(x, y, 1000, player,"town.png");
@@ -114,18 +126,18 @@ class Town extends Building {
 
   createUnit(type)
   {
-
+    
   }
 }
 
-class Wall extends Building {
+class Wall extends Unit {
   constructor(x, y, player)
   {
     super(x, y, 100, player, "wall.png");
   }
 }
 
-class Watchtower extends Building {
+class Watchtower extends Unit {
   constructor(x, y, player)
   {
     super(x, y, 50, player, "watchtower.png");
@@ -133,25 +145,30 @@ class Watchtower extends Building {
     this.damage = 20;
   }
 
-  attack()
+  attack(enemy)
   {
-
+    enemy.takeDamage(this.damage);
   }
 }
 
-class Unit {
+class HumanUnit extends Unit {
   constructor(x, y, hp, moves, sprite, player)
   {
-    this.x = x;
-    this.y = y;
-    this.hp = hp;
+    super(x, y, hp, player, sprite);
     this.moves = moves;
-    this.sprite = sprite;
-    this.player = player;
+  }
+
+  move(posX, posY) // posiciones absolutas a las que se va a mover la unidad
+  {
+    if((this.x == posX && Math.abs(this.y - posY)<= this.moves) || (this.y == posY && Math.abs(this.x - posX)<= this.moves))
+      {
+        this.x = posX;
+        this.y = posY;
+      }
   }
 }
 
-class Worker extends Unit {
+class Worker extends HumanUnit {
   constructor(x, y, player)
   {
     super(x, y, 20, 1, "worker.png", player);
@@ -168,7 +185,7 @@ class Worker extends Unit {
   }
 }
 
-class CombatUnit extends Unit {
+class CombatUnit extends HumanUnit {
   constructor(x, y, hp, moves, sprite, player, range, damage, element)
   {
     super(x, y, hp, moves, sprite, player);
@@ -177,9 +194,22 @@ class CombatUnit extends Unit {
     this.element = element;
   }
 
-  attack()
+  attack(enemy)
   {
+    var bonusDamage;
 
+    if(this.element == enemy.element)
+      bonusDamage = 1;
+    else if((this.element == "archer" && enemy.element == "cavalry") || (this.element == "infantry" && enemy.element == "archer") ||
+    (this.element == "cavalry" && enemy.element == "infantry"))
+      bonusDamage = 1.25;
+    else if ((this.element == "archer" && enemy.element == "infantry") || (this.element == "infantry" && enemy.element == "cavalry") ||
+    (this.element == "cavalry" && enemy.element == "archer"))
+      bonusDamage = 0.75;
+    else
+      bonusDamage = 1;
+
+    enemy.takeDamage(this.damage * bonusDamage);
   }
 }
 
@@ -210,6 +240,25 @@ class Cursor {
     this.x = x;
     this.y = y;
     this.sprite = "cursor.png";
+  }
+
+  move(dir)
+  {
+    switch(dir)
+    {
+      case "left":
+        this.x--;
+        break;
+      case "right":
+        this.x++;
+        break;
+      case "up":
+        this.y--;
+        break;
+      case "down":
+        this.y++;
+        break;
+    }
   }
 }
 
