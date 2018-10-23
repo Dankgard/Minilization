@@ -42,10 +42,17 @@ window.onload = function () {
 };
 
 class GameManager {
-  constructor(turn, playingPlayer)
+  constructor(turn, playingPlayer, playerNumber)
   {
     this.turn = turn;
     this.playingPlayer = playingPlayer;
+    this.playerNumber = playerNumber;
+    this.players = new Array(playerNumber);
+
+    for(var i=0;i<playerNumber;i++)
+    {
+      players[i] = new Player(i,0);
+    }
   }
 }
 
@@ -54,7 +61,63 @@ class Player {
   {
     this.number = number;
     this.money = money;
+    this.numberOfUnits = 0;
     this.units = [];
+  }
+
+  addUnit(type, x, y)
+  {
+    var unit;
+    switch (type)
+    {
+      case "town":
+        unit = new Town(x, y, this.number, numberOfUnits);
+        break;
+      case "wall":
+        unit = new Wall(x, y, this.number, numberOfUnits);
+        break;
+      case "watchtower":
+        unit = new Watchtower(x, y, this.number, numberOfUnits);
+        break;
+      case "worker":
+        unit = new Worker(x, y, this.number, numberOfUnits);
+        break;
+      case "infantry":
+        unit = new Infantry(x, y, this.number, numberOfUnits);
+        break;
+      case "cavalry":
+        unit = new Cavalry(x, y, this.number, numberOfUnits);
+        break;
+      case "archer":
+        unit = new Archer(x, y, this.number, numberOfUnits);
+        break;
+    }
+    this.numberOfUnits++;
+    this.units.push(unit);
+  }
+
+  destroyUnit(unitNumber)
+  {
+    this.units.splice(unitNumber, 1);
+  }
+}
+
+class Map{
+  constructor(width, height)
+  {
+    this.width = width;
+    this.height = height;
+    this.squares = new Array(height);
+    for (var i = 0; i < squares.length; i++) {
+      squares[i] = new Array(width);
+    }
+
+    for (var i = 0; i < height; i++) {
+      for(var j = 0; i < width;j++)
+      {
+        squares[j][i] = new Square(j,i,"empty","empty.png",0);
+      }
+    }
   }
 }
 
@@ -98,13 +161,14 @@ class RuinsSquare extends Square {
 }
 
 class Unit {
-  constructor(x, y, hp, player, sprite)
+  constructor(x, y, hp, player, sprite, unitNumber)
   {
     this.x = x;
     this.y = y;
     this.hp = hp;
     this.sprite = sprite;
     this.player = player;
+    this.unitNumber = unitNumber;
   }
 
   takeDamage(damage)
@@ -116,33 +180,33 @@ class Unit {
 
   destroy()
   {
-
+    players[player].destroy(this.unitNumber);
   }
 }
 
 class Town extends Unit {
-  constructor(x, y, player)
+  constructor(x, y, player, unitNumber)
   {
-    super(x, y, 1000, player,"town.png");
+    super(x, y, 1000, player,"town.png", unitNumber);
   }
 
   createUnit(type)
   {
-    this.player.units.push(type);
+    players[player].addUnit(type, this.x, this.y);
   }
 }
 
 class Wall extends Unit {
-  constructor(x, y, player)
+  constructor(x, y, player, unitNumber)
   {
-    super(x, y, 100, player, "wall.png");
+    super(x, y, 100, player, "wall.png", unitNumber);
   }
 }
 
 class Watchtower extends Unit {
-  constructor(x, y, player)
+  constructor(x, y, player, unitNumber)
   {
-    super(x, y, 50, player, "watchtower.png");
+    super(x, y, 50, player, "watchtower.png", unitNumber);
     this.range = 3;
     this.damage = 20;
   }
@@ -154,9 +218,9 @@ class Watchtower extends Unit {
 }
 
 class HumanUnit extends Unit {
-  constructor(x, y, hp, moves, sprite, player)
+  constructor(x, y, hp, moves, sprite, player, unitNumber)
   {
-    super(x, y, hp, player, sprite);
+    super(x, y, hp, player, sprite, unitNumber);
     this.moves = moves;
   }
 
@@ -171,26 +235,26 @@ class HumanUnit extends Unit {
 }
 
 class Worker extends HumanUnit {
-  constructor(x, y, player)
+  constructor(x, y, player, unitNumber)
   {
-    super(x, y, 20, 1, "worker.png", player);
+    super(x, y, 20, 1, "worker.png", player, unitNumber);
   }
 
   work()
   {
-    
+    players[player].money += squares[x][y].goldPerTurn;
   }
 
   build(type)
   {
-    this.player.units.push(type);
+    players[player].addUnit(type, this.x, this.y);
   }
 }
 
 class CombatUnit extends HumanUnit {
-  constructor(x, y, hp, moves, sprite, player, range, damage, element)
+  constructor(x, y, hp, moves, sprite, player, range, damage, element, unitNumber)
   {
-    super(x, y, hp, moves, sprite, player);
+    super(x, y, hp, moves, sprite, player, unitNumber);
     this.range = range;
     this.damage = damage;
     this.element = element;
@@ -216,23 +280,23 @@ class CombatUnit extends HumanUnit {
 }
 
 class Archer extends CombatUnit {
-  constructor(x, y, player)
+  constructor(x, y, player, unitNumber)
   {
-    super(x, y, 30, 1, "archer.png", player, 2, 10, "archer");
+    super(x, y, 30, 1, "archer.png", player, 2, 10, "archer", unitNumber);
   }
 }
 
 class Infantry extends CombatUnit {
-  constructor(x, y, player)
+  constructor(x, y, player, unitNumber)
   {
-    super(x, y, 50, 1, "infantry.png", player, 1, 10, "infantry");
+    super(x, y, 50, 1, "infantry.png", player, 1, 10, "infantry", unitNumber);
   }
 }
 
 class Cavalry extends CombatUnit {
-  constructor(x, y, player)
+  constructor(x, y, player, unitNumber)
   {
-    super(x, y, 40, 2, "cavalry.png", player, 1, 10, "cavalry");
+    super(x, y, 40, 2, "cavalry.png", player, 1, 10, "cavalry", unitNumber);
   }
 }
 
