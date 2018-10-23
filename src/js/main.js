@@ -54,6 +54,7 @@ class Player {
   {
     this.number = number;
     this.money = money;
+    this.units = [];
   }
 }
 
@@ -64,6 +65,7 @@ class Square  {
     this.y = y;
     this.type = type;
     this.sprite = sprite;
+    this.goldPerTurn = goldPerTurn;
   }
 }
 
@@ -126,7 +128,7 @@ class Town extends Unit {
 
   createUnit(type)
   {
-    
+    this.player.units.push(type);
   }
 }
 
@@ -176,12 +178,12 @@ class Worker extends HumanUnit {
 
   work()
   {
-
+    
   }
 
   build(type)
   {
-
+    this.player.units.push(type);
   }
 }
 
