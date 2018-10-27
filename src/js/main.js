@@ -121,13 +121,20 @@ class Map{
   }
 }
 
-class Square  {
-  constructor(x, y, type, sprite, goldPerTurn)
+class Sprite {
+  constructor(x, y, sprite)
   {
     this.x = x;
     this.y = y;
-    this.type = type;
     this.sprite = sprite;
+  }
+}
+
+class Square extends Sprite  {
+  constructor(x, y, type, sprite, goldPerTurn)
+  {
+    super(x, y, sprite);
+    this.type = type;
     this.goldPerTurn = goldPerTurn;
   }
 }
@@ -160,13 +167,11 @@ class RuinsSquare extends Square {
   }
 }
 
-class Unit {
+class Unit extends Sprite {
   constructor(x, y, hp, player, sprite, unitNumber)
   {
-    this.x = x;
-    this.y = y;
+    super(x, y, sprite);
     this.hp = hp;
-    this.sprite = sprite;
     this.player = player;
     this.unitNumber = unitNumber;
   }
@@ -300,11 +305,10 @@ class Cavalry extends CombatUnit {
   }
 }
 
-class Cursor {
+class Cursor extends Sprite {
   constructor(x, y)
   {
-    this.x = x;
-    this.y = y;
+    super(x, y, sprite);
     this.sprite = "cursor.png";
   }
 
