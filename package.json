@@ -4,14 +4,13 @@
   "author": "Dankgard and GonzaPM7",
   "license": "CC-BY-NC-SA-4.0",
   "repository": {
-	"type": "git",
-	"url": "https://github.com/Dankgard/Minilization"
-	}
+    "type": "git",
+    "url": "https://github.com/Dankgard/Minilization"
+  },
   "dependencies": {
     "browserify": "*",
     "browser-sync": "*",
     "del": "*",
-    "gulp": "*",
     "gulp-connect": "*",
     "gulp-gh-pages": "*",
     "gulp-util": "*",
@@ -19,5 +18,8 @@
     "phaser": "2.6.0",
     "vinyl-source-stream": "*",
     "watchify": "*"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0"
   }
 }
