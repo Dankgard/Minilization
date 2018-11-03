@@ -1,19 +1,20 @@
 {
   "version": "0.0.0",
-  "name": "minilization",
-  "author": "Dankgard and GonzaPM7",
+  "name": "awesome-game",
+  "version": "0.0.0",
+  "author": "",
   "license": "CC-BY-NC-SA-4.0",
-  "repository": {
-	"type": "git",
-	"url": "https://github.com/Dankgard/Minilization"
-	}
+  
+  "repository": "gituser/awesome-game",
+  "author": "gituser",
+  
   "dependencies": {
     "browserify": "*",
     "browser-sync": "*",
     "del": "*",
     "gulp": "*",
     "gulp-connect": "*",
-    "gulp-gh-pages": "*",
+    "gulp-gh-pages": "*", 
     "gulp-util": "*",
     "merge-stream": "*",
     "phaser": "2.6.0",
