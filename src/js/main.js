@@ -22,7 +22,9 @@ var PreloaderScene = {
     this.load.setPreloadSprite(this.loadingBar);
 
     // TODO: load here the assets for the game
-    this.game.load.image('logo', 'images/phaser.png');
+    this.game.load.image('logo', 'images/phaser.png');    
+    this.game.load.image('tile', 'images/Usar/tile003.png');
+    
   },
 
   create: function () {
@@ -36,9 +38,9 @@ window.onload = function () {
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
-  game.state.add('play', PlayScene);
+  game.state.add('play', PlayScene);  
 
-  game.state.start('boot');
+  game.state.start('boot');  
 };
 
 class GameManager {
@@ -56,7 +58,7 @@ class GameManager {
   }
 }
 
-class Player {
+class Player  {
   constructor(number, money)
   {
     this.number = number;
@@ -130,19 +132,19 @@ class Map{
   }
 }
 
-class Sprite {
-  constructor(x, y, sprite)
-  {
-    this.x = x;
-    this.y = y;
-    this.sprite = sprite;
-  }
-}
+// class Sprite {
+//   constructor(x, y, sprite)
+//   {
+//     this.x = x;
+//     this.y = y;
+//     this.sprite = sprite;
+//   }
+// }
 
-class Square extends Sprite  {
+class Square extends Phaser.Sprite  {
   constructor(x, y, type, sprite, goldPerTurn)
   {
-    super(x, y, sprite);
+    super(game, x, y, sprite, nombre);
     this.type = type;
     this.goldPerTurn = goldPerTurn;
   }
@@ -176,7 +178,7 @@ class RuinsSquare extends Square {
   }
 }
 
-class Unit extends Sprite {
+class Unit extends Phaser.Sprite {
   constructor(x, y, hp, player, sprite, unitNumber)
   {
     super(x, y, sprite);
