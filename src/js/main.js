@@ -22,9 +22,32 @@ var PreloaderScene = {
     this.load.setPreloadSprite(this.loadingBar);
 
     // TODO: load here the assets for the game
-    this.game.load.image('logo', 'images/phaser.png');    
-    this.game.load.image('tile', 'images/Usar/tile003.png');
-    
+    this.game.load.image('logo', 'images/phaser.png');
+    /*var frameWidth = 110/7;
+    var frameNumber = 308;
+    this.game.load.spritesheet('spritesheet', 'images/gametile.png', frameWidth, frameWidth, frameNumber);*/
+
+    this.game.load.image('cursor', 'images/Usar/cursor.png');
+    this.game.load.image('grass1', 'images/Usar/grass1.png');
+    this.game.load.image('grass2', 'images/Usar/grass2.png');
+    this.game.load.image('grass3', 'images/Usar/grass3.png');
+    this.game.load.image('forest', 'images/Usar/forest.png');
+    this.game.load.image('mine', 'images/Usar/mine.png');
+    this.game.load.image('ruins', 'images/Usar/ruins.png');
+    this.game.load.image('bluetower', 'images/Usar/bluetower.png');
+    this.game.load.image('redtower', 'images/Usar/redtower.png');
+    this.game.load.image('bluewall', 'images/Usar/bluewall.png');
+    this.game.load.image('redwall', 'images/Usar/redwall.png');
+    this.game.load.image('bluetown', 'images/Usar/bluetown.png');
+    this.game.load.image('redtown', 'images/Usar/redtown.png');
+    this.game.load.image('bluevillager', 'images/Usar/bluevillager.png');
+    this.game.load.image('redvillager', 'images/Usar/redvillager.png');
+    this.game.load.image('bluearcher', 'images/Usar/bluearcher.png');
+    this.game.load.image('redarcher', 'images/Usar/redarcher.png');
+    this.game.load.image('blueknight', 'images/Usar/blueknight.png');
+    this.game.load.image('redknight', 'images/Usar/redknight.png');
+    this.game.load.image('bluerider', 'images/Usar/bluerider.png');
+    this.game.load.image('redrider', 'images/Usar/redrider.png');
   },
 
   create: function () {
@@ -132,14 +155,6 @@ class Map{
   }
 }
 
-// class Sprite {
-//   constructor(x, y, sprite)
-//   {
-//     this.x = x;
-//     this.y = y;
-//     this.sprite = sprite;
-//   }
-// }
 
 class Square extends Phaser.Sprite  {
   constructor(x, y, type, sprite, goldPerTurn)
@@ -181,7 +196,7 @@ class RuinsSquare extends Square {
 class Unit extends Phaser.Sprite {
   constructor(x, y, hp, player, sprite, unitNumber)
   {
-    super(x, y, sprite);
+    super(game, x, y, sprite);
     this.hp = hp;
     this.player = player;
     this.unitNumber = unitNumber;
@@ -316,10 +331,10 @@ class Cavalry extends CombatUnit {
   }
 }
 
-class Cursor extends Sprite {
+class Cursor extends Phaser.Sprite {
   constructor(x, y)
   {
-    super(x, y, sprite);
+    super(game, x, y, sprite);
     this.sprite = "cursor.png";
   }
 
