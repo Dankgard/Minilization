@@ -3,11 +3,11 @@
   var PlayScene = {
   create: function () {
 
-    var logo = this.game.add.sprite(
+    /*var logo = this.game.add.sprite(
       this.game.world.centerX, this.game.world.centerY, 'logo');      
-    logo.anchor.setTo(0.5, 0.5);
+    logo.anchor.setTo(0.5, 0.5);*/
 
-    var width = 16;
+    /*var width = 16;
     var height = 12;
     var frameLength = 800/16;
     var grasstype = 0;
@@ -20,7 +20,10 @@
         tile.scale.setTo(frameLength, frameLength);
         grasstype++;
       }
-    }
+    }*/
+
+    this.map = this.game.add.tilemap('tileset');
+    this.map.addTilesetImage("gametile","spritesheet");
 
   }
 };
