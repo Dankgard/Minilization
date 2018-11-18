@@ -1,6 +1,8 @@
 'use strict';
 
-  var PlayScene = {
+var map;
+var capa;
+var PlayScene = {
   create: function () {
 
     /*var logo = this.game.add.sprite(
@@ -22,8 +24,11 @@
       }
     }*/
 
-    this.map = this.game.add.tilemap('tileset');
-    this.map.addTilesetImage("gametile","spritesheet");
+    map = this.game.add.tilemap('tileset');
+    map.addTilesetImage('spritesheet');
+    capa = map.createLayer('grass');
+    capa.resizeWorld();
+
 
   }
 };
