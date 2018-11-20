@@ -24,12 +24,14 @@ var PlayScene = {
       }
     }*/
 
-    map = this.game.add.tilemap('tileset');
-    map.addTilesetImage('spritesheet');
-    capa = map.createLayer('grass');
-    capa.resizeWorld();
+    //map = game.add.tilemap('tileset');
+    //map.addTilesetImage('spritesheet');
+    //capa = map.createLayer('grass');
+    //capa.resizeWorld();
 
-
+    var tile = this.game.add.sprite(0,0,'tileset');    
+    var arquero=this.game.add.sprite(0,0,'bluearcher');
+    arquero.scale.setTo(2,2);
   }
 };
 

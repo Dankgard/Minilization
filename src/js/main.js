@@ -26,8 +26,8 @@ var PreloaderScene = {
     /*var frameWidth = 110/7;
     var frameNumber = 308;
     this.game.load.spritesheet('spritesheet', 'images/gametile.png', frameWidth, frameWidth, frameNumber);*/
-    this.game.load.tilemap('tileset','images/tileset.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.image('spritesheet', 'images/gametiles.png');
+    this.game.load.image('tileset','images/Mapa.png');
+    //this.game.load.image('spritesheet', 'images/gametiles.png');
 
     this.game.load.image('cursor', 'images/Usar/cursor.png');
     this.game.load.image('grass1', 'images/Usar/grass1.png');
