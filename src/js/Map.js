@@ -13,29 +13,31 @@ class Map{
       this.squares[i] = new Array(width);
     }
 
-    var numberOfForests = Math.abs(Math.random() * 5);
-    var numberOfMines = Math.abs(Math.random() * 5);
-    var numberOfRuins = Math.abs(Math.random() * 5);
+    var numberOfForests = Math.round(Math.random() * 10);
+    var numberOfMines = Math.round(Math.random() * 10);
+    var numberOfRuins = Math.round(Math.random() * 10);
 
     for(var i=0;i<numberOfForests;i++)
     {
-      var x = Math.abs(Math.random() * width);
-      var y = Math.abs(Math.random() * height);
-      this.squares[y][x] = new square.ForestSquare(game,x,y);
+      var x = Math.round(Math.random() * width);
+      var y = Math.round(Math.random() * height);
+      console.log(x);
+      console.log(y);
+      this.squares[y][x] = new square.ForestSquare(game,x*this.squareWidth,y*this.squareHeight);
     }
 
     for(var i=0;i<numberOfMines;i++)
     {
-      var x = Math.abs(Math.random() * width);
-      var y = Math.abs(Math.random() * height);
-      this.squares[y][x] = new square.ForestSquare(game,x,y);
+      var x = Math.round(Math.random() * width);
+      var y = Math.round(Math.random() * height);
+      this.squares[y][x] = new square.MineSquare(game,x*this.squareWidth,y*this.squareHeight);
     }
 
     for(var i=0;i<numberOfRuins;i++)
     {
-      var x = Math.abs(Math.random() * width);
-      var y = Math.abs(Math.random() * height);
-      this.squares[y][x] = new square.ForestSquare(game,x,y);
+      var x = Math.round(Math.random() * width);
+      var y = Math.round(Math.random() * height);
+      this.squares[y][x] = new square.RuinsSquare(game,x*this.squareWidth,y*this.squareHeight);
     }
 
   }

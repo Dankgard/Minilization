@@ -28,7 +28,7 @@ class MineSquare extends Square {
 class ForestSquare extends Square {
   constructor(game,x, y)
   {
-    super(x, y, "forest", 'forest', 1);
+    super(game,x, y, "forest", 'forest', 1);
   }
 }
 
