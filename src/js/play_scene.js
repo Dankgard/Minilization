@@ -1,32 +1,30 @@
 'use strict';
-var Cursor= require('./Cursor.js');
-var Map= require('./Map.js');
-var Player= require('./Player.js');
-var Square= require('./Square.js');
-var Units= require('./Units.js');
+var cursor= require('./Cursor.js');
+var map= require('./Map.js');
+var player= require('./Player.js');
+var square= require('./Square.js');
+var units= require('./Units.js');
+
+var turn = 0;
+var playingPlayer = 1; // jugador que juega en cada momento
+var playerNumber = 2;
+var players = new Array(playerNumber);
+
+var width = 25;
+var height = 19;
+
+    for(var i=0;i<playerNumber;i++)
+    {
+      players[i] = new player(i+1,0);
+    }
 
 var PlayScene = {
   create: function () {    
 
-    var tile = this.game.add.sprite(0,0,'tileset');    
-    var arquero=this.game.add.sprite(0,0,'bluearcher');
-    arquero.scale.setTo(2,2);
+    var tileset = this.game.add.sprite(0,0,'tileset');
+    var gameMap = new map(this.game,width,height);
+    var archer = new units.Archer(this.game, 0, 0, 1, 0);
   }
 };
-
-class GameManager {
-  constructor(turn, playingPlayer, playerNumber)
-  {
-    this.turn = turn;
-    this.playingPlayer = playingPlayer;
-    this.playerNumber = playerNumber;
-    this.players = new Array(playerNumber);
-
-    for(var i=0;i<playerNumber;i++)
-    {
-      players[i] = new Player(i,0);
-    }
-  }
-}
 
 module.exports = PlayScene;

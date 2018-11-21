@@ -3,7 +3,9 @@
 class Unit extends Phaser.Sprite {
   constructor(game,x, y, hp, player, sprite, unitNumber)
   {
-    super(this,game, x, y, sprite);
+    super(game, x, y, sprite);
+    game.add.existing(this);
+    this.scale.setTo(2,2);
     this.hp = hp;
     this.player = player;
     this.unitNumber = unitNumber;
@@ -44,10 +46,10 @@ class Wall extends Unit {
   constructor(game,x, y, player, unitNumber)
   {
     if(player==1){
-        super(game,x, y, 1000, player,'bluewall', unitNumber);
+        super(game,x, y, 500, player,'bluewall', unitNumber);
     }       
     else{
-        super(game,x, y, 1000, player,'redwall', unitNumber);
+        super(game,x, y, 500, player,'redwall', unitNumber);
     }
   }
 }
@@ -56,10 +58,10 @@ class Watchtower extends Unit {
   constructor(game,x, y, player, unitNumber)
   {
     if(player==1){
-        super(game,x, y, 1000, player,'bluetower', unitNumber);
+        super(game,x, y, 200, player,'bluetower', unitNumber);
     }       
     else{
-        super(game,x, y, 1000, player,'redtower', unitNumber);
+        super(game,x, y, 200, player,'redtower', unitNumber);
     }
     
     this.range = 3;
@@ -157,10 +159,10 @@ class Infantry extends CombatUnit {
   constructor(game,x, y, player, unitNumber)
   {
     if(player==1){
-        super(game,x, y, 30, 1, 'blueknight', player, 2, 10, "knight", unitNumber);
+        super(game,x, y, 50, 1, 'blueknight', player, 1, 10, "infantry", unitNumber);
       }
       else{
-        super(game,x, y, 30, 1, 'redknight', player, 2, 10, "knight", unitNumber);
+        super(game,x, y, 50, 1, 'redknight', player, 1, 10, "infantry", unitNumber);
       }
   }
 }
@@ -168,6 +170,16 @@ class Infantry extends CombatUnit {
 class Cavalry extends CombatUnit {
   constructor(game,x, y, player, unitNumber)
   {
-    super(game,x, y, 40, 2, "cavalry.png", player, 1, 10, "cavalry", unitNumber);
+    if(player==1)
+    {
+      super(game,x, y, 40, 2, 'bluerider', player, 1, 10, "cavalry", unitNumber);
+    }
+    else{
+      super(game,x, y, 40, 2, 'redrider', player, 1, 10, "cavalry", unitNumber);
+    }
   }
 }
+
+module.exports = {
+  Unit:Unit, Town:Town, Wall:Wall, Watchtower:Watchtower, HumanUnit:HumanUnit, Worker:Worker, CombatUnit:CombatUnit, Archer:Archer, Infantry:Infantry, Cavalry:Cavalry
+};

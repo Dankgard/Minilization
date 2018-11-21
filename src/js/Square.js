@@ -3,7 +3,9 @@
 class Square extends Phaser.Sprite  {
   constructor(game, x, y, type, sprite, goldPerTurn)
   {
-    super(this, game, x, y, sprite);
+    super(game, x, y, sprite);
+    game.add.existing(this);
+    this.scale.setTo(2,2);
     this.type = type;
     this.goldPerTurn = goldPerTurn;
   }
@@ -30,3 +32,6 @@ class ForestSquare extends Square {
   }
 }
 
+module.exports = {
+  Square:Square, RuinsSquare:RuinsSquare, MineSquare:MineSquare, ForestSquare:ForestSquare
+};

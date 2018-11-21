@@ -1,10 +1,11 @@
 'use strict';
 
 class Cursor extends Phaser.Sprite {
-  constructor(x, y)
+  constructor(game, x, y)
   {
-    super(game, x, y, sprite);
-    this.sprite = "cursor.png";
+    super(game, x, y, 'cursor');
+    game.add.existing(this);
+    this.scale.setTo(2,2);
   }
 
   move(dir)
@@ -26,3 +27,5 @@ class Cursor extends Phaser.Sprite {
     }
   }
 }
+
+module.exports = Cursor;
