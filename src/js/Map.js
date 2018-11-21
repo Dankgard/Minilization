@@ -2,12 +2,13 @@
 var square=require('./Square.js');
 
 class Map{
-  constructor(game,width, height)
+  constructor(game,width, height, squareWidth, squareHeight)
   {
     this.width = width;
     this.height = height;
-    this.squareWidth = 800/(this.width);
-    this.squareHeight = 600/(this.height);
+    this.squareWidth = squareWidth;
+    this.squareHeight = squareHeight;
+    
     this.squares = new Array(height);
     for (var i = 0; i < this.squares.length; i++) {
       this.squares[i] = new Array(width);
@@ -19,25 +20,23 @@ class Map{
 
     for(var i=0;i<numberOfForests;i++)
     {
-      var x = Math.round(Math.random() * width);
-      var y = Math.round(Math.random() * height);
-      console.log(x);
-      console.log(y);
-      this.squares[y][x] = new square.ForestSquare(game,x*this.squareWidth,y*this.squareHeight);
+      var x = Math.round(Math.random() * (width-1));
+      var y = Math.round(Math.random() * (height-1));
+      this.squares[y][x] = new square.ForestSquare(game,x,y,squareWidth, squareHeight);
     }
 
     for(var i=0;i<numberOfMines;i++)
     {
-      var x = Math.round(Math.random() * width);
-      var y = Math.round(Math.random() * height);
-      this.squares[y][x] = new square.MineSquare(game,x*this.squareWidth,y*this.squareHeight);
+      var x = Math.round(Math.random() * (width-1));
+      var y = Math.round(Math.random() * (height-1));
+      this.squares[y][x] = new square.MineSquare(game,x,y,squareWidth, squareHeight);
     }
 
     for(var i=0;i<numberOfRuins;i++)
     {
-      var x = Math.round(Math.random() * width);
-      var y = Math.round(Math.random() * height);
-      this.squares[y][x] = new square.RuinsSquare(game,x*this.squareWidth,y*this.squareHeight);
+      var x = Math.round(Math.random() * (width-1));
+      var y = Math.round(Math.random() * (height-1));
+      this.squares[y][x] = new square.RuinsSquare(game,x,y,squareWidth, squareHeight);
     }
 
   }

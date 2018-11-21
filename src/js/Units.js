@@ -1,14 +1,16 @@
 'use strict';
 
 class Unit extends Phaser.Sprite {
-  constructor(game,x, y, hp, player, sprite, unitNumber)
+  constructor(game,x, y, hp, player, sprite, unitNumber,squareWidth,squareHeight)
   {
-    super(game, x, y, sprite);
+    super(game, x*squareWidth, y*squareHeight, sprite);
     game.add.existing(this);
     this.scale.setTo(2,2);
     this.hp = hp;
     this.player = player;
     this.unitNumber = unitNumber;
+    this.posX = x;
+    this.posY = y;
   }
 
   takeDamage(damage)
@@ -25,13 +27,13 @@ class Unit extends Phaser.Sprite {
 }
 
 class Town extends Unit {
-  constructor(game,x, y, player, unitNumber)
+  constructor(game,x, y, player, unitNumber,squareWidth,squareHeight)
   {
     if(player==1){
-        super(game,x, y, 1000, player,'bluetown', unitNumber);
+        super(game,x, y, 1000, player,'bluetown', unitNumber,squareWidth,squareHeight);
     }       
     else{
-        super(game,x, y, 1000, player,'redtown', unitNumber);
+        super(game,x, y, 1000, player,'redtown', unitNumber,squareWidth,squareHeight);
     }
     
   }
@@ -43,25 +45,25 @@ class Town extends Unit {
 }
 
 class Wall extends Unit {
-  constructor(game,x, y, player, unitNumber)
+  constructor(game,x, y, player, unitNumber,squareWidth,squareHeight)
   {
     if(player==1){
-        super(game,x, y, 500, player,'bluewall', unitNumber);
+        super(game,x, y, 500, player,'bluewall', unitNumber,squareWidth,squareHeight);
     }       
     else{
-        super(game,x, y, 500, player,'redwall', unitNumber);
+        super(game,x, y, 500, player,'redwall', unitNumber,squareWidth,squareHeight);
     }
   }
 }
 
 class Watchtower extends Unit {
-  constructor(game,x, y, player, unitNumber)
+  constructor(game,x, y, player, unitNumber,squareWidth,squareHeight)
   {
     if(player==1){
-        super(game,x, y, 200, player,'bluetower', unitNumber);
+        super(game,x, y, 200, player,'bluetower', unitNumber,squareWidth,squareHeight);
     }       
     else{
-        super(game,x, y, 200, player,'redtower', unitNumber);
+        super(game,x, y, 200, player,'redtower', unitNumber,squareWidth,squareHeight);
     }
     
     this.range = 3;
@@ -75,9 +77,9 @@ class Watchtower extends Unit {
 }
 
 class HumanUnit extends Unit {
-  constructor(game,x, y, hp, moves, sprite, player, unitNumber)
+  constructor(game,x, y, hp, moves, sprite, player, unitNumber,squareWidth,squareHeight)
   {
-    super(game,x, y, hp, player, sprite, unitNumber);
+    super(game,x, y, hp, player, sprite, unitNumber,squareWidth,squareHeight);
     this.moves = moves;
   }
 
@@ -92,13 +94,13 @@ class HumanUnit extends Unit {
 }
 
 class Worker extends HumanUnit {
-  constructor(game,x, y, player, unitNumber)
+  constructor(game,x, y, player, unitNumber,squareWidth,squareHeight)
   {
       if(player=1){
-        super(game,x, y, 20, 1, 'bluevillager', player, unitNumber);
+        super(game,x, y, 20, 1, 'bluevillager', player, unitNumber,squareWidth,squareHeight);
       }
       else{
-        super(game,x, y, 20, 1, 'redvillager', player, unitNumber);
+        super(game,x, y, 20, 1, 'redvillager', player, unitNumber,squareWidth,squareHeight);
       }    
   }
 
@@ -114,9 +116,9 @@ class Worker extends HumanUnit {
 }
 
 class CombatUnit extends HumanUnit {
-  constructor(game,x, y, hp, moves, sprite, player, range, damage, element, unitNumber)
+  constructor(game,x, y, hp, moves, sprite, player, range, damage, element, unitNumber,squareWidth,squareHeight)
   {
-    super(game,x, y, hp, moves, sprite, player, unitNumber);
+    super(game,x, y, hp, moves, sprite, player, unitNumber,squareWidth,squareHeight);
     this.range = range;
     this.damage = damage;
     this.element = element;
@@ -142,40 +144,40 @@ class CombatUnit extends HumanUnit {
 }
 
 class Archer extends CombatUnit {
-  constructor(game,x, y, player, unitNumber)
+  constructor(game,x, y, player, unitNumber,squareWidth,squareHeight)
   {
       if(player==1){
-        super(game,x, y, 30, 1, 'bluearcher', player, 2, 10, "archer", unitNumber);
+        super(game,x, y, 30, 1, 'bluearcher', player, 2, 10, "archer", unitNumber,squareWidth,squareHeight);
       }
       else{
-        super(game,x, y, 30, 1, 'redarcher', player, 2, 10, "archer", unitNumber);
+        super(game,x, y, 30, 1, 'redarcher', player, 2, 10, "archer", unitNumber,squareWidth,squareHeight);
       }
     
   }
 }
-//MIRAAAAAR
+
 
 class Infantry extends CombatUnit {
-  constructor(game,x, y, player, unitNumber)
+  constructor(game,x, y, player, unitNumber,squareWidth,squareHeight)
   {
     if(player==1){
-        super(game,x, y, 50, 1, 'blueknight', player, 1, 10, "infantry", unitNumber);
+        super(game,x, y, 50, 1, 'blueknight', player, 1, 10, "infantry", unitNumber,squareWidth,squareHeight);
       }
       else{
-        super(game,x, y, 50, 1, 'redknight', player, 1, 10, "infantry", unitNumber);
+        super(game,x, y, 50, 1, 'redknight', player, 1, 10, "infantry", unitNumber,squareWidth,squareHeight);
       }
   }
 }
 
 class Cavalry extends CombatUnit {
-  constructor(game,x, y, player, unitNumber)
+  constructor(game,x, y, player, unitNumber,squareWidth,squareHeight)
   {
     if(player==1)
     {
-      super(game,x, y, 40, 2, 'bluerider', player, 1, 10, "cavalry", unitNumber);
+      super(game,x, y, 40, 2, 'bluerider', player, 1, 10, "cavalry", unitNumber,squareWidth,squareHeight);
     }
     else{
-      super(game,x, y, 40, 2, 'redrider', player, 1, 10, "cavalry", unitNumber);
+      super(game,x, y, 40, 2, 'redrider', player, 1, 10, "cavalry", unitNumber,squareWidth,squareHeight);
     }
   }
 }
