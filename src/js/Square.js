@@ -10,6 +10,16 @@ class Square extends Phaser.Sprite  {
     this.goldPerTurn = goldPerTurn;
     this.posX = x;
     this.posY = y;
+    this.unit = 'null';
+  }
+}
+
+class EmptySquare  {
+  constructor(x, y)
+  {
+    this.posX = x;
+    this.posY = y;
+    this.unit = 'null';
   }
 }
 
@@ -35,5 +45,5 @@ class ForestSquare extends Square {
 }
 
 module.exports = {
-  Square:Square, RuinsSquare:RuinsSquare, MineSquare:MineSquare, ForestSquare:ForestSquare
+  Square:Square, EmptySquare:EmptySquare, RuinsSquare:RuinsSquare, MineSquare:MineSquare, ForestSquare:ForestSquare
 };

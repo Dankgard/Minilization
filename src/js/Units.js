@@ -83,12 +83,14 @@ class HumanUnit extends Unit {
     this.moves = moves;
   }
 
-  move(posX, posY) // posiciones absolutas a las que se va a mover la unidad
+  move(posX, posY,gameMap) // posiciones absolutas a las que se va a mover la unidad
   {
-    if((this.x == posX && Math.abs(this.y - posY)<= this.moves) || (this.y == posY && Math.abs(this.x - posX)<= this.moves))
+    if((this.posX == posX && Math.abs(this.posY - posY)<= this.moves) || (this.posY == posY && Math.abs(this.posX - posX)<= this.moves))
       {
-        this.x = posX;
-        this.y = posY;
+        this.posX = posX;
+        this.x = posX * gameMap.squareWidth;
+        this.posY = posY;
+        this.y = posY * gameMap.squareHeight;
       }
   }
 }

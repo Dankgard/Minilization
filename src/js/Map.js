@@ -38,7 +38,11 @@ class Map{
       var y = Math.round(Math.random() * (height-1));
       this.squares[y][x] = new square.RuinsSquare(game,x,y,squareWidth, squareHeight);
     }
+  }
 
+  createEmptySquare(x,y)
+  {
+    this.squares[y][x] = new square.EmptySquare(x, y);
   }
 }
 

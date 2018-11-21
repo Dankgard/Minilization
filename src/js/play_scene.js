@@ -21,20 +21,28 @@ var squareHeight = 600/(mapHeight);
     }
 
 var gameMap;
-var archer;
 var gameCursor;
+
+var calltime = 5;
+var call = 0;
 
 var PlayScene = {
   create: function () {    
 
     var tileset = this.game.add.sprite(0,0,'tileset');
     gameMap = new map(this.game,mapWidth,mapHeight, squareWidth, squareHeight);
-    archer = new units.Archer(this.game, 0, 0, 1, 0);
-    gameCursor = new cursor(this.game, 10, 10, mapWidth, mapHeight, squareWidth, squareHeight);
+    gameCursor = new cursor(this.game, 10, 10, squareWidth, squareHeight);
+    players[0].addUnit(this.game, "infantry", 1, 4, gameMap);
   },
 
+  
   update: function() {
-    gameCursor.move(this.game);
+    call++;
+    if(call >= calltime)
+    {
+      gameCursor.handleEvents(this.game, gameMap);
+      call = 0;
+    }
   }
 };
 

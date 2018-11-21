@@ -11,44 +11,48 @@ class Player  {
     this.units = [];
   }
 
-  addUnit(game,type, x, y)
+  addUnit(game,type, x, y,gameMap)
   {
     var unit;
     var cost;
     switch (type)
     {
       case "town":
-        unit = new units.Town(game,x, y, this.number, numberOfUnits);
+        unit = new units.Town(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 100;
         break;
       case "wall":
-        unit = new units.Wall(game,x, y, this.number, numberOfUnits);
+        unit = new units.Wall(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 40;
         break;
       case "watchtower":
-        unit = new units.Watchtower(game,x, y, this.number, numberOfUnits);
+        unit = new units.Watchtower(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 40;
         break;
       case "worker":
-        unit = new units.Worker(game,x, y, this.number, numberOfUnits);
+        unit = new units.Worker(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 50;
         break;
       case "infantry":
-        unit = new units.Infantry(game,x, y, this.number, numberOfUnits);
+        unit = new units.Infantry(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 30;
         break;
       case "cavalry":
-        unit = new units.Cavalry(game,x, y, this.number, numberOfUnits);
+        unit = new units.Cavalry(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 30;
         break;
       case "archer":
-        unit = new units.Archer(game,x, y, this.number, numberOfUnits);
+        unit = new units.Archer(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 30;
         break;
     }
     this.money -= cost;
     this.numberOfUnits++;
     this.units.push(unit);
+
+    if(gameMap.squares[y][x] == undefined)
+      gameMap.createEmptySquare(x, y);
+    gameMap.squares[y][x].unit = unit;
   }
 
   destroyUnit(unitNumber)
