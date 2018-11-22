@@ -44,6 +44,12 @@ class Map{
   {
     this.squares[y][x] = new square.EmptySquare(x, y);
   }
+
+  emptySquareFromUnit(x, y)
+  {
+    delete this.squares[y][x].unit;
+    this.squares[y][x].unit = 'null';
+  }
 }
 
 module.exports = Map;

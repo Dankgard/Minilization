@@ -33,6 +33,17 @@ var PlayScene = {
     gameMap = new map(this.game,mapWidth,mapHeight, squareWidth, squareHeight);
     gameCursor = new cursor(this.game, 10, 10, squareWidth, squareHeight);
     players[0].addUnit(this.game, "infantry", 1, 4, gameMap);
+    players[0].addUnit(this.game, "archer", 2, 8, gameMap);
+    players[0].addUnit(this.game, "cavalry", 3, 12, gameMap);
+    players[0].addUnit(this.game, "worker", 4, 16, gameMap);
+
+    players[1].addUnit(this.game, "infantry", 22, 7, gameMap);
+    players[1].addUnit(this.game, "archer", 21, 3, gameMap);
+    players[1].addUnit(this.game, "cavalry", 20, 5, gameMap);
+    players[1].addUnit(this.game, "worker", 19, 11, gameMap);
+
+    players[0].addUnit(this.game, "town", 10, 10, gameMap);
+
   },
 
   

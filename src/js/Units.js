@@ -24,6 +24,14 @@ class Unit extends Phaser.Sprite {
   {
     players[player].destroy(this.unitNumber);
   }
+
+  isMovable()
+  {
+    if(this instanceof Archer || this instanceof Infantry || this instanceof Cavalry || this instanceof Worker)
+      return true;
+    else
+      return false;
+  }
 }
 
 class Town extends Unit {
@@ -83,15 +91,22 @@ class HumanUnit extends Unit {
     this.moves = moves;
   }
 
-  move(posX, posY,gameMap) // posiciones absolutas a las que se va a mover la unidad
+  canMove(posX, posY)
   {
     if((this.posX == posX && Math.abs(this.posY - posY)<= this.moves) || (this.posY == posY && Math.abs(this.posX - posX)<= this.moves))
-      {
+      return true;
+    else
+      return false;
+  }
+
+
+  move(posX, posY,gameMap) // posiciones absolutas a las que se va a mover la unidad
+  {
         this.posX = posX;
         this.x = posX * gameMap.squareWidth;
         this.posY = posY;
         this.y = posY * gameMap.squareHeight;
-      }
+      
   }
 }
 

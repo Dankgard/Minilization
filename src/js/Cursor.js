@@ -26,6 +26,7 @@ class Cursor extends Phaser.Sprite {
         {
           this.x-= gameMap.squareWidth;
           this.posX--;
+          game.world.bringToTop(this);
         }
         
    if (this.rightKey.isDown)
@@ -33,6 +34,7 @@ class Cursor extends Phaser.Sprite {
         {
           this.x+= gameMap.squareWidth;
           this.posX++;
+          game.world.bringToTop(this);
         }
         
    if (this.upKey.isDown)
@@ -40,6 +42,7 @@ class Cursor extends Phaser.Sprite {
         {
           this.y-= gameMap.squareHeight;
           this.posY--;
+          game.world.bringToTop(this);
         }
         
    if (this.downKey.isDown)
@@ -47,6 +50,7 @@ class Cursor extends Phaser.Sprite {
         {
           this.y+= gameMap.squareHeight;
           this.posY++;
+          game.world.bringToTop(this);
         }
 
     if(this.zKey.isDown)
@@ -56,26 +60,41 @@ class Cursor extends Phaser.Sprite {
 
       var hoveringSquare = gameMap.squares[this.posY][this.posX];
       var hoveringUnit = hoveringSquare.unit;
-
+      
       if(hoveringUnit != 'null' && this.selectedUnit == 'null')
         {
-          this.oldX = this.posX;
-          this.oldY = this.posY;
-          this.selectedUnit = hoveringUnit;
-          console.log(this.selectedUnit.element);
+          if(hoveringUnit.isMovable())
+          {
+            this.oldX = this.posX;
+            this.oldY = this.posY;
+            this.selectedUnit = hoveringUnit;
+            console.log(this.selectedUnit.element);
+          }
+          else
+          {
+            console.log("unit is not movable");
+          }
         }
-     if(this.selectedUnit != 'null' && hoveringUnit == 'null')
+      else if(this.selectedUnit != 'null' && hoveringUnit == 'null')
+        {
+          if(this.selectedUnit.canMove(this.posX, this.posY))
+          {
+            this.selectedUnit.move(this.posX,this.posY,gameMap);
+            console.log("moved " + this.selectedUnit.element);
+            gameMap.emptySquareFromUnit(this.oldX, this.oldY);
+            gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
+            this.selectedUnit = 'null';
+          }
+          else
+          {
+            console.log("cannot move " + this.selectedUnit.element);
+          }
+        }
+      else if(this.selectedUnit != 'null' && this.selectedUnit == hoveringUnit)
       {
-        // llamar solo si entra en el rango
-        this.selectedUnit.move(this.posX,this.posY,gameMap);
-        console.log("moved" + this.selectedUnit.element);
-        gameMap.createEmptySquare(this.oldX, this.oldY);
-        gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
-        this.selectedUnit = 'null';
+        console.log(this.selectedUnit.element + " skipped move");
       }
     }
-
-    
   }
 }
 
