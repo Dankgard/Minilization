@@ -1,48 +1,45 @@
 'use strict';
 
-var units= require('./Units.js');
+var units = require('./Units.js');
 
-class Player  {
-  constructor(number, money)
-  {
+class Player {
+  constructor(number, money) {
     this.number = number;
     this.money = money;
     this.numberOfUnits = 0;
     this.units = [];
   }
 
-  addUnit(game,type, x, y,gameMap)
-  {
+  addUnit(game, type, x, y, gameMap) {
     var unit;
     var cost;
-    switch (type)
-    {
+    switch (type) {
       case "town":
-        unit = new units.Town(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+        unit = new units.Town(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 100;
         break;
       case "wall":
-        unit = new units.Wall(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+        unit = new units.Wall(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 40;
         break;
       case "watchtower":
-        unit = new units.Watchtower(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+        unit = new units.Watchtower(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 40;
         break;
       case "worker":
-        unit = new units.Worker(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+        unit = new units.Worker(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 50;
         break;
       case "infantry":
-        unit = new units.Infantry(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+        unit = new units.Infantry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 30;
         break;
       case "cavalry":
-        unit = new units.Cavalry(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+        unit = new units.Cavalry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 30;
         break;
       case "archer":
-        unit = new units.Archer(game,x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+        unit = new units.Archer(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 30;
         break;
     }
@@ -50,13 +47,15 @@ class Player  {
     this.numberOfUnits++;
     this.units.push(unit);
 
-    if(gameMap.squares[y][x] == undefined)
+    if (gameMap.squares[y][x] == undefined)
       gameMap.createEmptySquare(x, y);
-    gameMap.squares[y][x].unit = unit;
+    if (unit.isMovable())
+      gameMap.squares[y][x].unit = unit;
+    else
+      gameMap.squares[y][x].building = unit;
   }
 
-  destroyUnit(unitNumber)
-  {
+  destroyUnit(unitNumber) {
     this.units.splice(unitNumber, 1);
   }
 }

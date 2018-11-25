@@ -22,9 +22,9 @@ var PreloaderScene = {
     this.load.setPreloadSprite(this.loadingBar);
 
     // TODO: load here the assets for the game
-    this.game.load.image('logo', 'images/phaser.png');       
-    this.game.load.image('tileset','images/Mapa.png');
-    
+    this.game.load.image('logo', 'images/phaser.png');
+    this.game.load.image('tileset', 'images/Mapa.png');
+
 
     this.game.load.image('cursor', 'images/Usar/cursor.png');
     this.game.load.image('grass1', 'images/Usar/grass1.png');
@@ -47,8 +47,6 @@ var PreloaderScene = {
     this.game.load.image('redknight', 'images/Usar/redknight.png');
     this.game.load.image('bluerider', 'images/Usar/bluerider.png');
     this.game.load.image('redrider', 'images/Usar/redrider.png');
-
-    var casillas
   },
 
   create: function () {
@@ -62,9 +60,9 @@ window.onload = function () {
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
-  game.state.add('play', PlayScene);  
+  game.state.add('play', PlayScene);
 
-  game.state.start('boot');  
+  game.state.start('boot');
 };
 
 
