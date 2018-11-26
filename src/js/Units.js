@@ -11,7 +11,7 @@ class Unit extends Phaser.Sprite {
     this.posX = x;
     this.posY = y;
 
-    var style = { font: "8px Arial", fill: "#ffffff" };  
+    var style = { font: "8px Arial", fill: "#ffffff" };
     this.healthHud = this.game.add.text(0, -5, this.hp, style);
     this.addChild(this.healthHud);
   }
@@ -19,8 +19,7 @@ class Unit extends Phaser.Sprite {
   takeDamage(damage) {
     this.hp -= damage;
     this.healthHud.setText(this.hp);
-    if (this.hp <= 0)
-    {
+    if (this.hp <= 0) {
       this.destroyUnit();
       return true;
     }
@@ -143,8 +142,7 @@ class CombatUnit extends HumanUnit {
     this.element = element;
   }
 
-  canAttack(posX, posY)
-  {
+  canAttack(posX, posY) {
     if ((this.posX == posX && Math.abs(this.posY - posY) <= this.range) || (this.posY == posY && Math.abs(this.posX - posX) <= this.range))
       return true;
     else

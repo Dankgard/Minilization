@@ -82,6 +82,8 @@ class Player {
         this.money += gameMap.squares[this.units[i].posY][this.units[i].posX].goldPerTurn;
       }
     }
+    //console.log(this.units[i].prototype);
+    console.log("gold: " + this.money);
   }
 }
 
