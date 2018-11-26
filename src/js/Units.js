@@ -33,6 +33,13 @@ class Unit extends Phaser.Sprite {
     else
       return false;
   }
+
+  isCombatUnit() {
+    if (this instanceof Archer || this instanceof Infantry || this instanceof Cavalry)
+      return true;
+    else
+      return false;
+  }
 }
 
 class Town extends Unit {

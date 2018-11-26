@@ -14,11 +14,14 @@ class Cursor extends Phaser.Sprite {
     this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
     this.zKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
+    this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     this.selectedUnit = 'null';
   }
 
-  handleEvents(game, gameMap, players) {
+  handleEvents(game, gameMap, players, playingPlayer) {
+    var skipTurn = false;
     // mover izquierda
     if (this.leftKey.isDown)
       this.moveLeft(game, gameMap);
@@ -37,7 +40,21 @@ class Cursor extends Phaser.Sprite {
 
     // tecla de acciones
     if (this.zKey.isDown)
-      this.actionKey(gameMap, players);
+      this.actionKey(game, gameMap, players, playingPlayer);
+
+    // deseleccionar unidad
+    if(this.xKey.isDown)
+    {
+      delete this.selectedUnit;
+      this.selectedUnit = 'null';
+      console.log("unit deselected");
+    }
+
+    // pasar turno
+    if(this.spaceKey.isDown)
+      skipTurn = true;
+
+    return skipTurn;
   }
 
   moveLeft(game, gameMap) {
@@ -72,7 +89,7 @@ class Cursor extends Phaser.Sprite {
     }
   }
 
-  actionKey(gameMap, players) {
+  actionKey(game, gameMap, players, playingPlayer) {
     if (gameMap.squares[this.posY][this.posX] == undefined)
       gameMap.createEmptySquare(this.posX, this.posY);
 
@@ -81,7 +98,7 @@ class Cursor extends Phaser.Sprite {
     var hoveringBuilding = hoveringSquare.building;
 
     // seleccionar unidades
-    if (hoveringUnit != 'null' && this.selectedUnit == 'null') {
+    if (hoveringUnit != 'null' && hoveringUnit.player == playingPlayer && this.selectedUnit == 'null') {
       this.oldX = this.posX;
       this.oldY = this.posY;
       this.selectedUnit = hoveringUnit;
@@ -98,6 +115,8 @@ class Cursor extends Phaser.Sprite {
           console.log("moved " + this.selectedUnit.element);
           gameMap.emptySquareFromUnit(this.oldX, this.oldY);
           gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
+          game.world.bringToTop(this.selectedUnit);
+          game.world.bringToTop(this);
         }
         else {
           console.log("cannot move " + this.selectedUnit.element);
@@ -128,15 +147,17 @@ class Cursor extends Phaser.Sprite {
         if (this.selectedUnit.canAttack(enemyX, enemyY) && this.selectedUnit.attackDone == false) {
           this.selectedUnit.attackDone = true;
           var destroyed = this.selectedUnit.attack(hovering);
-          console.log("attacking enemy building");
+          console.log("attacking enemy");
           if (destroyed) {
             gameMap.emptySquareFromUnit(enemyX, enemyY);
             players[enemyTeam - 1].destroyUnit(enemyNumber);
           }
         }
       }
+      delete this.selectedUnit;
       this.selectedUnit = 'null';
     }
   }
+}
 
-    module.exports = Cursor;
+module.exports = Cursor;

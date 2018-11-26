@@ -5,7 +5,7 @@ var player = require('./Player.js');
 var square = require('./Square.js');
 var units = require('./Units.js');
 
-var turn = 0;
+var turn = 1;
 var playingPlayer = 1; // jugador que juega en cada momento
 var playerNumber = 2;
 var players = new Array(playerNumber);
@@ -25,6 +25,8 @@ var gameCursor;
 var calltime = 5;
 var call = 0;
 
+var skipTurn = false;
+
 var PlayScene = {
   create: function () {
 
@@ -41,6 +43,7 @@ var PlayScene = {
     players[1].addUnit(this.game, "cavalry", 4, 8, gameMap);
     players[1].addUnit(this.game, "worker", 19, 11, gameMap);
 
+    players[0].addUnit(this.game, "cavalry", 11, 10, gameMap);
     players[1].addUnit(this.game, "cavalry", 9, 10, gameMap);
     players[0].addUnit(this.game, "town", 10, 10, gameMap);
 
@@ -50,9 +53,27 @@ var PlayScene = {
   update: function () {
     call++;
     if (call >= calltime) {
-      gameCursor.handleEvents(this.game, gameMap, players);
+      skipTurn = gameCursor.handleEvents(this.game, gameMap, players, playingPlayer);
+
+      if (skipTurn)
+        this.skipTurn();
       call = 0;
     }
+  },
+
+  skipTurn: function () {
+    turn++;
+
+    if (playingPlayer == 1)
+      playingPlayer = 2;
+    else
+      playingPlayer = 1;
+
+    for (var i = 0; i < playerNumber; i++) {
+      players[i].resetUnitUse();
+    }
+
+    console.log("turn skip. playing " + playingPlayer);
   }
 };
 

@@ -58,6 +58,20 @@ class Player {
   destroyUnit(unitNumber) {
     this.units.splice(unitNumber, 1);
   }
+
+  resetUnitUse()
+  {
+    for(var i=0;i< this.numberOfUnits;i++)
+    {
+      if(this.units[i].isMovable())
+      {
+        this.units[i].movementDone = false;
+
+        if(this.units[i].isCombatUnit())
+          this.units[i].attackDone = false;
+      }
+    }
+  }
 }
 
 module.exports = Player;
