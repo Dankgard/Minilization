@@ -41,6 +41,7 @@ var PlayScene = {
     players[1].addUnit(this.game, "cavalry", 4, 8, gameMap);
     players[1].addUnit(this.game, "worker", 19, 11, gameMap);
 
+    players[1].addUnit(this.game, "cavalry", 9, 10, gameMap);
     players[0].addUnit(this.game, "town", 10, 10, gameMap);
 
   },

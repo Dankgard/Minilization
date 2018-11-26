@@ -75,14 +75,6 @@ class Watchtower extends Unit {
     this.damage = 20;
   }
 
-  canAttack(posX, posY)
-  {
-    if ((this.posX == posX && Math.abs(this.posY - posY) <= this.range) || (this.posY == posY && Math.abs(this.posX - posX) <= this.range))
-      return true;
-    else
-      return false;
-  }
-
   attack(enemy) {
     var destroyed = false;
     destroyed = enemy.takeDamage(this.damage);
@@ -143,8 +135,17 @@ class CombatUnit extends HumanUnit {
     this.element = element;
   }
 
+  canAttack(posX, posY)
+  {
+    if ((this.posX == posX && Math.abs(this.posY - posY) <= this.range) || (this.posY == posY && Math.abs(this.posX - posX) <= this.range))
+      return true;
+    else
+      return false;
+  }
+
   attack(enemy) {
     var bonusDamage;
+    var destroyed = false;
 
     if (this.element == enemy.element)
       bonusDamage = 1;
@@ -157,7 +158,8 @@ class CombatUnit extends HumanUnit {
     else
       bonusDamage = 1;
 
-    enemy.takeDamage(this.damage * bonusDamage);
+    destroyed = enemy.takeDamage(this.damage * bonusDamage);
+    return destroyed;
   }
 }
 
@@ -169,7 +171,6 @@ class Archer extends CombatUnit {
     else {
       super(game, x, y, 30, 1, 'redarcher', player, 2, 10, "archer", unitNumber, squareWidth, squareHeight);
     }
-
   }
 }
 
