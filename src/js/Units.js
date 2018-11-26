@@ -130,10 +130,6 @@ class Worker extends HumanUnit {
     }
   }
 
-  work() {
-    players[player].money += squares[x][y].goldPerTurn;
-  }
-
   build(type) {
     players[player].addUnit(type, this.x, this.y);
   }

@@ -72,6 +72,17 @@ class Player {
       }
     }
   }
+
+  workerWork(gameMap)
+  {
+    for(var i=0;i< this.numberOfUnits;i++)
+    {
+      if(this.units[i] instanceof Worker)
+      {
+        this.money += gameMap.squares[this.units[i].posY][this.units[i].posX].goldPerTurn;
+      }
+    }
+  }
 }
 
 module.exports = Player;

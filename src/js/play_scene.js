@@ -43,7 +43,7 @@ var PlayScene = {
     players[1].addUnit(this.game, "infantry", 0, 7, gameMap);
     players[1].addUnit(this.game, "archer", 0, 8, gameMap);
     players[1].addUnit(this.game, "cavalry", 0, 9, gameMap);
-    players[1].addUnit(this.game, "infantry", 0, 10, gameMap);
+    players[1].addUnit(this.game, "worker", 0, 10, gameMap);
 
 
     players[0].addUnit(this.game, "infantry", 24, 9, gameMap);
@@ -55,7 +55,7 @@ var PlayScene = {
     players[0].addUnit(this.game, "infantry", 24, 15, gameMap);
     players[0].addUnit(this.game, "archer", 24, 16, gameMap);
     players[0].addUnit(this.game, "cavalry", 24, 17, gameMap);
-    players[0].addUnit(this.game, "infantry", 24, 18, gameMap);
+    players[0].addUnit(this.game, "worker", 24, 18, gameMap);
     
 
 
@@ -83,6 +83,7 @@ var PlayScene = {
 
     for (var i = 0; i < playerNumber; i++) {
       players[i].resetUnitUse();
+      players[i].workerWork(gameMap);
     }
 
     console.log("turn skip. playing " + playingPlayer);

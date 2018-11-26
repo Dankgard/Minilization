@@ -20,6 +20,7 @@ class EmptySquare {
     this.posY = y;
     this.unit = 'null';
     this.building = 'null';
+    this.goldPerTurn = 0;
   }
 }
 
