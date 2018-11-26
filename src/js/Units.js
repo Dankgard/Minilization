@@ -10,10 +10,15 @@ class Unit extends Phaser.Sprite {
     this.unitNumber = unitNumber;
     this.posX = x;
     this.posY = y;
+
+    var style = { font: "8px Arial", fill: "#ffffff" };  
+    this.healthHud = this.game.add.text(0, -5, this.hp, style);
+    this.addChild(this.healthHud);
   }
 
   takeDamage(damage) {
     this.hp -= damage;
+    this.healthHud.setText(this.hp);
     if (this.hp <= 0)
     {
       this.destroyUnit();
@@ -165,7 +170,7 @@ class CombatUnit extends HumanUnit {
     else
       bonusDamage = 1;
 
-    destroyed = enemy.takeDamage(this.damage * bonusDamage);
+    destroyed = enemy.takeDamage(Math.round(this.damage * bonusDamage));
     return destroyed;
   }
 }

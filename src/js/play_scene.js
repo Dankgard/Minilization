@@ -33,19 +33,31 @@ var PlayScene = {
     var tileset = this.game.add.sprite(0, 0, 'tileset');
     gameMap = new map(this.game, mapWidth, mapHeight, squareWidth, squareHeight);
     gameCursor = new cursor(this.game, 10, 10, squareWidth, squareHeight);
-    players[0].addUnit(this.game, "infantry", 1, 4, gameMap);
-    players[0].addUnit(this.game, "archer", 2, 8, gameMap);
-    players[0].addUnit(this.game, "cavalry", 3, 12, gameMap);
-    players[0].addUnit(this.game, "worker", 4, 16, gameMap);
 
-    players[1].addUnit(this.game, "infantry", 22, 7, gameMap);
-    players[1].addUnit(this.game, "archer", 21, 3, gameMap);
-    players[1].addUnit(this.game, "cavalry", 4, 8, gameMap);
-    players[1].addUnit(this.game, "worker", 19, 11, gameMap);
+    players[1].addUnit(this.game, "infantry", 0, 1, gameMap);
+    players[1].addUnit(this.game, "archer", 0, 2, gameMap);
+    players[1].addUnit(this.game, "cavalry", 0, 3, gameMap);
+    players[1].addUnit(this.game, "infantry", 0, 4, gameMap);
+    players[1].addUnit(this.game, "archer", 0, 5, gameMap);
+    players[1].addUnit(this.game, "cavalry", 0, 6, gameMap);
+    players[1].addUnit(this.game, "infantry", 0, 7, gameMap);
+    players[1].addUnit(this.game, "archer", 0, 8, gameMap);
+    players[1].addUnit(this.game, "cavalry", 0, 9, gameMap);
+    players[1].addUnit(this.game, "infantry", 0, 10, gameMap);
 
-    players[0].addUnit(this.game, "cavalry", 11, 10, gameMap);
-    players[1].addUnit(this.game, "cavalry", 9, 10, gameMap);
-    players[0].addUnit(this.game, "town", 10, 10, gameMap);
+
+    players[0].addUnit(this.game, "infantry", 24, 9, gameMap);
+    players[0].addUnit(this.game, "archer", 24, 10, gameMap);
+    players[0].addUnit(this.game, "cavalry", 24,11, gameMap);
+    players[0].addUnit(this.game, "infantry", 24, 12, gameMap);
+    players[0].addUnit(this.game, "archer", 24, 13, gameMap);
+    players[0].addUnit(this.game, "cavalry", 24, 14, gameMap);
+    players[0].addUnit(this.game, "infantry", 24, 15, gameMap);
+    players[0].addUnit(this.game, "archer", 24, 16, gameMap);
+    players[0].addUnit(this.game, "cavalry", 24, 17, gameMap);
+    players[0].addUnit(this.game, "infantry", 24, 18, gameMap);
+    
+
 
   },
 
