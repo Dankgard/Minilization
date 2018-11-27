@@ -10,7 +10,7 @@ class Player {
     this.units = [];
   }
 
-  addUnit(game, type, x, y, gameMap) {
+  addUnit(game, type, x, y, gameMap,free) {
     var unit;
     var cost;
     switch (type) {
@@ -43,7 +43,8 @@ class Player {
         cost = 30;
         break;
     }
-    this.money -= cost;
+    if(!free)
+      this.money -= cost;
     this.numberOfUnits++;
     this.units.push(unit);
 
@@ -59,31 +60,31 @@ class Player {
     this.units.splice(unitNumber, 1);
   }
 
-  resetUnitUse()
-  {
-    for(var i=0;i< this.numberOfUnits;i++)
-    {
-      if(this.units[i].isMovable())
-      {
+  resetUnitUse() {
+    for (var i = 0; i < this.numberOfUnits; i++) {
+      if (this.units[i].isMovable()) {
         this.units[i].movementDone = false;
 
-        if(this.units[i].isCombatUnit())
+        if (this.units[i].isCombatUnit())
           this.units[i].attackDone = false;
       }
     }
   }
 
-  workerWork(gameMap)
-  {
-    for(var i=0;i< this.numberOfUnits;i++)
-    {
-      if(this.units[i] instanceof Worker)
-      {
+  workerWork(gameMap) {
+    for (var i = 0; i < this.numberOfUnits; i++) {
+      if (this.units[i] instanceof units.Worker) {
         this.money += gameMap.squares[this.units[i].posY][this.units[i].posX].goldPerTurn;
       }
     }
-    //console.log(this.units[i].prototype);
     console.log("gold: " + this.money);
+  }
+
+  towerAttack(gameMap) {
+    for (var i = 0; i < this.numberOfUnits; i++) {
+      if (this.units[i] instanceof units.Watchtower)
+        this.units[i].attack(gameMap, this);
+    }
   }
 }
 

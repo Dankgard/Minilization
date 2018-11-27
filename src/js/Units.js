@@ -86,10 +86,71 @@ class Watchtower extends Unit {
     this.damage = 20;
   }
 
-  attack(enemy) {
+  // ataque automatico a la unidad enemiga mas cercana
+  attack(gameMap, player) {
+    var attacked = false;
     var destroyed = false;
-    destroyed = enemy.takeDamage(this.damage);
-    return destroyed;
+    var attackRange = 1;
+    var enemy;
+    while (!attacked && attackRange <= this.range) {
+
+      // izquierda
+      if (!attacked && (this.posX - attackRange) >= 0) {
+        if (gameMap.squares[this.posY][this.posX - attackRange] == undefined)
+          gameMap.createEmptySquare(this.posX - attackRange, this.posY);
+        if (gameMap.squares[this.posY][this.posX - attackRange].unit != 'null' &&
+          this.player != gameMap.squares[this.posY][this.posX - attackRange].unit.player) {
+          destroyed = gameMap.squares[this.posY][this.posX - attackRange].unit.takeDamage(this.damage);
+          enemy = gameMap.squares[this.posY][this.posX - attackRange].unit;
+          attacked = true;
+        }
+
+      }
+
+      // derecha
+      else if (!attacked && (this.posX + attackRange) < gameMap.width) {
+        if (gameMap.squares[this.posY][this.posX + attackRange] == undefined)
+          gameMap.createEmptySquare(this.posX + attackRange, this.posY);
+        if (gameMap.squares[this.posY][this.posX + attackRange].unit != 'null' &&
+          this.player != gameMap.squares[this.posY][this.posX + attackRange].unit.player) {
+          destroyed = gameMap.squares[this.posY][this.posX + attackRange].unit.takeDamage(this.damage);
+          enemy = gameMap.squares[this.posY][this.posX + attackRange].unit;
+          attacked = true;
+        }
+
+      }
+
+      // arriba
+      else if (!attacked && (this.posY - attackRange) >= 0) {
+        if (gameMap.squares[this.posY - attackRange][this.posX] == undefined)
+          gameMap.createEmptySquare(this.posX, this.posY - attackRange);
+        if (gameMap.squares[this.posY - attackRange][this.posX].unit != 'null' &&
+          this.player != gameMap.squares[this.posY - attackRange][this.posX].unit.player) {
+          destroyed = gameMap.squares[this.posY - attackRange][this.posX].unit.takeDamage(this.damage);
+          enemy = gameMap.squares[this.posY - attackRange][this.posX].unit;
+          attacked = true;
+        }
+
+      }
+
+      // abajo
+      else if (!attacked && (this.posY + attackRange) < gameMap.height) {
+        if (gameMap.squares[this.posY + attackRange][this.posX] == undefined)
+          gameMap.createEmptySquare(this.posX, this.posY + attackRange);
+        if (gameMap.squares[this.posY + attackRange][this.posX].unit != 'null' &&
+          this.player != gameMap.squares[this.posY + attackRange][this.posX].unit.player) {
+          destroyed = gameMap.squares[this.posY + attackRange][this.posX].unit.takeDamage(this.damage);
+          enemy = gameMap.squares[this.posY + attackRange][this.posX].unit;
+          attacked = true;
+        }
+
+      }
+      attackRange++;
+    }
+    if (destroyed) {
+      gameMap.emptySquareFromUnit(enemy.posX, enemy.posY);
+      player.destroyUnit(enemy.unitNumber);
+    }
   }
 }
 

@@ -34,29 +34,30 @@ var PlayScene = {
     gameMap = new map(this.game, mapWidth, mapHeight, squareWidth, squareHeight);
     gameCursor = new cursor(this.game, 10, 10, squareWidth, squareHeight);
 
-    players[1].addUnit(this.game, "infantry", 0, 1, gameMap);
-    players[1].addUnit(this.game, "archer", 0, 2, gameMap);
-    players[1].addUnit(this.game, "cavalry", 0, 3, gameMap);
-    players[1].addUnit(this.game, "infantry", 0, 4, gameMap);
-    players[1].addUnit(this.game, "archer", 0, 5, gameMap);
-    players[1].addUnit(this.game, "cavalry", 0, 6, gameMap);
-    players[1].addUnit(this.game, "infantry", 0, 7, gameMap);
-    players[1].addUnit(this.game, "archer", 0, 8, gameMap);
-    players[1].addUnit(this.game, "cavalry", 0, 9, gameMap);
-    players[1].addUnit(this.game, "worker", 0, 10, gameMap);
+    players[1].addUnit(this.game, "infantry", 0, 1, gameMap, true);
+    players[1].addUnit(this.game, "archer", 0, 2, gameMap, true);
+    players[1].addUnit(this.game, "cavalry", 0, 3, gameMap, true);
+    players[1].addUnit(this.game, "infantry", 0, 4, gameMap, true);
+    players[1].addUnit(this.game, "archer", 0, 5, gameMap, true);
+    players[1].addUnit(this.game, "cavalry", 0, 6, gameMap, true);
+    players[1].addUnit(this.game, "infantry", 0, 7, gameMap, true);
+    players[1].addUnit(this.game, "archer", 0, 8, gameMap, true);
+    players[1].addUnit(this.game, "cavalry", 0, 9, gameMap, true);
+    players[1].addUnit(this.game, "worker", 0, 10, gameMap, true);
+    players[0].addUnit(this.game, "watchtower", 2, 9, gameMap, true)
 
 
-    players[0].addUnit(this.game, "infantry", 24, 9, gameMap);
-    players[0].addUnit(this.game, "archer", 24, 10, gameMap);
-    players[0].addUnit(this.game, "cavalry", 24,11, gameMap);
-    players[0].addUnit(this.game, "infantry", 24, 12, gameMap);
-    players[0].addUnit(this.game, "archer", 24, 13, gameMap);
-    players[0].addUnit(this.game, "cavalry", 24, 14, gameMap);
-    players[0].addUnit(this.game, "infantry", 24, 15, gameMap);
-    players[0].addUnit(this.game, "archer", 24, 16, gameMap);
-    players[0].addUnit(this.game, "cavalry", 24, 17, gameMap);
-    players[0].addUnit(this.game, "worker", 24, 18, gameMap);
-    
+    players[0].addUnit(this.game, "infantry", 24, 9, gameMap, true);
+    players[0].addUnit(this.game, "archer", 24, 10, gameMap, true);
+    players[0].addUnit(this.game, "cavalry", 24, 11, gameMap, true);
+    players[0].addUnit(this.game, "infantry", 24, 12, gameMap, true);
+    players[0].addUnit(this.game, "archer", 24, 13, gameMap, true);
+    players[0].addUnit(this.game, "cavalry", 24, 14, gameMap, true);
+    players[0].addUnit(this.game, "infantry", 24, 15, gameMap, true);
+    players[0].addUnit(this.game, "archer", 24, 16, gameMap, true);
+    players[0].addUnit(this.game, "cavalry", 24, 17, gameMap, true);
+    players[0].addUnit(this.game, "worker", 24, 18, gameMap, true);
+
 
 
   },
@@ -74,17 +75,17 @@ var PlayScene = {
   },
 
   skipTurn: function () {
+
+    players[playingPlayer-1].resetUnitUse();
+    players[playingPlayer-1].workerWork(gameMap);
+    players[playingPlayer-1].towerAttack(gameMap);
+
     turn++;
 
     if (playingPlayer == 1)
       playingPlayer = 2;
     else
       playingPlayer = 1;
-
-    for (var i = 0; i < playerNumber; i++) {
-      players[i].resetUnitUse();
-      players[i].workerWork(gameMap);
-    }
 
     console.log("turn skip. playing " + playingPlayer);
   }
