@@ -1,7 +1,7 @@
 'use strict';
 
 class Cursor extends Phaser.Sprite {
-  constructor(game, x, y, squareWidth, squareHeight) {
+  constructor(game, x, y, squareWidth, squareHeight, gameMap, players, playingPlayer) {
     super(game, x * squareWidth, y * squareHeight, 'cursor');
     game.add.existing(this);
     this.posX = x;
@@ -9,96 +9,102 @@ class Cursor extends Phaser.Sprite {
     this.oldX = 0;
     this.oldY = 0;
 
+    this.gameMap = gameMap;
+    this.players = players;
+    this.playingPlayer = playingPlayer;
+
     this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+
     this.zKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    this.zKey.onDown.add(this.actionKey, this);
+
     this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
+    this.xKey.onDown.add(this.cancelSelection, this);
+    
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.spaceKey.onDown.add(this.turnSkip, this);
 
     this.selectedUnit = 'null';
+
+    this.skipTurn = false;
   }
 
-  handleEvents(game, gameMap, players, playingPlayer) {
-    var skipTurn = false;
+  handleEvents() {    
     // mover izquierda
     if (this.leftKey.isDown)
-      this.moveLeft(game, gameMap);
+      this.moveLeft();
 
     // mover derecha
     if (this.rightKey.isDown)
-      this.moveRight(game, gameMap);
+      this.moveRight();
 
     // mover arriba
     if (this.upKey.isDown)
-      this.moveUp(game, gameMap);
+      this.moveUp();
 
     // mover abajo 
     if (this.downKey.isDown)
-      this.moveDown(game, gameMap);
+      this.moveDown();
 
-    // tecla de acciones
-    if (this.zKey.isDown)
-      this.actionKey(game, gameMap, players, playingPlayer);
-
-    // deseleccionar unidad
-    if(this.xKey.isDown)
-    {
-      delete this.selectedUnit;
-      this.selectedUnit = 'null';
-      console.log("unit deselected");
-    }
-
-    // pasar turno
-    if(this.spaceKey.isDown)
-      skipTurn = true;
-
-    return skipTurn;
+    return this.skipTurn;
   }
 
-  moveLeft(game, gameMap) {
+  cancelSelection() {
+    delete this.selectedUnit;
+    this.selectedUnit = 'null';
+    console.log("unit deselected");
+  }
+
+  turnSkip()
+  {
+    this.skipTurn = true;
+  }
+
+  moveLeft() {
     if (this.posX > 0) {
-      this.x -= gameMap.squareWidth;
+      this.x -= this.gameMap.squareWidth;
       this.posX--;
-      game.world.bringToTop(this);
+      this.game.world.bringToTop(this);
     }
   }
 
-  moveRight(game, gameMap) {
-    if (this.posX < gameMap.width - 1) {
-      this.x += gameMap.squareWidth;
+  moveRight() {
+    if (this.posX < this.gameMap.width - 1) {
+      this.x += this.gameMap.squareWidth;
       this.posX++;
-      game.world.bringToTop(this);
+      this.game.world.bringToTop(this);
     }
   }
 
-  moveUp(game, gameMap) {
+  moveUp() {
     if (this.posY > 0) {
-      this.y -= gameMap.squareHeight;
+      this.y -= this.gameMap.squareHeight;
       this.posY--;
-      game.world.bringToTop(this);
+      this.game.world.bringToTop(this);
     }
   }
 
-  moveDown(game, gameMap) {
-    if (this.posY < gameMap.height - 1) {
-      this.y += gameMap.squareHeight;
+  moveDown() {
+    if (this.posY < this.gameMap.height - 1) {
+      this.y += this.gameMap.squareHeight;
       this.posY++;
-      game.world.bringToTop(this);
+      this.game.world.bringToTop(this);
     }
   }
 
-  actionKey(game, gameMap, players, playingPlayer) {
-    if (gameMap.squares[this.posY][this.posX] == undefined)
-      gameMap.createEmptySquare(this.posX, this.posY);
+  actionKey() {
+    if (this.gameMap.squares[this.posY][this.posX] == undefined)
+      this.gameMap.createEmptySquare(this.posX, this.posY);
 
-    var hoveringSquare = gameMap.squares[this.posY][this.posX];
+    var hoveringSquare = this.gameMap.squares[this.posY][this.posX];
     var hoveringUnit = hoveringSquare.unit;
     var hoveringBuilding = hoveringSquare.building;
 
     // seleccionar unidades
-    if (hoveringUnit != 'null' && hoveringUnit.player == playingPlayer && this.selectedUnit == 'null') {
+    if (hoveringUnit != 'null' && hoveringUnit.player == this.playingPlayer && this.selectedUnit == 'null') {
       this.oldX = this.posX;
       this.oldY = this.posY;
       this.selectedUnit = hoveringUnit;
@@ -110,13 +116,13 @@ class Cursor extends Phaser.Sprite {
       if (hoveringUnit == 'null' && hoveringBuilding == 'null' || hoveringBuilding.player == this.selectedUnit.player) {
         // si entra en el rango de movimiento y no se ha movido todavia
         if (this.selectedUnit.canMove(this.posX, this.posY) && this.selectedUnit.movementDone == false) {
-          this.selectedUnit.move(this.posX, this.posY, gameMap);
+          this.selectedUnit.move(this.posX, this.posY, this.gameMap);
           this.selectedUnit.movementDone = true;
           console.log("moved " + this.selectedUnit.element);
-          gameMap.emptySquareFromUnit(this.oldX, this.oldY);
-          gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
-          game.world.bringToTop(this.selectedUnit);
-          game.world.bringToTop(this);
+          this.gameMap.emptySquareFromUnit(this.oldX, this.oldY);
+          this.gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
+          this.game.world.bringToTop(this.selectedUnit);
+          this.game.world.bringToTop(this);
         }
         else {
           console.log("cannot move " + this.selectedUnit.element);
@@ -128,7 +134,7 @@ class Cursor extends Phaser.Sprite {
         console.log(this.selectedUnit.element + " skipped move");
       }
       // atacar enemigos
-      else if (hoveringUnit != 'null' || hoveringBuilding != 'null') {
+      else if (this.selectedUnit.isCombatUnit() && (hoveringUnit != 'null' || hoveringBuilding != 'null')) {
 
         var hovering;
         // atacar unidad enemiga
@@ -149,8 +155,8 @@ class Cursor extends Phaser.Sprite {
           var destroyed = this.selectedUnit.attack(hovering);
           console.log("attacking enemy");
           if (destroyed) {
-            gameMap.emptySquareFromUnit(enemyX, enemyY);
-            players[enemyTeam - 1].destroyUnit(enemyNumber);
+            this.gameMap.emptySquareFromUnit(enemyX, enemyY);
+            this.players[enemyTeam - 1].destroyUnit(enemyNumber);
           }
         }
       }

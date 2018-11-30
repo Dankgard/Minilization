@@ -58,6 +58,7 @@ class Player {
 
   destroyUnit(unitNumber) {
     this.units.splice(unitNumber, 1);
+    this.numberOfUnits--;
   }
 
   resetUnitUse() {
