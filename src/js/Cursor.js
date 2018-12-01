@@ -23,7 +23,7 @@ class Cursor extends Phaser.Sprite {
 
     this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
     this.xKey.onDown.add(this.cancelSelection, this);
-    
+
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.spaceKey.onDown.add(this.turnSkip, this);
 
@@ -32,7 +32,7 @@ class Cursor extends Phaser.Sprite {
     this.skipTurn = false;
   }
 
-  handleEvents() {    
+  handleEvents() {
     // mover izquierda
     if (this.leftKey.isDown)
       this.moveLeft();
@@ -49,7 +49,14 @@ class Cursor extends Phaser.Sprite {
     if (this.downKey.isDown)
       this.moveDown();
 
-    return this.skipTurn;
+    // saltar turno
+    if (this.skipTurn) {
+      this.skipTurn = false;
+      return true;
+    }
+    else return false;
+
+
   }
 
   cancelSelection() {
@@ -58,8 +65,7 @@ class Cursor extends Phaser.Sprite {
     console.log("unit deselected");
   }
 
-  turnSkip()
-  {
+  turnSkip() {
     this.skipTurn = true;
   }
 
