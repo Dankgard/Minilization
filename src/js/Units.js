@@ -2,7 +2,7 @@
 
 class Unit extends Phaser.Sprite {
   constructor(game, x, y, hp, player, sprite, unitNumber, squareWidth, squareHeight) {
-    super(game, x * squareWidth, y * squareHeight, sprite);
+    super(game, x * squareWidth + 50, y * squareHeight, sprite);
     game.add.existing(this);
     this.scale.setTo(2, 2);
     this.hp = hp;
@@ -173,7 +173,7 @@ class HumanUnit extends Unit {
   move(posX, posY, gameMap) // posiciones absolutas a las que se va a mover la unidad
   {
     this.posX = posX;
-    this.x = posX * gameMap.squareWidth;
+    this.x = posX * gameMap.squareWidth + 50;
     this.posY = posY;
     this.y = posY * gameMap.squareHeight;
 

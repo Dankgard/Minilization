@@ -2,7 +2,7 @@
 
 class Square extends Phaser.Sprite {
   constructor(game, x, y, type, sprite, goldPerTurn, squareWidth, squareHeight) {
-    super(game, x * squareWidth, y * squareHeight, sprite);
+    super(game, x * squareWidth + 50, y * squareHeight, sprite);
     game.add.existing(this);
     this.scale.setTo(2, 2);
     this.type = type;

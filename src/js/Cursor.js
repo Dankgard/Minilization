@@ -2,7 +2,7 @@
 
 class Cursor extends Phaser.Sprite {
   constructor(game, x, y, squareWidth, squareHeight, gameMap, players, playingPlayer) {
-    super(game, x * squareWidth, y * squareHeight, 'cursor');
+    super(game, x * squareWidth + 50, y * squareHeight, 'cursor');
     game.add.existing(this);
     this.posX = x;
     this.posY = y;
@@ -52,11 +52,13 @@ class Cursor extends Phaser.Sprite {
     // saltar turno
     if (this.skipTurn) {
       this.skipTurn = false;
+      if (this.playingPlayer == 1)
+        this.playingPlayer = 2;
+      else
+        this.playingPlayer = 1;
       return true;
     }
     else return false;
-
-
   }
 
   cancelSelection() {
