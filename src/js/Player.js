@@ -10,7 +10,7 @@ class Player {
     this.units = [];
   }
 
-  addUnit(game, type, x, y, gameMap,free) {
+  addUnit(game, type, x, y, gameMap, free) {
     var unit;
     var cost;
     switch (type) {
@@ -43,7 +43,7 @@ class Player {
         cost = 30;
         break;
     }
-    if(!free)
+    if (!free && this.money >= cost)
       this.money -= cost;
     this.numberOfUnits++;
     this.units.push(unit);
@@ -68,7 +68,12 @@ class Player {
 
         if (this.units[i].isCombatUnit())
           this.units[i].attackDone = false;
+
+        if (this.units[i].isWorker())
+          this.units[i].buildDone = false;
       }
+      else if (this.units[i].isTown())
+        this.units[i].buildDone = false;
     }
   }
 

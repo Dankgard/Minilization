@@ -43,7 +43,15 @@ var PlayScene = {
 
     var tileset = this.game.add.sprite(50, 0, 'tileset');
     this.gameMap = new map(this.game, this.mapWidth, this.mapHeight, this.squareWidth, this.squareHeight);
-    this.gameCursor = new cursor(this.game, 10, 10, this.squareWidth, this.squareHeight, this.gameMap, this.players, this.playingPlayer);
+
+    var y = Math.round(Math.random() * (this.mapHeight - 1));
+    this.players[0].addUnit(this.game, "town", 0, y, this.gameMap, true);
+    var y = Math.round(Math.random() * (this.mapHeight - 1))
+    this.players[1].addUnit(this.game, "town", this.mapWidth - 1, y, this.gameMap, true);
+
+    this.player1Town = this.players[0].units[0];
+    this.player2Town = this.players[1].units[0];
+    this.gameCursor = new cursor(this.game, 10, 10, this.squareWidth, this.squareHeight, this.gameMap, this.players, this.playingPlayer, this.player1Town, this.player2Town);
 
     this.players[0].addUnit(this.game, "infantry", 0, 1, this.gameMap, true);
     this.players[0].addUnit(this.game, "archer", 0, 2, this.gameMap, true);
@@ -69,8 +77,6 @@ var PlayScene = {
     this.players[1].addUnit(this.game, "cavalry", 24, 17, this.gameMap, true);
     this.players[1].addUnit(this.game, "cavalry", 23, 18, this.gameMap, true);
     this.players[1].addUnit(this.game, "worker", 24, 18, this.gameMap, true);
-
-
 
   },
 

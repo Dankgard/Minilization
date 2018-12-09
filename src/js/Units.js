@@ -44,6 +44,20 @@ class Unit extends Phaser.Sprite {
     else
       return false;
   }
+
+  isTown() {
+    if (this instanceof Town)
+      return true;
+    else
+      return false;
+  }
+
+  isWorker() {
+    if (this instanceof Worker)
+      return true;
+    else
+      return false;
+  }
 }
 
 class Town extends Unit {
@@ -55,10 +69,14 @@ class Town extends Unit {
       super(game, x, y, 1000, player, 'redtown', unitNumber, squareWidth, squareHeight);
     }
 
+    this.buildDone = false;
   }
 
-  createUnit(type) {
-    players[player].addUnit(type, this.x, this.y);
+  createUnit(type, players, gameMap) {
+    if (this.buildDone == false) {
+      players[this.player - 1].addUnit(this.game, type, this.posX, this.posY, gameMap, true);
+      this.buildDone = true;
+    }
   }
 }
 
@@ -182,16 +200,22 @@ class HumanUnit extends Unit {
 
 class Worker extends HumanUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
-    if (player = 1) {
+    if (player == 1) {
       super(game, x, y, 20, 1, 'bluevillager', player, unitNumber, squareWidth, squareHeight);
     }
     else {
       super(game, x, y, 20, 1, 'redvillager', player, unitNumber, squareWidth, squareHeight);
     }
+
+    this.buildDone = false;
   }
 
-  build(type) {
-    players[player].addUnit(type, this.x, this.y);
+  build(type, players, gameMap) {
+    if (this.buildDone == false) {
+      players[this.player].addUnit(this.game, type, this.posX, this.posY, gameMap, true);
+      this.buildDone = true;
+      this.game.world.bringToTop(this);
+    }
   }
 }
 

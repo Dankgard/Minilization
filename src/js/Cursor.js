@@ -1,7 +1,7 @@
 'use strict';
 
 class Cursor extends Phaser.Sprite {
-  constructor(game, x, y, squareWidth, squareHeight, gameMap, players, playingPlayer) {
+  constructor(game, x, y, squareWidth, squareHeight, gameMap, players, playingPlayer, player1Town, player2Town) {
     super(game, x * squareWidth + 50, y * squareHeight, 'cursor');
     game.add.existing(this);
     this.posX = x;
@@ -27,9 +27,50 @@ class Cursor extends Phaser.Sprite {
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.spaceKey.onDown.add(this.turnSkip, this);
 
+    this.Key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+    this.Key1.onDown.add(this.buildInfantry, this);
+    this.Key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+    this.Key2.onDown.add(this.buildCavalry, this);
+    this.Key3 = game.input.keyboard.addKey(Phaser.Keyboard.TREE);
+    this.Key3.onDown.add(this.buildArcher, this);
+    this.Key4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+    this.Key4.onDown.add(this.buildWorker, this);
+    this.Key5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+    this.Key5.onDown.add(this.buildTower, this);
+    this.Key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
+    this.Key6.onDown.add(this.buildWall, this);
+
     this.selectedUnit = 'null';
+    this.player1Town = player1Town;
+    this.player2Town = player2Town;
 
     this.skipTurn = false;
+
+    this.unitStyle = { font: "7px Arial", fill: "#ffffff" };
+    this.infantryText = this.game.add.text(5, 150, "INFANTRY", this.unitStyle);
+    this.cavalryText = this.game.add.text(5, 250, "CAVALRY", this.unitStyle);
+    this.archerText = this.game.add.text(5, 350, "ARCHER", this.unitStyle);
+    this.workerText = this.game.add.text(5, 450, "WORKER", this.unitStyle);
+    this.towerText = this.game.add.text(900 - 40, 250, "TOWER", this.unitStyle);
+    this.wallText = this.game.add.text(900 - 40, 350, "WALL", this.unitStyle);
+    this.towerText.visible = false;
+    this.wallText.visible = false;
+    this.keyStyle = { font: "30px Arial", fill: "#ffffff" };
+    this.infantryKey = this.game.add.text(15, 170, "1", this.keyStyle);
+    this.cavalryKey = this.game.add.text(15, 270, "2", this.keyStyle);
+    this.archerKey = this.game.add.text(15, 370, "3", this.keyStyle);
+    this.workerKey = this.game.add.text(15, 470, "4", this.keyStyle);
+    this.towerKey = this.game.add.text(900 - 30, 270, "5", this.keyStyle);
+    this.wallKey = this.game.add.text(900 - 30, 370, "6", this.keyStyle);
+    this.towerKey.visible = false;
+    this.wallKey.visible = false;
+  }
+
+  workerUnitsVisible(visible) {
+    this.towerText.visible = visible;
+    this.wallText.visible = visible;
+    this.towerKey.visible = visible;
+    this.wallKey.visible = visible;
   }
 
   handleEvents() {
@@ -117,6 +158,8 @@ class Cursor extends Phaser.Sprite {
       this.oldY = this.posY;
       this.selectedUnit = hoveringUnit;
       console.log(this.selectedUnit.element);
+      if (this.selectedUnit.isWorker())
+        this.workerUnitsVisible(true);
     }
     // teniendo la unidad ya seleccionada
     else if (this.selectedUnit != 'null') {
@@ -168,9 +211,59 @@ class Cursor extends Phaser.Sprite {
           }
         }
       }
+      if (this.wallText.visible == true)
+        this.workerUnitsVisible(false);
       delete this.selectedUnit;
       this.selectedUnit = 'null';
     }
+  }
+
+  buildWall() {
+    if (this.selectedUnit.isWorker()) {
+        this.selectedUnit.build("wall", this.players, this.gameMap);
+        if (this.wallText.visible == true)
+          this.workerUnitsVisible(false);
+        delete this.selectedUnit;
+        this.selectedUnit = 'null';
+    }
+  }
+
+  buildTower() {
+    if (this.selectedUnit.isWorker()) {
+        this.selectedUnit.build("watchtower", this.players, this.gameMap);
+        if (this.wallText.visible == true)
+          this.workerUnitsVisible(false);
+        delete this.selectedUnit;
+        this.selectedUnit = 'null';
+    }
+  }
+
+  buildInfantry() {
+    if (this.playingPlayer == 1)
+      this.player1Town.createUnit("infantry", this.players, this.gameMap);
+    else
+      this.player2Town.createUnit("infantry", this.players, this.gameMap);
+  }
+
+  buildCavalry() {
+    if (this.playingPlayer == 1)
+      this.player1Town.createUnit("cavalry", this.players, this.gameMap);
+    else
+      this.player2Town.createUnit("cavalry", this.players, this.gameMap);
+  }
+
+  buildArcher() {
+    if (this.playingPlayer == 1)
+      this.player1Town.createUnit("archer", this.players, this.gameMap);
+    else
+      this.player2Town.createUnit("archer", this.players, this.gameMap);
+  }
+
+  buildWorker() {
+    if (this.playingPlayer == 1)
+      this.player1Town.createUnit("worker", this.players, this.gameMap);
+    else
+      this.player2Town.createUnit("worker", this.players, this.gameMap);
   }
 }
 
