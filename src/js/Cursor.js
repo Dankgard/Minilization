@@ -41,6 +41,9 @@ class Cursor extends Phaser.Sprite {
     this.Key6.onDown.add(this.buildWall, this);
 
     this.selectedUnit = 'null';
+    this.unitSelection = this.game.add.sprite(50, 0, 'unitselection');
+    this.unitSelection.scale.setTo(2,2);
+    this.unitSelection.visible = false;
     this.player1Town = player1Town;
     this.player2Town = player2Town;
 
@@ -105,6 +108,7 @@ class Cursor extends Phaser.Sprite {
   cancelSelection() {
     delete this.selectedUnit;
     this.selectedUnit = 'null';
+    this.unitSelection.visible = false;
     console.log("unit deselected");
   }
 
@@ -157,6 +161,9 @@ class Cursor extends Phaser.Sprite {
       this.oldX = this.posX;
       this.oldY = this.posY;
       this.selectedUnit = hoveringUnit;
+      this.unitSelection.visible = true;
+      this.unitSelection.position.x = this.posX * this.gameMap.squareWidth + 50;
+      this.unitSelection.position.y = this.posY * this.gameMap.squareHeight;
       console.log(this.selectedUnit.element);
       if (this.selectedUnit.isWorker())
         this.workerUnitsVisible(true);
@@ -215,6 +222,7 @@ class Cursor extends Phaser.Sprite {
         this.workerUnitsVisible(false);
       delete this.selectedUnit;
       this.selectedUnit = 'null';
+      this.unitSelection.visible = false;
     }
   }
 
@@ -225,6 +233,7 @@ class Cursor extends Phaser.Sprite {
           this.workerUnitsVisible(false);
         delete this.selectedUnit;
         this.selectedUnit = 'null';
+        this.unitSelection.visible = false;
     }
   }
 
@@ -235,6 +244,7 @@ class Cursor extends Phaser.Sprite {
           this.workerUnitsVisible(false);
         delete this.selectedUnit;
         this.selectedUnit = 'null';
+        this.unitSelection.visible = false;
     }
   }
 

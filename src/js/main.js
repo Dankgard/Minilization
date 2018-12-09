@@ -47,6 +47,7 @@ var PreloaderScene = {
     this.game.load.image('redknight', 'images/Usar/redknight.png');
     this.game.load.image('bluerider', 'images/Usar/bluerider.png');
     this.game.load.image('redrider', 'images/Usar/redrider.png');
+    this.game.load.image('unitselection', 'images/Usar/unitselection.png');
 
     //Audios
     this.game.load.audio('fondo','audio/Theme.mp3');
