@@ -61,12 +61,12 @@ var PlayScene = {
     this.players[0].addUnit(this.game, "cavalry", 0, 6, this.gameMap, true);
     this.players[0].addUnit(this.game, "infantry", 0, 7, this.gameMap, true);
     this.players[0].addUnit(this.game, "archer", 0, 8, this.gameMap, true);
-    this.players[0].addUnit(this.game, "cavalry", 0, 9, this.gameMap, true);
+    this.players[0].addUnit(this.game, "cavalry", 10, 9, this.gameMap, true);
     this.players[0].addUnit(this.game, "worker", 0, 10, this.gameMap, true);
     this.players[0].addUnit(this.game, "watchtower", 2, 9, this.gameMap, true)
 
 
-    this.players[1].addUnit(this.game, "infantry", 24, 9, this.gameMap, true);
+    this.players[1].addUnit(this.game, "infantry", 13, 9, this.gameMap, true);
     this.players[1].addUnit(this.game, "archer", 24, 10, this.gameMap, true);
     this.players[1].addUnit(this.game, "cavalry", 24, 11, this.gameMap, true);
     this.players[1].addUnit(this.game, "infantry", 24, 12, this.gameMap, true);
