@@ -584,7 +584,7 @@ class Watchtower extends Unit {
       super(game, x, y, 200, player, 'redtower', unitNumber, squareWidth, squareHeight);
     }
 
-    this.range = 3;
+    this.range = 2;
     this.damage = 20;
   }
 
@@ -610,7 +610,7 @@ class Watchtower extends Unit {
       }
 
       // derecha
-      else if (!attacked && (this.posX + attackRange) < gameMap.width) {
+      if (!attacked && (this.posX + attackRange) < gameMap.width) {
         if (gameMap.squares[this.posY][this.posX + attackRange] == undefined)
           gameMap.createEmptySquare(this.posX + attackRange, this.posY);
         if (gameMap.squares[this.posY][this.posX + attackRange].unit != 'null' &&
@@ -623,7 +623,7 @@ class Watchtower extends Unit {
       }
 
       // arriba
-      else if (!attacked && (this.posY - attackRange) >= 0) {
+      if (!attacked && (this.posY - attackRange) >= 0) {
         if (gameMap.squares[this.posY - attackRange][this.posX] == undefined)
           gameMap.createEmptySquare(this.posX, this.posY - attackRange);
         if (gameMap.squares[this.posY - attackRange][this.posX].unit != 'null' &&
@@ -636,7 +636,7 @@ class Watchtower extends Unit {
       }
 
       // abajo
-      else if (!attacked && (this.posY + attackRange) < gameMap.height) {
+      if (!attacked && (this.posY + attackRange) < gameMap.height) {
         if (gameMap.squares[this.posY + attackRange][this.posX] == undefined)
           gameMap.createEmptySquare(this.posX, this.posY + attackRange);
         if (gameMap.squares[this.posY + attackRange][this.posX].unit != 'null' &&
