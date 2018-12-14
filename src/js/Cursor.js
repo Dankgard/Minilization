@@ -42,8 +42,15 @@ class Cursor extends Phaser.Sprite {
 
     this.selectedUnit = 'null';
     this.unitSelection = this.game.add.sprite(50, 0, 'unitselection');
-    this.unitSelection.scale.setTo(2,2);
+    this.unitSelection.scale.setTo(2, 2);
     this.unitSelection.visible = false;
+    this.enemyMarker = this.game.add.sprite(50, 0, 'enemymarker');
+    this.enemyMarker.scale.setTo(2, 2);
+    this.enemyMarker.visible = false;
+    this.allyMarker = this.game.add.sprite(50, 0, 'allymarker');
+    this.allyMarker.scale.setTo(2, 2);
+    this.allyMarker.visible = false;
+
     this.player1Town = player1Town;
     this.player2Town = player2Town;
 
@@ -109,6 +116,8 @@ class Cursor extends Phaser.Sprite {
     delete this.selectedUnit;
     this.selectedUnit = 'null';
     this.unitSelection.visible = false;
+    this.enemyMarker.visible = false;
+    this.allyMarker.visible = false;
     console.log("unit deselected");
   }
 
@@ -116,10 +125,31 @@ class Cursor extends Phaser.Sprite {
     this.skipTurn = true;
   }
 
+  updateMarker() {
+    this.enemyMarker.visible = false;
+    this.allyMarker.visible = false;
+    if (this.selectedUnit != 'null') {
+      if (this.gameMap.squares[this.posY][this.posX] == undefined)
+        this.gameMap.createEmptySquare(this.posX, this.posY);
+      var hoveringSquare = this.gameMap.squares[this.posY][this.posX];
+      var marker;
+      if (hoveringSquare.unit == 'null' && hoveringSquare.building == 'null' && this.selectedUnit.canMove(this.posX, this.posY))
+        marker = this.allyMarker;
+      else if (this.selectedUnit.isCombatUnit() && this.selectedUnit.canAttack(this.posX, this.posY) && hoveringSquare.unit.player != this.selectedUnit.player)
+        marker = this.enemyMarker;
+      if (marker != undefined) {
+        marker.visible = true;
+        marker.position.x = hoveringSquare.posX * this.gameMap.squareWidth + 50;
+        marker.position.y = hoveringSquare.posY * this.gameMap.squareHeight;
+      }
+    }
+  }
+
   moveLeft() {
     if (this.posX > 0) {
       this.x -= this.gameMap.squareWidth;
       this.posX--;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -128,6 +158,7 @@ class Cursor extends Phaser.Sprite {
     if (this.posX < this.gameMap.width - 1) {
       this.x += this.gameMap.squareWidth;
       this.posX++;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -136,6 +167,7 @@ class Cursor extends Phaser.Sprite {
     if (this.posY > 0) {
       this.y -= this.gameMap.squareHeight;
       this.posY--;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -144,6 +176,7 @@ class Cursor extends Phaser.Sprite {
     if (this.posY < this.gameMap.height - 1) {
       this.y += this.gameMap.squareHeight;
       this.posY++;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -228,23 +261,23 @@ class Cursor extends Phaser.Sprite {
 
   buildWall() {
     if (this.selectedUnit.isWorker()) {
-        this.selectedUnit.build("wall", this.players, this.gameMap);
-        if (this.wallText.visible == true)
-          this.workerUnitsVisible(false);
-        delete this.selectedUnit;
-        this.selectedUnit = 'null';
-        this.unitSelection.visible = false;
+      this.selectedUnit.build("wall", this.players, this.gameMap);
+      if (this.wallText.visible == true)
+        this.workerUnitsVisible(false);
+      delete this.selectedUnit;
+      this.selectedUnit = 'null';
+      this.unitSelection.visible = false;
     }
   }
 
   buildTower() {
     if (this.selectedUnit.isWorker()) {
-        this.selectedUnit.build("watchtower", this.players, this.gameMap);
-        if (this.wallText.visible == true)
-          this.workerUnitsVisible(false);
-        delete this.selectedUnit;
-        this.selectedUnit = 'null';
-        this.unitSelection.visible = false;
+      this.selectedUnit.build("watchtower", this.players, this.gameMap);
+      if (this.wallText.visible == true)
+        this.workerUnitsVisible(false);
+      delete this.selectedUnit;
+      this.selectedUnit = 'null';
+      this.unitSelection.visible = false;
     }
   }
 

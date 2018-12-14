@@ -48,11 +48,14 @@ var PreloaderScene = {
     this.game.load.image('bluerider', 'images/Usar/bluerider.png');
     this.game.load.image('redrider', 'images/Usar/redrider.png');
     this.game.load.image('unitselection', 'images/Usar/unitselection.png');
+    this.game.load.image('enemymarker', 'images/Usar/enemymarker.png');
+    this.game.load.image('allymarker', 'images/Usar/allymarker.png');
+
 
     //Audios
-    this.game.load.audio('fondo','audio/Theme.mp3');
+    this.game.load.audio('gametheme','sounds/gametheme.mp3');
 
-    var casillas
+    //var casillas
   },
 
   create: function () {

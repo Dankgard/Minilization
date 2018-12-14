@@ -29,6 +29,9 @@ class Unit extends Phaser.Sprite {
 
   destroyUnit() {
     this.destroy();
+
+    if(this instanceof Town)
+      console.log(this.player + " losses");
   }
 
   isMovable() {
@@ -201,10 +204,10 @@ class HumanUnit extends Unit {
 class Worker extends HumanUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 20, 1, 'bluevillager', player, unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 20, 2, 'bluevillager', player, unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 20, 1, 'redvillager', player, unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 20, 2, 'redvillager', player, unitNumber, squareWidth, squareHeight);
     }
 
     this.buildDone = false;
@@ -242,10 +245,10 @@ class CombatUnit extends HumanUnit {
       bonusDamage = 1;
     else if ((this.element == "archer" && enemy.element == "cavalry") || (this.element == "infantry" && enemy.element == "archer") ||
       (this.element == "cavalry" && enemy.element == "infantry"))
-      bonusDamage = 1.25;
+      bonusDamage = 2;
     else if ((this.element == "archer" && enemy.element == "infantry") || (this.element == "infantry" && enemy.element == "cavalry") ||
       (this.element == "cavalry" && enemy.element == "archer"))
-      bonusDamage = 0.75;
+      bonusDamage = 0.5;
     else
       bonusDamage = 1;
 
@@ -257,10 +260,10 @@ class CombatUnit extends HumanUnit {
 class Archer extends CombatUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 30, 1, 'bluearcher', player, 2, 10, "archer", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, 2, 'bluearcher', player, 2, 20, "archer", unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 30, 1, 'redarcher', player, 2, 10, "archer", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, 2, 'redarcher', player, 2, 20, "archer", unitNumber, squareWidth, squareHeight);
     }
   }
 }
@@ -269,10 +272,10 @@ class Archer extends CombatUnit {
 class Infantry extends CombatUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 50, 1, 'blueknight', player, 1, 10, "infantry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 50, 2, 'blueknight', player, 1, 20, "infantry", unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 50, 1, 'redknight', player, 1, 10, "infantry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 50, 2, 'redknight', player, 1, 20, "infantry", unitNumber, squareWidth, squareHeight);
     }
   }
 }
@@ -280,10 +283,10 @@ class Infantry extends CombatUnit {
 class Cavalry extends CombatUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 40, 2, 'bluerider', player, 1, 10, "cavalry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 40, 4, 'bluerider', player, 1, 20, "cavalry", unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 40, 2, 'redrider', player, 1, 10, "cavalry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 40, 4, 'redrider', player, 1, 20, "cavalry", unitNumber, squareWidth, squareHeight);
     }
   }
 }

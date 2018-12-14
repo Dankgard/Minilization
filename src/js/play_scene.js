@@ -78,6 +78,9 @@ var PlayScene = {
     this.players[1].addUnit(this.game, "cavalry", 23, 18, this.gameMap, true);
     this.players[1].addUnit(this.game, "worker", 24, 18, this.gameMap, true);
 
+    this.music = this.game.add.audio('gametheme');
+    this.music.play();
+    this.music.loop = true;
   },
 
 
