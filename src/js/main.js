@@ -20,9 +20,29 @@ var PreloaderScene = {
     this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
     this.loadingBar.anchor.setTo(0, 0.5);
     this.load.setPreloadSprite(this.loadingBar);
-
-    // TODO: load here the assets for the game
+    
     this.game.load.image('logo', 'images/phaser.png');       
+   
+
+    this.game.load.image('background', 'images/Menu/fondo.png');
+    this.game.load.image('tutorial', 'images/Menu/comojugar.png');
+    this.game.load.image('playbutton', 'images/Menu/Play.png');
+    this.game.load.image('rulesbutton', 'images/Menu/Rules.png');
+    this.game.load.image('returnbutton', 'images/Menu/atras.png');
+
+    //Audios
+    this.game.load.audio('gametheme','sounds/gametheme.mp3');
+
+    //var casillas
+  },
+
+  create: function () {
+    this.game.state.start('MainMenu');
+  }
+};
+
+var MenuScene={
+  preload:function() {
     this.game.load.image('tileset','images/Mapa.png');
     
 
@@ -50,18 +70,32 @@ var PreloaderScene = {
     this.game.load.image('unitselection', 'images/Usar/unitselection.png');
     this.game.load.image('enemymarker', 'images/Usar/enemymarker.png');
     this.game.load.image('allymarker', 'images/Usar/allymarker.png');
-
-
-    //Audios
-    this.game.load.audio('gametheme','sounds/gametheme.mp3');
-
-    //var casillas
   },
-
-  create: function () {
+  create:function(){
+    //var tileset = this.game.add.sprite(50, 0, 'tileset');
+    var back=this.game.add.sprite(0,0,'background');
+    var Playbutton = this.game.add.button(500,100,'playbutton',this.Playstart,this,2,1,0);
+    
+    var Rulesbutton = this.game.add.button(500,300,'rulesbutton',this.Rulestar,this,2,1,0);    
+  },
+  Playstart:function(){
     this.game.state.start('play');
-  }
+  },
+  Rulestar:function(){
+    this.game.state.start('Rules');
+  }  
 };
+
+var RulesScene ={
+  create:function(){
+    var tut = this.game.add.sprite(0,0,'tutorial');    
+    var backbotton=this.game.add.button(50,500,'returnbutton',this.atras,this,2,1,0);
+    backbotton.scale.setTo(0.20,0.20);
+  },
+  atras:function(){
+    this.game.state.start('MainMenu');
+  }
+}
 
 
 window.onload = function () {
@@ -69,6 +103,8 @@ window.onload = function () {
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
+  game.state.add('MainMenu', MenuScene);
+  game.state.add('Rules', RulesScene);
   game.state.add('play', PlayScene);  
 
   game.state.start('boot');  
