@@ -43,8 +43,15 @@ class Cursor extends Phaser.Sprite {
 
     this.selectedUnit = 'null';
     this.unitSelection = this.game.add.sprite(50, 0, 'unitselection');
-    this.unitSelection.scale.setTo(2,2);
+    this.unitSelection.scale.setTo(2, 2);
     this.unitSelection.visible = false;
+    this.enemyMarker = this.game.add.sprite(50, 0, 'enemymarker');
+    this.enemyMarker.scale.setTo(2, 2);
+    this.enemyMarker.visible = false;
+    this.allyMarker = this.game.add.sprite(50, 0, 'allymarker');
+    this.allyMarker.scale.setTo(2, 2);
+    this.allyMarker.visible = false;
+
     this.player1Town = player1Town;
     this.player2Town = player2Town;
 
@@ -110,6 +117,8 @@ class Cursor extends Phaser.Sprite {
     delete this.selectedUnit;
     this.selectedUnit = 'null';
     this.unitSelection.visible = false;
+    this.enemyMarker.visible = false;
+    this.allyMarker.visible = false;
     console.log("unit deselected");
   }
 
@@ -117,10 +126,31 @@ class Cursor extends Phaser.Sprite {
     this.skipTurn = true;
   }
 
+  updateMarker() {
+    this.enemyMarker.visible = false;
+    this.allyMarker.visible = false;
+    if (this.selectedUnit != 'null') {
+      if (this.gameMap.squares[this.posY][this.posX] == undefined)
+        this.gameMap.createEmptySquare(this.posX, this.posY);
+      var hoveringSquare = this.gameMap.squares[this.posY][this.posX];
+      var marker;
+      if (hoveringSquare.unit == 'null' && hoveringSquare.building == 'null' && this.selectedUnit.canMove(this.posX, this.posY))
+        marker = this.allyMarker;
+      else if (this.selectedUnit.isCombatUnit() && this.selectedUnit.canAttack(this.posX, this.posY) && hoveringSquare.unit.player != this.selectedUnit.player)
+        marker = this.enemyMarker;
+      if (marker != undefined) {
+        marker.visible = true;
+        marker.position.x = hoveringSquare.posX * this.gameMap.squareWidth + 50;
+        marker.position.y = hoveringSquare.posY * this.gameMap.squareHeight;
+      }
+    }
+  }
+
   moveLeft() {
     if (this.posX > 0) {
       this.x -= this.gameMap.squareWidth;
       this.posX--;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -129,6 +159,7 @@ class Cursor extends Phaser.Sprite {
     if (this.posX < this.gameMap.width - 1) {
       this.x += this.gameMap.squareWidth;
       this.posX++;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -137,6 +168,7 @@ class Cursor extends Phaser.Sprite {
     if (this.posY > 0) {
       this.y -= this.gameMap.squareHeight;
       this.posY--;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -145,6 +177,7 @@ class Cursor extends Phaser.Sprite {
     if (this.posY < this.gameMap.height - 1) {
       this.y += this.gameMap.squareHeight;
       this.posY++;
+      this.updateMarker();
       this.game.world.bringToTop(this);
     }
   }
@@ -229,23 +262,23 @@ class Cursor extends Phaser.Sprite {
 
   buildWall() {
     if (this.selectedUnit.isWorker()) {
-        this.selectedUnit.build("wall", this.players, this.gameMap);
-        if (this.wallText.visible == true)
-          this.workerUnitsVisible(false);
-        delete this.selectedUnit;
-        this.selectedUnit = 'null';
-        this.unitSelection.visible = false;
+      this.selectedUnit.build("wall", this.players, this.gameMap);
+      if (this.wallText.visible == true)
+        this.workerUnitsVisible(false);
+      delete this.selectedUnit;
+      this.selectedUnit = 'null';
+      this.unitSelection.visible = false;
     }
   }
 
   buildTower() {
     if (this.selectedUnit.isWorker()) {
-        this.selectedUnit.build("watchtower", this.players, this.gameMap);
-        if (this.wallText.visible == true)
-          this.workerUnitsVisible(false);
-        delete this.selectedUnit;
-        this.selectedUnit = 'null';
-        this.unitSelection.visible = false;
+      this.selectedUnit.build("watchtower", this.players, this.gameMap);
+      if (this.wallText.visible == true)
+        this.workerUnitsVisible(false);
+      delete this.selectedUnit;
+      this.selectedUnit = 'null';
+      this.unitSelection.visible = false;
     }
   }
 
@@ -513,6 +546,9 @@ class Unit extends Phaser.Sprite {
 
   destroyUnit() {
     this.destroy();
+
+    if(this instanceof Town)
+      console.log(this.player + " losses");
   }
 
   isMovable() {
@@ -685,10 +721,10 @@ class HumanUnit extends Unit {
 class Worker extends HumanUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 20, 1, 'bluevillager', player, unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 20, 2, 'bluevillager', player, unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 20, 1, 'redvillager', player, unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 20, 2, 'redvillager', player, unitNumber, squareWidth, squareHeight);
     }
 
     this.buildDone = false;
@@ -726,10 +762,10 @@ class CombatUnit extends HumanUnit {
       bonusDamage = 1;
     else if ((this.element == "archer" && enemy.element == "cavalry") || (this.element == "infantry" && enemy.element == "archer") ||
       (this.element == "cavalry" && enemy.element == "infantry"))
-      bonusDamage = 1.25;
+      bonusDamage = 2;
     else if ((this.element == "archer" && enemy.element == "infantry") || (this.element == "infantry" && enemy.element == "cavalry") ||
       (this.element == "cavalry" && enemy.element == "archer"))
-      bonusDamage = 0.75;
+      bonusDamage = 0.5;
     else
       bonusDamage = 1;
 
@@ -741,10 +777,10 @@ class CombatUnit extends HumanUnit {
 class Archer extends CombatUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 30, 1, 'bluearcher', player, 2, 10, "archer", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, 2, 'bluearcher', player, 2, 20, "archer", unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 30, 1, 'redarcher', player, 2, 10, "archer", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, 2, 'redarcher', player, 2, 20, "archer", unitNumber, squareWidth, squareHeight);
     }
   }
 }
@@ -753,10 +789,10 @@ class Archer extends CombatUnit {
 class Infantry extends CombatUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 50, 1, 'blueknight', player, 1, 10, "infantry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 50, 2, 'blueknight', player, 1, 20, "infantry", unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 50, 1, 'redknight', player, 1, 10, "infantry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 50, 2, 'redknight', player, 1, 20, "infantry", unitNumber, squareWidth, squareHeight);
     }
   }
 }
@@ -764,10 +800,10 @@ class Infantry extends CombatUnit {
 class Cavalry extends CombatUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 40, 2, 'bluerider', player, 1, 10, "cavalry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 40, 4, 'bluerider', player, 1, 20, "cavalry", unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 40, 2, 'redrider', player, 1, 10, "cavalry", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 40, 4, 'redrider', player, 1, 20, "cavalry", unitNumber, squareWidth, squareHeight);
     }
   }
 }
@@ -798,9 +834,29 @@ var PreloaderScene = {
     this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
     this.loadingBar.anchor.setTo(0, 0.5);
     this.load.setPreloadSprite(this.loadingBar);
-
-    // TODO: load here the assets for the game
+    
     this.game.load.image('logo', 'images/phaser.png');       
+   
+
+    this.game.load.image('background', 'images/Menu/fondo.png');
+    this.game.load.image('tutorial', 'images/Menu/comojugar.png');
+    this.game.load.image('playbutton', 'images/Menu/Play.png');
+    this.game.load.image('rulesbutton', 'images/Menu/Rules.png');
+    this.game.load.image('returnbutton', 'images/Menu/atras.png');
+
+    //Audios
+    this.game.load.audio('gametheme','sounds/gametheme.mp3');
+
+    //var casillas
+  },
+
+  create: function () {
+    this.game.state.start('MainMenu');
+  }
+};
+
+var MenuScene={
+  preload:function() {
     this.game.load.image('tileset','images/Mapa.png');
     
 
@@ -826,17 +882,34 @@ var PreloaderScene = {
     this.game.load.image('bluerider', 'images/Usar/bluerider.png');
     this.game.load.image('redrider', 'images/Usar/redrider.png');
     this.game.load.image('unitselection', 'images/Usar/unitselection.png');
-
-    //Audios
-    this.game.load.audio('fondo','audio/Theme.mp3');
-
-    var casillas
+    this.game.load.image('enemymarker', 'images/Usar/enemymarker.png');
+    this.game.load.image('allymarker', 'images/Usar/allymarker.png');
   },
-
-  create: function () {
+  create:function(){
+    //var tileset = this.game.add.sprite(50, 0, 'tileset');
+    var back=this.game.add.sprite(0,0,'background');
+    var Playbutton = this.game.add.button(500,100,'playbutton',this.Playstart,this,2,1,0);
+    
+    var Rulesbutton = this.game.add.button(500,300,'rulesbutton',this.Rulestar,this,2,1,0);    
+  },
+  Playstart:function(){
     this.game.state.start('play');
-  }
+  },
+  Rulestar:function(){
+    this.game.state.start('Rules');
+  }  
 };
+
+var RulesScene ={
+  create:function(){
+    var tut = this.game.add.sprite(0,0,'tutorial');    
+    var backbotton=this.game.add.button(50,500,'returnbutton',this.atras,this,2,1,0);
+    backbotton.scale.setTo(0.20,0.20);
+  },
+  atras:function(){
+    this.game.state.start('MainMenu');
+  }
+}
 
 
 window.onload = function () {
@@ -844,6 +917,8 @@ window.onload = function () {
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
+  game.state.add('MainMenu', MenuScene);
+  game.state.add('Rules', RulesScene);
   game.state.add('play', PlayScene);  
 
   game.state.start('boot');  
@@ -935,6 +1010,9 @@ var PlayScene = {
     this.players[1].addUnit(this.game, "cavalry", 23, 18, this.gameMap, true);
     this.players[1].addUnit(this.game, "worker", 24, 18, this.gameMap, true);
 
+    this.music = this.game.add.audio('gametheme');
+    this.music.play();
+    this.music.loop = true;
   },
 
 
