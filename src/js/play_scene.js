@@ -31,12 +31,20 @@ var PlayScene = {
 
     this.blueStyle = { font: "32px Arial", fill: "#3366ff" };
     this.blueStyle2 = { font: "8px Arial", fill: "#3366ff" };
-    this.blueGold = this.game.add.text(15, 25, this.players[0].money, this.blueStyle);
+    this.blueGold = this.game.add.text(10, 25, this.players[0].money, this.blueStyle);
     this.blueGoldText = this.game.add.text(13, 15, "GOLD", this.blueStyle2);
+    this.blueCoin = this.game.add.sprite(25, 30, 'bluecoin');
+    this.blueCoin.scale.setTo(0.75,0.75);
+    this.blueCoin.animations.add('bluespin',[0,1,2,3,4,5,6,7,8], 7, true);
+    this.blueCoin.animations.play('bluespin');
     this.redStyle = { font: "32px Arial", fill: "#ff0000" };
     this.redStyle2 = { font: "8px Arial", fill: "#ff0000" };
-    this.redGold = this.game.add.text(900 - 35, 25, this.players[1].money, this.redStyle);
+    this.redGold = this.game.add.text(900 - 40, 25, this.players[1].money, this.redStyle);
     this.redGoldText = this.game.add.text(900 - 37, 15, "GOLD", this.redStyle2);
+    this.redCoin = this.game.add.sprite(900 - 25, 30, 'redcoin');
+    this.redCoin.scale.setTo(0.75,0.75);
+    this.redCoin.animations.add('redspin',[0,1,2,3,4,5,6,7,8], 7, true);
+    this.redCoin.animations.play('redspin');
     this.yellowStyle = { font: "8px Arial", fill: "#ffff00" };
     this.playing = this.game.add.text(10, 580, "PLAYING", this.yellowStyle);
 
@@ -79,8 +87,8 @@ var PlayScene = {
     this.players[1].addUnit(this.game, "worker", 24, 18, this.gameMap, true);
 
     this.music = this.game.add.audio('gametheme');
-    this.music.play();
     this.music.loop = true;
+    this.music.play();
   },
 
 

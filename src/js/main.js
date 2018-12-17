@@ -70,6 +70,8 @@ var MenuScene={
     this.game.load.image('unitselection', 'images/Usar/unitselection.png');
     this.game.load.image('enemymarker', 'images/Usar/enemymarker.png');
     this.game.load.image('allymarker', 'images/Usar/allymarker.png');
+    this.game.load.spritesheet('bluecoin', 'images/Usar/bluecoin.png', 32, 32, 8);
+    this.game.load.spritesheet('redcoin', 'images/Usar/redcoin.png', 32, 32, 8);
   },
   create:function(){
     //var tileset = this.game.add.sprite(50, 0, 'tileset');
