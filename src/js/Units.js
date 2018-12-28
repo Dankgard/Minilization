@@ -1,4 +1,5 @@
 'use strict';
+var PlayScene = require('./main.js');
 
 class Unit extends Phaser.Sprite {
   constructor(game, x, y, hp, player, sprite, unitNumber, squareWidth, squareHeight) {
@@ -13,7 +14,7 @@ class Unit extends Phaser.Sprite {
 
     var style = { font: "8px Arial", fill: "#ffffff" };
     this.healthHud = this.game.add.text(0, -5, this.hp, style);
-    this.addChild(this.healthHud);
+    this.addChild(this.healthHud);    
   }
 
   takeDamage(damage) {
@@ -31,7 +32,14 @@ class Unit extends Phaser.Sprite {
     this.destroy();
 
     if(this instanceof Town)
-      console.log(this.player + " losses");
+      if(this.player==2){       
+        //this.game.state.start('MainMenu'); 
+        console.log("Ha ganado Humanes");
+      }
+      else {  
+        //this.game.state.start('MainMenu');       
+        console.log("Ha ganado Algete");
+      }
   }
 
   isMovable() {
@@ -66,10 +74,10 @@ class Unit extends Phaser.Sprite {
 class Town extends Unit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 1000, player, 'bluetown', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 10, player, 'bluetown', unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 1000, player, 'redtown', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 10, player, 'redtown', unitNumber, squareWidth, squareHeight);
     }
 
     this.buildDone = false;
