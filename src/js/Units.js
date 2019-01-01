@@ -32,14 +32,16 @@ class Unit extends Phaser.Sprite {
     this.destroy();
 
     if(this instanceof Town)
+    {
       if(this.player==2){       
-        //this.game.state.start('MainMenu'); 
+        this.game.state.start('MainMenu'); 
         console.log("Ha ganado Humanes");
       }
       else {  
-        //this.game.state.start('MainMenu');       
+        this.game.state.start('MainMenu');       
         console.log("Ha ganado Algete");
       }
+    }
   }
 
   isMovable() {

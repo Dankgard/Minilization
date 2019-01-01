@@ -4,7 +4,6 @@ var map = require('./Map.js');
 var player = require('./Player.js');
 var square = require('./Square.js');
 var units = require('./Units.js');
-var 
 
 var PlayScene = {
   create: function () {
