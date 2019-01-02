@@ -30,11 +30,20 @@ var PreloaderScene = {
     this.game.load.image('rulesbutton', 'images/Menu/Rules.png');
     this.game.load.image('returnbutton', 'images/Menu/atras.png');
 
-    //Audios
+    // Music
     this.game.load.audio('gametheme','sounds/gametheme.mp3');
     this.game.load.audio('menutheme','sounds/menutheme.mp3');
     this.game.load.audio('humanes','sounds/humanes.ogg');
     this.game.load.audio('algete','sounds/algete.ogg');
+
+    // Sounds
+    this.game.load.audio('attack','sounds/swing.wav');
+    this.game.load.audio('move','sounds/cloth-heavy.wav');
+    this.game.load.audio('skipturn','sounds/coin3.wav');
+    this.game.load.audio('build','sounds/metal-small2.wav');
+    this.game.load.audio('select','sounds/interface1.wav'); 
+    this.game.load.audio('cancel','sounds/interface6.wav'); 
+    this.game.load.audio('error','sounds/interface2.wav');
 
 
     //var casillas

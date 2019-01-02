@@ -74,6 +74,13 @@ class Cursor extends Phaser.Sprite {
     this.wallKey = this.game.add.text(900 - 30, 370, "6", this.keyStyle);
     this.towerKey.visible = false;
     this.wallKey.visible = false;
+
+    this.attackSound = this.game.add.audio('attack');
+    this.moveSound = this.game.add.audio('move');
+    this.buildSound = this.game.add.audio('build');
+    this.selectSound = this.game.add.audio('select');
+    this.cancelSound = this.game.add.audio('cancel');
+    this.errorSound = this.game.add.audio('error');
   }
 
   workerUnitsVisible(visible) {
@@ -119,6 +126,7 @@ class Cursor extends Phaser.Sprite {
     this.enemyMarker.visible = false;
     this.allyMarker.visible = false;
     console.log("unit deselected");
+    this.cancelSound.play();
   }
 
   turnSkip() {
@@ -152,6 +160,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else
+      this.errorSound.play();
   }
 
   moveRight() {
@@ -161,6 +171,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else
+      this.errorSound.play();
   }
 
   moveUp() {
@@ -170,6 +182,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else
+      this.errorSound.play();
   }
 
   moveDown() {
@@ -179,6 +193,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else 
+      this.errorSound.play();
   }
 
   actionKey() {
@@ -198,6 +214,7 @@ class Cursor extends Phaser.Sprite {
       this.unitSelection.position.x = this.posX * this.gameMap.squareWidth + 50;
       this.unitSelection.position.y = this.posY * this.gameMap.squareHeight;
       console.log(this.selectedUnit.element);
+      this.selectSound.play();
       if (this.selectedUnit.isWorker())
         this.workerUnitsVisible(true);
     }
@@ -214,9 +231,11 @@ class Cursor extends Phaser.Sprite {
           this.gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
           this.game.world.bringToTop(this.selectedUnit);
           this.game.world.bringToTop(this);
+          this.moveSound.play();
         }
         else {
           console.log("cannot move " + this.selectedUnit.element);
+          this.errorSound.play();
         }
       }
       // saltar movimiento de la unidad
@@ -244,12 +263,15 @@ class Cursor extends Phaser.Sprite {
         if (this.selectedUnit.canAttack(enemyX, enemyY) && this.selectedUnit.attackDone == false) {
           this.selectedUnit.attackDone = true;
           var destroyed = this.selectedUnit.attack(hovering);
+          this.attackSound.play();
           console.log("attacking enemy");
           if (destroyed) {
             this.gameMap.emptySquareFromUnit(enemyX, enemyY);
             this.players[enemyTeam - 1].destroyUnit(enemyNumber);
           }
         }
+        else
+          this.errorSound.play();
       }
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
@@ -264,6 +286,7 @@ class Cursor extends Phaser.Sprite {
       this.selectedUnit.build("wall", this.players, this.gameMap);
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
+      this.buildSound.play();
       delete this.selectedUnit;
       this.selectedUnit = 'null';
       this.unitSelection.visible = false;
@@ -275,6 +298,7 @@ class Cursor extends Phaser.Sprite {
       this.selectedUnit.build("watchtower", this.players, this.gameMap);
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
+      this.buildSound.play();
       delete this.selectedUnit;
       this.selectedUnit = 'null';
       this.unitSelection.visible = false;
@@ -286,6 +310,7 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("infantry", this.players, this.gameMap);
     else
       this.player2Town.createUnit("infantry", this.players, this.gameMap);
+    this.buildSound.play();
   }
 
   buildCavalry() {
@@ -293,6 +318,7 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("cavalry", this.players, this.gameMap);
     else
       this.player2Town.createUnit("cavalry", this.players, this.gameMap);
+    this.buildSound.play();
   }
 
   buildArcher() {
@@ -300,6 +326,7 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("archer", this.players, this.gameMap);
     else
       this.player2Town.createUnit("archer", this.players, this.gameMap);
+    this.buildSound.play();
   }
 
   buildWorker() {
@@ -307,6 +334,7 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("worker", this.players, this.gameMap);
     else
       this.player2Town.createUnit("worker", this.players, this.gameMap);
+    this.buildSound.play();
   }
 }
 

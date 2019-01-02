@@ -91,6 +91,8 @@ var PlayScene = {
     this.gamemusic = this.game.add.audio('gametheme');
     this.gamemusic.loop = true;
     this.gamemusic.play();
+
+    this.skipturnSound = this.game.add.audio('skipturn');
   },
 
 
@@ -128,6 +130,7 @@ var PlayScene = {
     }
 
     this.skipTurn = false;
+    this.skipturnSound.play();
 
     console.log("turn skip. playing " + this.playingPlayer);
   },  
