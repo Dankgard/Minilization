@@ -32,6 +32,10 @@ var PreloaderScene = {
 
     //Audios
     this.game.load.audio('gametheme','sounds/gametheme.mp3');
+    this.game.load.audio('menutheme','sounds/menutheme.mp3');
+    this.game.load.audio('humanes','sounds/humanes.ogg');
+    this.game.load.audio('algete','sounds/algete.ogg');
+
 
     //var casillas
   },
@@ -75,6 +79,13 @@ var MenuScene={
   },
   create:function(){
     //var tileset = this.game.add.sprite(50, 0, 'tileset');
+
+    this.game.sound.stopAll();
+
+    this.menumusic = this.game.add.audio('menutheme');
+    this.menumusic.loop = true;
+    this.menumusic.play();
+
     var back=this.game.add.sprite(0,0,'background');
     var Playbutton = this.game.add.button(500,100,'playbutton',this.Playstart,this,2,1,0);
     
@@ -97,6 +108,45 @@ var RulesScene ={
   atras:function(){
     this.game.state.start('MainMenu');
   }
+};
+
+var HumanesVictory = {
+    create:function(){
+
+      this.game.sound.stopAll();
+
+      this.humanesmusic = this.game.add.audio('humanes');
+      this.humanesmusic.play();
+
+      var style = { font: "30px Arial", fill: "#ffffff" };
+      this.victorytext = this.game.add.text(350, 200, "HUMANES WINS", style);
+      this.backtext = this.game.add.text(350,400, "BACK TO MENU", style);
+      this.backtext.inputEnabled = true;
+      this.backtext.events.onInputDown.add(this.backToMenu, this);
+    },
+    backToMenu:function(){
+      this.game.state.start('MainMenu');
+    }
+};
+
+var AlgeteVictory = {
+  create:function(){
+
+    this.game.sound.stopAll();
+
+    this.algetemusic = this.game.add.audio('algete');
+    this.algetemusic.play();
+
+    var style = { font: "30px Arial", fill: "#ffffff" };
+    this.victorytext = this.game.add.text(350, 200, "ALGETE WINS", style);
+    this.backtext = this.game.add.text(350,400, "BACK TO MENU", style);
+    this.backtext.inputEnabled = true;
+    this.backtext.events.onInputDown.add(this.backToMenu, this);
+
+  },
+  backToMenu:function(){
+    this.game.state.start('MainMenu');
+  }
 }
 
 window.onload = function () {
@@ -106,7 +156,9 @@ window.onload = function () {
   game.state.add('preloader', PreloaderScene);
   game.state.add('MainMenu', MenuScene);
   game.state.add('Rules', RulesScene);
-  game.state.add('play', PlayScene);  
+  game.state.add('play', PlayScene);
+  game.state.add('humanes', HumanesVictory);
+  game.state.add('algete', AlgeteVictory);
 
   game.state.start('boot');  
 };

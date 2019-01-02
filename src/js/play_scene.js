@@ -7,6 +7,8 @@ var units = require('./Units.js');
 
 var PlayScene = {
   create: function () {
+    this.game.sound.stopAll();
+
     this.turn = 1;
     this.playingPlayer = 1; // jugador que juega en cada momento
     this.playerNumber = 2;
@@ -86,9 +88,9 @@ var PlayScene = {
     this.players[1].addUnit(this.game, "cavalry", 23, 18, this.gameMap, true);
     this.players[1].addUnit(this.game, "worker", 24, 18, this.gameMap, true);
 
-    this.music = this.game.add.audio('gametheme');
-    this.music.loop = true;
-    this.music.play();
+    this.gamemusic = this.game.add.audio('gametheme');
+    this.gamemusic.loop = true;
+    this.gamemusic.play();
   },
 
 
