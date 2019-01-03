@@ -50,6 +50,11 @@ var PreloaderScene = {
   },
 
   create: function () {
+
+    this.menumusic = this.game.add.audio('menutheme');
+    this.menumusic.loop = true;
+    this.menumusic.play();
+
     this.game.state.start('MainMenu');
   }
 };
@@ -88,12 +93,6 @@ var MenuScene={
   },
   create:function(){
     //var tileset = this.game.add.sprite(50, 0, 'tileset');
-
-    this.game.sound.stopAll();
-
-    this.menumusic = this.game.add.audio('menutheme');
-    this.menumusic.loop = true;
-    this.menumusic.play();
 
     var back=this.game.add.sprite(0,0,'background');
     var Playbutton = this.game.add.button(500,100,'playbutton',this.Playstart,this,2,1,0);

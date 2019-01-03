@@ -3,57 +3,97 @@
 var units = require('./Units.js');
 
 class Player {
-  constructor(number, money) {
+  constructor(game, number, money) {
     this.number = number;
     this.money = money;
     this.numberOfUnits = 0;
     this.units = [];
+
+    this.buildSound = game.add.audio('build');
+    this.errorSound = game.add.audio('error');
   }
 
   addUnit(game, type, x, y, gameMap, free) {
+    var unitBuilt = false;
     var unit;
     var cost;
+    var unitThere = false;
+    var buildingThere = false;
+    
+    if (gameMap.squares[y][x] == undefined)
+        gameMap.createEmptySquare(x, y);
+    if (gameMap.squares[y][x].unit != 'null')
+      unitThere = true;
+    if (gameMap.squares[y][x].building != 'null')
+      buildingThere = true;
+
     switch (type) {
       case "town":
-        unit = new units.Town(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 100;
+        if (!buildingThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Town(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "wall":
-        unit = new units.Wall(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 40;
+        cost = 15;
+        if (!buildingThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Wall(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "watchtower":
-        unit = new units.Watchtower(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 40;
+        cost = 20;
+        if (!buildingThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Watchtower(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "worker":
-        unit = new units.Worker(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 50;
+        cost = 7;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Worker(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "infantry":
-        unit = new units.Infantry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 30;
+        cost = 5;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Infantry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "cavalry":
-        unit = new units.Cavalry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 30;
+        cost = 5;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Cavalry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "archer":
-        unit = new units.Archer(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 30;
+        cost = 5;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Archer(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
     }
-    if (!free && this.money >= cost)
-      this.money -= cost;
-    this.numberOfUnits++;
-    this.units.push(unit);
 
-    if (gameMap.squares[y][x] == undefined)
-      gameMap.createEmptySquare(x, y);
-    if (unit.isMovable())
-      gameMap.squares[y][x].unit = unit;
+    if (unitBuilt) {
+      if (!free && this.money >= cost)
+        this.money -= cost;
+      this.numberOfUnits++;
+      this.units.push(unit);
+
+      if (unit.isMovable())
+        gameMap.squares[y][x].unit = unit;
+      else
+        gameMap.squares[y][x].building = unit;
+      this.buildSound.play();
+    }
     else
-      gameMap.squares[y][x].building = unit;
+      this.errorSound.play();
+
   }
 
   destroyUnit(unitNumber) {

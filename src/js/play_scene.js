@@ -20,7 +20,7 @@ var PlayScene = {
     this.squareHeight = 600 / (this.mapHeight);
 
     for (var i = 0; i < this.playerNumber; i++) {
-      this.players[i] = new player(i + 1, 0);
+      this.players[i] = new player(this.game, i + 1, 0);
     }
 
     this.gameMap;
@@ -31,62 +31,12 @@ var PlayScene = {
 
     this.skipTurn = false;
 
-    this.blueStyle = { font: "32px Arial", fill: "#3366ff" };
-    this.blueStyle2 = { font: "8px Arial", fill: "#3366ff" };
-    this.blueGold = this.game.add.text(10, 25, this.players[0].money, this.blueStyle);
-    this.blueGoldText = this.game.add.text(13, 15, "GOLD", this.blueStyle2);
-    this.blueCoin = this.game.add.sprite(25, 30, 'bluecoin');
-    this.blueCoin.scale.setTo(0.75,0.75);
-    this.blueCoin.animations.add('bluespin',[0,1,2,3,4,5,6,7,8], 7, true);
-    this.blueCoin.animations.play('bluespin');
-    this.redStyle = { font: "32px Arial", fill: "#ff0000" };
-    this.redStyle2 = { font: "8px Arial", fill: "#ff0000" };
-    this.redGold = this.game.add.text(900 - 40, 25, this.players[1].money, this.redStyle);
-    this.redGoldText = this.game.add.text(900 - 37, 15, "GOLD", this.redStyle2);
-    this.redCoin = this.game.add.sprite(900 - 25, 30, 'redcoin');
-    this.redCoin.scale.setTo(0.75,0.75);
-    this.redCoin.animations.add('redspin',[0,1,2,3,4,5,6,7,8], 7, true);
-    this.redCoin.animations.play('redspin');
-    this.yellowStyle = { font: "8px Arial", fill: "#ffff00" };
-    this.playing = this.game.add.text(10, 580, "PLAYING", this.yellowStyle);
-
+    this.createHUD();
 
     var tileset = this.game.add.sprite(50, 0, 'tileset');
     this.gameMap = new map(this.game, this.mapWidth, this.mapHeight, this.squareWidth, this.squareHeight);
 
-    var y = Math.round(Math.random() * (this.mapHeight - 1));
-    this.players[0].addUnit(this.game, "town", 0, y, this.gameMap, true);
-    var y = Math.round(Math.random() * (this.mapHeight - 1))
-    this.players[1].addUnit(this.game, "town", this.mapWidth - 1, y, this.gameMap, true);
-
-    this.player1Town = this.players[0].units[0];
-    this.player2Town = this.players[1].units[0];
-    this.gameCursor = new cursor(this.game, 10, 10, this.squareWidth, this.squareHeight, this.gameMap, this.players, this.playingPlayer, this.player1Town, this.player2Town);
-
-    this.players[0].addUnit(this.game, "infantry", 0, 1, this.gameMap, true);
-    this.players[0].addUnit(this.game, "archer", 0, 2, this.gameMap, true);
-    this.players[0].addUnit(this.game, "cavalry", 0, 3, this.gameMap, true);
-    this.players[0].addUnit(this.game, "infantry", 0, 4, this.gameMap, true);
-    this.players[0].addUnit(this.game, "archer", 0, 5, this.gameMap, true);
-    this.players[0].addUnit(this.game, "cavalry", 0, 6, this.gameMap, true);
-    this.players[0].addUnit(this.game, "infantry", 0, 7, this.gameMap, true);
-    this.players[0].addUnit(this.game, "archer", 0, 8, this.gameMap, true);
-    this.players[0].addUnit(this.game, "cavalry", 10, 9, this.gameMap, true);
-    this.players[0].addUnit(this.game, "worker", 0, 10, this.gameMap, true);
-    this.players[0].addUnit(this.game, "watchtower", 2, 9, this.gameMap, true)
-
-
-    this.players[1].addUnit(this.game, "infantry", 13, 9, this.gameMap, true);
-    this.players[1].addUnit(this.game, "archer", 24, 10, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 24, 11, this.gameMap, true);
-    this.players[1].addUnit(this.game, "infantry", 24, 12, this.gameMap, true);
-    this.players[1].addUnit(this.game, "archer", 24, 13, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 24, 14, this.gameMap, true);
-    this.players[1].addUnit(this.game, "infantry", 24, 15, this.gameMap, true);
-    this.players[1].addUnit(this.game, "archer", 24, 16, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 24, 17, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 23, 18, this.gameMap, true);
-    this.players[1].addUnit(this.game, "worker", 24, 18, this.gameMap, true);
+    this.createArmies();
 
     this.gamemusic = this.game.add.audio('gametheme');
     this.gamemusic.loop = true;
@@ -105,6 +55,46 @@ var PlayScene = {
         this.skipTurne();
       this.call = 0;
     }
+  },
+
+  createHUD: function() {
+    this.blueStyle = { font: "32px Arial", fill: "#3366ff" };
+    this.blueStyle2 = { font: "8px Arial", fill: "#3366ff" };
+    this.blueGold = this.game.add.text(10, 25, this.players[0].money, this.blueStyle);
+    this.blueGoldText = this.game.add.text(13, 15, "GOLD", this.blueStyle2);
+    this.blueCoin = this.game.add.sprite(25, 30, 'bluecoin');
+    this.blueCoin.scale.setTo(0.75,0.75);
+    this.blueCoin.animations.add('bluespin',[0,1,2,3,4,5,6,7,8], 7, true);
+    this.blueCoin.animations.play('bluespin');
+    this.redStyle = { font: "32px Arial", fill: "#ff0000" };
+    this.redStyle2 = { font: "8px Arial", fill: "#ff0000" };
+    this.redGold = this.game.add.text(900 - 40, 25, this.players[1].money, this.redStyle);
+    this.redGoldText = this.game.add.text(900 - 37, 15, "GOLD", this.redStyle2);
+    this.redCoin = this.game.add.sprite(900 - 25, 30, 'redcoin');
+    this.redCoin.scale.setTo(0.75,0.75);
+    this.redCoin.animations.add('redspin',[0,1,2,3,4,5,6,7,8], 7, true);
+    this.redCoin.animations.play('redspin');
+    this.yellowStyle = { font: "8px Arial", fill: "#ffff00" };
+    this.playing = this.game.add.text(10, 580, "PLAYING", this.yellowStyle);
+  },
+
+  createArmies: function() {
+    var y = Math.round(Math.random() * (this.mapHeight - 1));
+    this.players[0].addUnit(this.game, "town", 0, y, this.gameMap, true);
+    var y = Math.round(Math.random() * (this.mapHeight - 1))
+    this.players[1].addUnit(this.game, "town", this.mapWidth - 1, y, this.gameMap, true);
+
+    this.player1Town = this.players[0].units[0];
+    this.player2Town = this.players[1].units[0];
+    this.gameCursor = new cursor(this.game, 10, 10, this.squareWidth, this.squareHeight, this.gameMap, this.players, this.playingPlayer, this.player1Town, this.player2Town);
+
+    var y = Math.round(Math.random() * (this.mapHeight - 1))
+    this.players[0].addUnit(this.game, "worker", 0, y, this.gameMap, true);
+    this.players[0].addUnit(this.game, "infantry", 0, this.mapHeight - y - 1, this.gameMap, true);
+
+    var y = Math.round(Math.random() * (this.mapHeight - 1))
+    this.players[1].addUnit(this.game, "worker", 24, y, this.gameMap, true);
+    this.players[1].addUnit(this.game, "infantry", 24, this.mapHeight - y - 1, this.gameMap, true);
   },
 
   skipTurne: function () {

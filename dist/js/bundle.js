@@ -32,7 +32,7 @@ class Cursor extends Phaser.Sprite {
     this.Key1.onDown.add(this.buildInfantry, this);
     this.Key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
     this.Key2.onDown.add(this.buildCavalry, this);
-    this.Key3 = game.input.keyboard.addKey(Phaser.Keyboard.TREE);
+    this.Key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
     this.Key3.onDown.add(this.buildArcher, this);
     this.Key4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
     this.Key4.onDown.add(this.buildWorker, this);
@@ -75,6 +75,12 @@ class Cursor extends Phaser.Sprite {
     this.wallKey = this.game.add.text(900 - 30, 370, "6", this.keyStyle);
     this.towerKey.visible = false;
     this.wallKey.visible = false;
+
+    this.attackSound = this.game.add.audio('attack');
+    this.moveSound = this.game.add.audio('move');
+    this.selectSound = this.game.add.audio('select');
+    this.cancelSound = this.game.add.audio('cancel');
+    this.errorSound = this.game.add.audio('error');
   }
 
   workerUnitsVisible(visible) {
@@ -120,6 +126,7 @@ class Cursor extends Phaser.Sprite {
     this.enemyMarker.visible = false;
     this.allyMarker.visible = false;
     console.log("unit deselected");
+    this.cancelSound.play();
   }
 
   turnSkip() {
@@ -153,6 +160,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else
+      this.errorSound.play();
   }
 
   moveRight() {
@@ -162,6 +171,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else
+      this.errorSound.play();
   }
 
   moveUp() {
@@ -171,6 +182,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else
+      this.errorSound.play();
   }
 
   moveDown() {
@@ -180,6 +193,8 @@ class Cursor extends Phaser.Sprite {
       this.updateMarker();
       this.game.world.bringToTop(this);
     }
+    else 
+      this.errorSound.play();
   }
 
   actionKey() {
@@ -199,6 +214,7 @@ class Cursor extends Phaser.Sprite {
       this.unitSelection.position.x = this.posX * this.gameMap.squareWidth + 50;
       this.unitSelection.position.y = this.posY * this.gameMap.squareHeight;
       console.log(this.selectedUnit.element);
+      this.selectSound.play();
       if (this.selectedUnit.isWorker())
         this.workerUnitsVisible(true);
     }
@@ -215,9 +231,11 @@ class Cursor extends Phaser.Sprite {
           this.gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
           this.game.world.bringToTop(this.selectedUnit);
           this.game.world.bringToTop(this);
+          this.moveSound.play();
         }
         else {
           console.log("cannot move " + this.selectedUnit.element);
+          this.errorSound.play();
         }
       }
       // saltar movimiento de la unidad
@@ -245,12 +263,15 @@ class Cursor extends Phaser.Sprite {
         if (this.selectedUnit.canAttack(enemyX, enemyY) && this.selectedUnit.attackDone == false) {
           this.selectedUnit.attackDone = true;
           var destroyed = this.selectedUnit.attack(hovering);
+          this.attackSound.play();
           console.log("attacking enemy");
           if (destroyed) {
             this.gameMap.emptySquareFromUnit(enemyX, enemyY);
             this.players[enemyTeam - 1].destroyUnit(enemyNumber);
           }
         }
+        else
+          this.errorSound.play();
       }
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
@@ -297,6 +318,7 @@ class Cursor extends Phaser.Sprite {
   }
 
   buildArcher() {
+    console.log("building archer");
     if (this.playingPlayer == 1)
       this.player1Town.createUnit("archer", this.players, this.gameMap);
     else
@@ -374,57 +396,97 @@ module.exports = Map;
 var units = require('./Units.js');
 
 class Player {
-  constructor(number, money) {
+  constructor(game, number, money) {
     this.number = number;
     this.money = money;
     this.numberOfUnits = 0;
     this.units = [];
+
+    this.buildSound = game.add.audio('build');
+    this.errorSound = game.add.audio('error');
   }
 
   addUnit(game, type, x, y, gameMap, free) {
+    var unitBuilt = false;
     var unit;
     var cost;
+    var unitThere = false;
+    var buildingThere = false;
+    
+    if (gameMap.squares[y][x] == undefined)
+        gameMap.createEmptySquare(x, y);
+    if (gameMap.squares[y][x].unit != 'null')
+      unitThere = true;
+    if (gameMap.squares[y][x].building != 'null')
+      buildingThere = true;
+
     switch (type) {
       case "town":
-        unit = new units.Town(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
         cost = 100;
+        if (!buildingThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Town(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "wall":
-        unit = new units.Wall(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 40;
+        cost = 15;
+        if (!buildingThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Wall(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "watchtower":
-        unit = new units.Watchtower(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 40;
+        cost = 20;
+        if (!buildingThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Watchtower(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "worker":
-        unit = new units.Worker(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 50;
+        cost = 7;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Worker(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "infantry":
-        unit = new units.Infantry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 30;
+        cost = 5;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Infantry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "cavalry":
-        unit = new units.Cavalry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 30;
+        cost = 5;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Cavalry(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
       case "archer":
-        unit = new units.Archer(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
-        cost = 30;
+        cost = 5;
+        if (!unitThere && (free || (!free && this.money >= cost))) {
+          unit = new units.Archer(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
+          unitBuilt = true;
+        }
         break;
     }
-    if (!free && this.money >= cost)
-      this.money -= cost;
-    this.numberOfUnits++;
-    this.units.push(unit);
 
-    if (gameMap.squares[y][x] == undefined)
-      gameMap.createEmptySquare(x, y);
-    if (unit.isMovable())
-      gameMap.squares[y][x].unit = unit;
+    if (unitBuilt) {
+      if (!free && this.money >= cost)
+        this.money -= cost;
+      this.numberOfUnits++;
+      this.units.push(unit);
+
+      if (unit.isMovable())
+        gameMap.squares[y][x].unit = unit;
+      else
+        gameMap.squares[y][x].building = unit;
+      this.buildSound.play();
+    }
     else
-      gameMap.squares[y][x].building = unit;
+      this.errorSound.play();
+
   }
 
   destroyUnit(unitNumber) {
@@ -516,6 +578,7 @@ module.exports = {
 };
 },{}],5:[function(require,module,exports){
 'use strict';
+var PlayScene = require('./main.js');
 
 class Unit extends Phaser.Sprite {
   constructor(game, x, y, hp, player, sprite, unitNumber, squareWidth, squareHeight) {
@@ -530,25 +593,34 @@ class Unit extends Phaser.Sprite {
 
     var style = { font: "8px Arial", fill: "#ffffff" };
     this.healthHud = this.game.add.text(0, -5, this.hp, style);
-    this.addChild(this.healthHud);
+    this.addChild(this.healthHud);    
   }
 
   takeDamage(damage) {
     this.hp -= damage;
     this.healthHud.setText(this.hp);
     if (this.hp <= 0) {
-      this.destroyUnit();
+      this.destroyUnit(this.game);
       return true;
     }
     else
       return false;
   }
 
-  destroyUnit() {
+  destroyUnit(game) {
     this.destroy();
 
     if(this instanceof Town)
-      console.log(this.player + " losses");
+    {
+      if(this.player==2){       
+        game.state.start('humanes');
+        console.log("Ha ganado Humanes");
+      }
+      else {  
+        game.state.start('algete');       
+        console.log("Ha ganado Algete");
+      }
+    }
   }
 
   isMovable() {
@@ -583,10 +655,10 @@ class Unit extends Phaser.Sprite {
 class Town extends Unit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 1000, player, 'bluetown', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 10, player, 'bluetown', unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 1000, player, 'redtown', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 10, player, 'redtown', unitNumber, squareWidth, squareHeight);
     }
 
     this.buildDone = false;
@@ -594,7 +666,7 @@ class Town extends Unit {
 
   createUnit(type, players, gameMap) {
     if (this.buildDone == false) {
-      players[this.player - 1].addUnit(this.game, type, this.posX, this.posY, gameMap, true);
+      players[this.player - 1].addUnit(this.game, type, this.posX, this.posY, gameMap, false);
       this.buildDone = true;
     }
   }
@@ -732,7 +804,7 @@ class Worker extends HumanUnit {
 
   build(type, players, gameMap) {
     if (this.buildDone == false) {
-      players[this.player].addUnit(this.game, type, this.posX, this.posY, gameMap, true);
+      players[this.player].addUnit(this.game, type, this.posX, this.posY, gameMap, false);
       this.buildDone = true;
       this.game.world.bringToTop(this);
     }
@@ -811,7 +883,7 @@ class Cavalry extends CombatUnit {
 module.exports = {
   Unit: Unit, Town: Town, Wall: Wall, Watchtower: Watchtower, HumanUnit: HumanUnit, Worker: Worker, CombatUnit: CombatUnit, Archer: Archer, Infantry: Infantry, Cavalry: Cavalry
 };
-},{}],6:[function(require,module,exports){
+},{"./main.js":6}],6:[function(require,module,exports){
 'use strict';
 
 var PlayScene = require('./play_scene.js');
@@ -844,13 +916,31 @@ var PreloaderScene = {
     this.game.load.image('rulesbutton', 'images/Menu/Rules.png');
     this.game.load.image('returnbutton', 'images/Menu/atras.png');
 
-    //Audios
+    // Music
     this.game.load.audio('gametheme','sounds/gametheme.mp3');
+    this.game.load.audio('menutheme','sounds/menutheme.mp3');
+    this.game.load.audio('humanes','sounds/humanes.ogg');
+    this.game.load.audio('algete','sounds/algete.ogg');
+
+    // Sounds
+    this.game.load.audio('attack','sounds/swing.wav');
+    this.game.load.audio('move','sounds/cloth-heavy.wav');
+    this.game.load.audio('skipturn','sounds/coin3.wav');
+    this.game.load.audio('build','sounds/metal-small2.wav');
+    this.game.load.audio('select','sounds/interface1.wav'); 
+    this.game.load.audio('cancel','sounds/interface6.wav'); 
+    this.game.load.audio('error','sounds/interface2.wav');
+
 
     //var casillas
   },
 
   create: function () {
+
+    this.menumusic = this.game.add.audio('menutheme');
+    this.menumusic.loop = true;
+    this.menumusic.play();
+
     this.game.state.start('MainMenu');
   }
 };
@@ -889,6 +979,7 @@ var MenuScene={
   },
   create:function(){
     //var tileset = this.game.add.sprite(50, 0, 'tileset');
+
     var back=this.game.add.sprite(0,0,'background');
     var Playbutton = this.game.add.button(500,100,'playbutton',this.Playstart,this,2,1,0);
     
@@ -911,8 +1002,46 @@ var RulesScene ={
   atras:function(){
     this.game.state.start('MainMenu');
   }
-}
+};
 
+var HumanesVictory = {
+    create:function(){
+
+      this.game.sound.stopAll();
+
+      this.humanesmusic = this.game.add.audio('humanes');
+      this.humanesmusic.play();
+
+      var style = { font: "30px Arial", fill: "#ffffff" };
+      this.victorytext = this.game.add.text(350, 200, "HUMANES WINS", style);
+      this.backtext = this.game.add.text(350,400, "BACK TO MENU", style);
+      this.backtext.inputEnabled = true;
+      this.backtext.events.onInputDown.add(this.backToMenu, this);
+    },
+    backToMenu:function(){
+      this.game.state.start('MainMenu');
+    }
+};
+
+var AlgeteVictory = {
+  create:function(){
+
+    this.game.sound.stopAll();
+
+    this.algetemusic = this.game.add.audio('algete');
+    this.algetemusic.play();
+
+    var style = { font: "30px Arial", fill: "#ffffff" };
+    this.victorytext = this.game.add.text(350, 200, "ALGETE WINS", style);
+    this.backtext = this.game.add.text(350,400, "BACK TO MENU", style);
+    this.backtext.inputEnabled = true;
+    this.backtext.events.onInputDown.add(this.backToMenu, this);
+
+  },
+  backToMenu:function(){
+    this.game.state.start('MainMenu');
+  }
+}
 
 window.onload = function () {
   var game = new Phaser.Game(900, 600, Phaser.AUTO, 'game');
@@ -921,7 +1050,9 @@ window.onload = function () {
   game.state.add('preloader', PreloaderScene);
   game.state.add('MainMenu', MenuScene);
   game.state.add('Rules', RulesScene);
-  game.state.add('play', PlayScene);  
+  game.state.add('play', PlayScene);
+  game.state.add('humanes', HumanesVictory);
+  game.state.add('algete', AlgeteVictory);
 
   game.state.start('boot');  
 };
@@ -941,6 +1072,8 @@ var units = require('./Units.js');
 
 var PlayScene = {
   create: function () {
+    this.game.sound.stopAll();
+
     this.turn = 1;
     this.playingPlayer = 1; // jugador que juega en cada momento
     this.playerNumber = 2;
@@ -952,7 +1085,7 @@ var PlayScene = {
     this.squareHeight = 600 / (this.mapHeight);
 
     for (var i = 0; i < this.playerNumber; i++) {
-      this.players[i] = new player(i + 1, 0);
+      this.players[i] = new player(this.game, i + 1, 0);
     }
 
     this.gameMap;
@@ -963,6 +1096,33 @@ var PlayScene = {
 
     this.skipTurn = false;
 
+    this.createHUD();
+
+    var tileset = this.game.add.sprite(50, 0, 'tileset');
+    this.gameMap = new map(this.game, this.mapWidth, this.mapHeight, this.squareWidth, this.squareHeight);
+
+    this.createArmies();
+
+    this.gamemusic = this.game.add.audio('gametheme');
+    this.gamemusic.loop = true;
+    this.gamemusic.play();
+
+    this.skipturnSound = this.game.add.audio('skipturn');
+  },
+
+
+  update: function () {
+    this.call++;
+    if (this.call >= this.calltime) {
+      this.skipTurn = this.gameCursor.handleEvents();
+
+      if (this.skipTurn)
+        this.skipTurne();
+      this.call = 0;
+    }
+  },
+
+  createHUD: function() {
     this.blueStyle = { font: "32px Arial", fill: "#3366ff" };
     this.blueStyle2 = { font: "8px Arial", fill: "#3366ff" };
     this.blueGold = this.game.add.text(10, 25, this.players[0].money, this.blueStyle);
@@ -981,11 +1141,9 @@ var PlayScene = {
     this.redCoin.animations.play('redspin');
     this.yellowStyle = { font: "8px Arial", fill: "#ffff00" };
     this.playing = this.game.add.text(10, 580, "PLAYING", this.yellowStyle);
+  },
 
-
-    var tileset = this.game.add.sprite(50, 0, 'tileset');
-    this.gameMap = new map(this.game, this.mapWidth, this.mapHeight, this.squareWidth, this.squareHeight);
-
+  createArmies: function() {
     var y = Math.round(Math.random() * (this.mapHeight - 1));
     this.players[0].addUnit(this.game, "town", 0, y, this.gameMap, true);
     var y = Math.round(Math.random() * (this.mapHeight - 1))
@@ -995,46 +1153,13 @@ var PlayScene = {
     this.player2Town = this.players[1].units[0];
     this.gameCursor = new cursor(this.game, 10, 10, this.squareWidth, this.squareHeight, this.gameMap, this.players, this.playingPlayer, this.player1Town, this.player2Town);
 
-    this.players[0].addUnit(this.game, "infantry", 0, 1, this.gameMap, true);
-    this.players[0].addUnit(this.game, "archer", 0, 2, this.gameMap, true);
-    this.players[0].addUnit(this.game, "cavalry", 0, 3, this.gameMap, true);
-    this.players[0].addUnit(this.game, "infantry", 0, 4, this.gameMap, true);
-    this.players[0].addUnit(this.game, "archer", 0, 5, this.gameMap, true);
-    this.players[0].addUnit(this.game, "cavalry", 0, 6, this.gameMap, true);
-    this.players[0].addUnit(this.game, "infantry", 0, 7, this.gameMap, true);
-    this.players[0].addUnit(this.game, "archer", 0, 8, this.gameMap, true);
-    this.players[0].addUnit(this.game, "cavalry", 10, 9, this.gameMap, true);
-    this.players[0].addUnit(this.game, "worker", 0, 10, this.gameMap, true);
-    this.players[0].addUnit(this.game, "watchtower", 2, 9, this.gameMap, true)
+    var y = Math.round(Math.random() * (this.mapHeight - 1))
+    this.players[0].addUnit(this.game, "worker", 0, y, this.gameMap, true);
+    this.players[0].addUnit(this.game, "infantry", 0, this.mapHeight - y - 1, this.gameMap, true);
 
-
-    this.players[1].addUnit(this.game, "infantry", 13, 9, this.gameMap, true);
-    this.players[1].addUnit(this.game, "archer", 24, 10, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 24, 11, this.gameMap, true);
-    this.players[1].addUnit(this.game, "infantry", 24, 12, this.gameMap, true);
-    this.players[1].addUnit(this.game, "archer", 24, 13, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 24, 14, this.gameMap, true);
-    this.players[1].addUnit(this.game, "infantry", 24, 15, this.gameMap, true);
-    this.players[1].addUnit(this.game, "archer", 24, 16, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 24, 17, this.gameMap, true);
-    this.players[1].addUnit(this.game, "cavalry", 23, 18, this.gameMap, true);
-    this.players[1].addUnit(this.game, "worker", 24, 18, this.gameMap, true);
-
-    this.music = this.game.add.audio('gametheme');
-    this.music.loop = true;
-    this.music.play();
-  },
-
-
-  update: function () {
-    this.call++;
-    if (this.call >= this.calltime) {
-      this.skipTurn = this.gameCursor.handleEvents();
-
-      if (this.skipTurn)
-        this.skipTurne();
-      this.call = 0;
-    }
+    var y = Math.round(Math.random() * (this.mapHeight - 1))
+    this.players[1].addUnit(this.game, "worker", 24, y, this.gameMap, true);
+    this.players[1].addUnit(this.game, "infantry", 24, this.mapHeight - y - 1, this.gameMap, true);
   },
 
   skipTurne: function () {
@@ -1060,9 +1185,10 @@ var PlayScene = {
     }
 
     this.skipTurn = false;
+    this.skipturnSound.play();
 
     console.log("turn skip. playing " + this.playingPlayer);
-  }
+  },  
 };
 
 module.exports = PlayScene;

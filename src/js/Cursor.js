@@ -31,7 +31,7 @@ class Cursor extends Phaser.Sprite {
     this.Key1.onDown.add(this.buildInfantry, this);
     this.Key2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
     this.Key2.onDown.add(this.buildCavalry, this);
-    this.Key3 = game.input.keyboard.addKey(Phaser.Keyboard.TREE);
+    this.Key3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
     this.Key3.onDown.add(this.buildArcher, this);
     this.Key4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
     this.Key4.onDown.add(this.buildWorker, this);
@@ -77,7 +77,6 @@ class Cursor extends Phaser.Sprite {
 
     this.attackSound = this.game.add.audio('attack');
     this.moveSound = this.game.add.audio('move');
-    this.buildSound = this.game.add.audio('build');
     this.selectSound = this.game.add.audio('select');
     this.cancelSound = this.game.add.audio('cancel');
     this.errorSound = this.game.add.audio('error');
@@ -286,7 +285,6 @@ class Cursor extends Phaser.Sprite {
       this.selectedUnit.build("wall", this.players, this.gameMap);
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
-      this.buildSound.play();
       delete this.selectedUnit;
       this.selectedUnit = 'null';
       this.unitSelection.visible = false;
@@ -298,7 +296,6 @@ class Cursor extends Phaser.Sprite {
       this.selectedUnit.build("watchtower", this.players, this.gameMap);
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
-      this.buildSound.play();
       delete this.selectedUnit;
       this.selectedUnit = 'null';
       this.unitSelection.visible = false;
@@ -310,7 +307,6 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("infantry", this.players, this.gameMap);
     else
       this.player2Town.createUnit("infantry", this.players, this.gameMap);
-    this.buildSound.play();
   }
 
   buildCavalry() {
@@ -318,15 +314,14 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("cavalry", this.players, this.gameMap);
     else
       this.player2Town.createUnit("cavalry", this.players, this.gameMap);
-    this.buildSound.play();
   }
 
   buildArcher() {
+    console.log("building archer");
     if (this.playingPlayer == 1)
       this.player1Town.createUnit("archer", this.players, this.gameMap);
     else
       this.player2Town.createUnit("archer", this.players, this.gameMap);
-    this.buildSound.play();
   }
 
   buildWorker() {
@@ -334,7 +329,6 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("worker", this.players, this.gameMap);
     else
       this.player2Town.createUnit("worker", this.players, this.gameMap);
-    this.buildSound.play();
   }
 }
 
