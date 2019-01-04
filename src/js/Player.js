@@ -13,6 +13,11 @@ class Player {
     this.errorSound = game.add.audio('error');
   }
 
+  linkHUD(goldText)
+  {
+    this.goldText = goldText;
+  }
+
   addUnit(game, type, x, y, gameMap, free) {
     var unitBuilt = false;
     var unit;
@@ -82,6 +87,7 @@ class Player {
     if (unitBuilt) {
       if (!free && this.money >= cost)
         this.money -= cost;
+      this.goldText.setText(this.money);
       this.numberOfUnits++;
       this.units.push(unit);
 

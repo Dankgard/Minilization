@@ -76,6 +76,9 @@ var PlayScene = {
     this.redCoin.animations.play('redspin');
     this.yellowStyle = { font: "8px Arial", fill: "#ffff00" };
     this.playing = this.game.add.text(10, 580, "PLAYING", this.yellowStyle);
+
+    this.players[0].linkHUD(this.blueGold);
+    this.players[1].linkHUD(this.redGold);
   },
 
   createArmies: function() {
