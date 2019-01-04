@@ -90,6 +90,9 @@ var MenuScene={
     this.game.load.image('allymarker', 'images/Usar/allymarker.png');
     this.game.load.spritesheet('bluecoin', 'images/Usar/bluecoin.png', 32, 32, 8);
     this.game.load.spritesheet('redcoin', 'images/Usar/redcoin.png', 32, 32, 8);
+    this.game.load.image('VictoryHumanes', 'images/VictoryHumanes.png');
+    this.game.load.image('VictoryAlgete', 'images/VictoryAlgete.png');
+    this.game.load.image('Victory', 'images/Victory.gif');
   },
   create:function(){
     //var tileset = this.game.add.sprite(50, 0, 'tileset');
@@ -125,12 +128,14 @@ var HumanesVictory = {
 
       this.humanesmusic = this.game.add.audio('humanes');
       this.humanesmusic.play();
+      
+      var cartel=this.game.add.sprite(0,0,'VictoryHumanes');
+      var confetti=this.game.add.sprite(0,0,'Victory');
+      confetti.scale.setTo(2.5,2);
 
-      var style = { font: "30px Arial", fill: "#ffffff" };
-      this.victorytext = this.game.add.text(350, 200, "HUMANES WINS", style);
-      this.backtext = this.game.add.text(350,400, "BACK TO MENU", style);
-      this.backtext.inputEnabled = true;
-      this.backtext.events.onInputDown.add(this.backToMenu, this);
+
+      var men=this.game.add.button(50,500,'returnbutton',this.backToMenu,this,2,1,0);
+      men.scale.setTo(0.20,0.20);
     },
     backToMenu:function(){
       this.game.state.start('MainMenu');
@@ -144,12 +149,13 @@ var AlgeteVictory = {
 
     this.algetemusic = this.game.add.audio('algete');
     this.algetemusic.play();
+    
+    var cart=this.game.add.sprite(0,0,'VictoryAlgete');
+    var confet=this.game.add.sprite(0,0,'Victory');
+    confet.scale.setTo(2.5,2);
 
-    var style = { font: "30px Arial", fill: "#ffffff" };
-    this.victorytext = this.game.add.text(350, 200, "ALGETE WINS", style);
-    this.backtext = this.game.add.text(350,400, "BACK TO MENU", style);
-    this.backtext.inputEnabled = true;
-    this.backtext.events.onInputDown.add(this.backToMenu, this);
+    var m=this.game.add.button(50,500,'returnbutton',this.backToMenu,this,2,1,0);
+    m.scale.setTo(0.20,0.20);
 
   },
   backToMenu:function(){
