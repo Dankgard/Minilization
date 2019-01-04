@@ -76,10 +76,10 @@ class Unit extends Phaser.Sprite {
 class Town extends Unit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 10, player, 'bluetown', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 100, player, 'bluetown', unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 10, player, 'redtown', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 100, player, 'redtown', unitNumber, squareWidth, squareHeight);
     }
 
     this.buildDone = false;
@@ -96,10 +96,10 @@ class Town extends Unit {
 class Wall extends Unit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 500, player, 'bluewall', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 50, player, 'bluewall', unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 500, player, 'redwall', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 50, player, 'redwall', unitNumber, squareWidth, squareHeight);
     }
   }
 }
@@ -107,10 +107,10 @@ class Wall extends Unit {
 class Watchtower extends Unit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 200, player, 'bluetower', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, player, 'bluetower', unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 200, player, 'redtower', unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, player, 'redtower', unitNumber, squareWidth, squareHeight);
     }
 
     this.range = 2;
