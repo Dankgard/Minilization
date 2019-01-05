@@ -56,22 +56,46 @@ class Cursor extends Phaser.Sprite {
 
     this.skipTurn = false;
 
-    this.unitStyle = { font: "7px Arial", fill: "#ffffff" };
-    this.infantryText = this.game.add.text(4, 150, "INFANTRY (5)", this.unitStyle);
-    this.cavalryText = this.game.add.text(4, 250, "CAVALRY (5)", this.unitStyle);
-    this.archerText = this.game.add.text(4, 350, "ARCHER (5)", this.unitStyle);
-    this.workerText = this.game.add.text(4, 450, "WORKER (7)", this.unitStyle);
-    this.towerText = this.game.add.text(900 - 40, 250, "TOWER (20)", this.unitStyle);
-    this.wallText = this.game.add.text(900 - 40, 350, "WALL (15)", this.unitStyle);
+    this.unitStyle = { font: "16px Arial", fill: "#ffffff" };
+
+    this.infantryHUD = this.game.add.sprite(3, 150, 'blueknight');
+    this.infantryHUD.scale.setTo(1.7,1.7);
+    this.infantryText=this.game.add.text(30,155,"(5)", this.unitStyle);
+
+    this.cavalryHUD = this.game.add.sprite(3, 250, 'bluerider');
+    this.cavalryHUD.scale.setTo(1.7,1.7);
+    this.cavalryText=this.game.add.text(30, 255, "(5)", this.unitStyle);
+
+    this.archerHUD = this.game.add.sprite(3, 350, 'bluearcher');
+    this.archerHUD.scale.setTo(1.7,1.7);
+    this.archerText=this.game.add.text(30, 355, "(5)", this.unitStyle);
+    
+    this.workerHUD = this.game.add.sprite(3, 450, 'bluevillager');
+    this.workerHUD.scale.setTo(1.7,1.7);
+    this.workerText=this.game.add.text(30, 455, "(7)", this.unitStyle);
+
+    //this.towerHUD = this.game.add.text(900 - 40, 250, "TOWER (20)", this.unitStyle);
+    this.towerHUD = this.game.add.sprite(900 - 55, 250, 'bluetower');
+    this.towerHUD.scale.setTo(1.7,1.7);
+    this.towerText=this.game.add.text(900 - 30, 255, "(20)", this.unitStyle);
+
+    //this.wallText = this.game.add.text(900 - 40, 350, "WALL (15)", this.unitStyle);
+    this.wallHUD = this.game.add.sprite(900 - 50, 350, 'bluewall');
+    this.wallHUD.scale.setTo(1.7,1.7);
+    this.wallText=this.game.add.text(900 - 27, 355, "(15)", this.unitStyle);
+
+
     this.towerText.visible = false;
+    this.towerHUD.visible=false;
     this.wallText.visible = false;
+    this.wallHUD.visible=false;
     this.keyStyle = { font: "30px Arial", fill: "#ffffff" };
-    this.infantryKey = this.game.add.text(14, 170, "1", this.keyStyle);
-    this.cavalryKey = this.game.add.text(14, 270, "2", this.keyStyle);
-    this.archerKey = this.game.add.text(14, 370, "3", this.keyStyle);
-    this.workerKey = this.game.add.text(14, 470, "4", this.keyStyle);
-    this.towerKey = this.game.add.text(900 - 30, 270, "5", this.keyStyle);
-    this.wallKey = this.game.add.text(900 - 30, 370, "6", this.keyStyle);
+    this.infantryKey = this.game.add.text(16, 180, "1", this.keyStyle);
+    this.cavalryKey = this.game.add.text(16, 280, "2", this.keyStyle);
+    this.archerKey = this.game.add.text(14, 380, "3", this.keyStyle);
+    this.workerKey = this.game.add.text(14, 480, "4", this.keyStyle);
+    this.towerKey = this.game.add.text(900 - 30, 280, "5", this.keyStyle);
+    this.wallKey = this.game.add.text(900 - 30, 380, "6", this.keyStyle);
     this.towerKey.visible = false;
     this.wallKey.visible = false;
 
@@ -84,7 +108,9 @@ class Cursor extends Phaser.Sprite {
 
   workerUnitsVisible(visible) {
     this.towerText.visible = visible;
+    this.towerHUD.visible=visible;
     this.wallText.visible = visible;
+    this.wallHUD.visible=visible;
     this.towerKey.visible = visible;
     this.wallKey.visible = visible;
   }
