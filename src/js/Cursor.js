@@ -84,7 +84,6 @@ class Cursor extends Phaser.Sprite {
     this.wallHUD.scale.setTo(1.7,1.7);
     this.wallText=this.game.add.text(900 - 27, 355, "(15)", this.unitStyle);
 
-
     this.towerText.visible = false;
     this.towerHUD.visible=false;
     this.wallText.visible = false;
@@ -99,11 +98,46 @@ class Cursor extends Phaser.Sprite {
     this.towerKey.visible = false;
     this.wallKey.visible = false;
 
+    this.infantryKey.visible = false;
+    this.cavalryKey.visible = false;
+    this.archerKey.visible = false;
+    this.workerKey.visible = false;
+    this.infantryHUD.visible = false;
+    this.infantryText.visible = false;
+    this.cavalryHUD.visible = false;
+    this.cavalryText.visible = false;
+    this.archerHUD.visible = false;
+    this.archerText.visible = false;
+    this.workerHUD.visible = false;
+    this.workerText.visible = false;
+
     this.attackSound = this.game.add.audio('attack');
     this.moveSound = this.game.add.audio('move');
     this.selectSound = this.game.add.audio('select');
     this.cancelSound = this.game.add.audio('cancel');
     this.errorSound = this.game.add.audio('error');
+  }
+
+  showUnitBuildInfo(){
+    if((this.posX == this.player1Town.posX && this.posY == this.player1Town.posY) || (this.posX == this.player2Town.posX && this.posY == this.player2Town.posY))
+      this.cityUnitsVisible(true);
+    else
+      this.cityUnitsVisible(false);
+  }
+
+  cityUnitsVisible(visible){
+    this.infantryKey.visible = visible;
+    this.cavalryKey.visible = visible;
+    this.archerKey.visible = visible;
+    this.workerKey.visible = visible;
+    this.infantryHUD.visible = visible;
+    this.infantryText.visible = visible;
+    this.cavalryHUD.visible = visible;
+    this.cavalryText.visible = visible;
+    this.archerHUD.visible = visible;
+    this.archerText.visible = visible;
+    this.workerHUD.visible = visible;
+    this.workerText.visible = visible;
   }
 
   workerUnitsVisible(visible) {
@@ -184,6 +218,7 @@ class Cursor extends Phaser.Sprite {
       this.posX--;
       this.updateMarker();
       this.game.world.bringToTop(this);
+      this.showUnitBuildInfo();
     }
     else
       this.errorSound.play();
@@ -195,6 +230,7 @@ class Cursor extends Phaser.Sprite {
       this.posX++;
       this.updateMarker();
       this.game.world.bringToTop(this);
+      this.showUnitBuildInfo();
     }
     else
       this.errorSound.play();
@@ -206,6 +242,7 @@ class Cursor extends Phaser.Sprite {
       this.posY--;
       this.updateMarker();
       this.game.world.bringToTop(this);
+      this.showUnitBuildInfo();
     }
     else
       this.errorSound.play();
@@ -217,6 +254,7 @@ class Cursor extends Phaser.Sprite {
       this.posY++;
       this.updateMarker();
       this.game.world.bringToTop(this);
+      this.showUnitBuildInfo();
     }
     else 
       this.errorSound.play();
