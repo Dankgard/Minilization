@@ -225,7 +225,7 @@ class Worker extends HumanUnit {
 
   build(type, players, gameMap) {
     if (this.buildDone == false) {
-      players[this.player].addUnit(this.game, type, this.posX, this.posY, gameMap, false);
+      players[this.player - 1].addUnit(this.game, type, this.posX, this.posY, gameMap, false);
       this.buildDone = true;
       this.game.world.bringToTop(this);
     }

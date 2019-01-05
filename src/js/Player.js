@@ -42,6 +42,7 @@ class Player {
         break;
       case "wall":
         cost = 15;
+        console.log(free + " " + this.money + " " + cost);
         if (!buildingThere && (free || (!free && this.money >= cost))) {
           unit = new units.Wall(game, x, y, this.number, this.numberOfUnits, gameMap.squareWidth, gameMap.squareHeight);
           unitBuilt = true;

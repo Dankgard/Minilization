@@ -307,7 +307,7 @@ class Cursor extends Phaser.Sprite {
   }
 
   buildWall() {
-    if (this.selectedUnit.isWorker()) {
+    if (this.selectedUnit != 'null' && this.selectedUnit.isWorker()) {
       this.selectedUnit.build("wall", this.players, this.gameMap);
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
@@ -318,7 +318,7 @@ class Cursor extends Phaser.Sprite {
   }
 
   buildTower() {
-    if (this.selectedUnit.isWorker()) {
+    if (this.selectedUnit != 'null' && this.selectedUnit.isWorker()) {
       this.selectedUnit.build("watchtower", this.players, this.gameMap);
       if (this.wallText.visible == true)
         this.workerUnitsVisible(false);
