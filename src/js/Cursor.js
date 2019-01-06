@@ -40,6 +40,9 @@ class Cursor extends Phaser.Sprite {
     this.Key6 = game.input.keyboard.addKey(Phaser.Keyboard.SIX);
     this.Key6.onDown.add(this.buildWall, this);
 
+    this.escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    this.escapeKey.onDown.add(this.backToMenu, this);
+
     this.selectedUnit = 'null';
     this.unitSelection = this.game.add.sprite(50, 0, 'unitselection');
     this.unitSelection.scale.setTo(2, 2);
@@ -181,6 +184,8 @@ class Cursor extends Phaser.Sprite {
   cancelSelection() {
     delete this.selectedUnit;
     this.selectedUnit = 'null';
+    if (this.wallText.visible)
+        this.workerUnitsVisible(false);
     this.unitSelection.visible = false;
     this.enemyMarker.visible = false;
     this.allyMarker.visible = false;
@@ -336,7 +341,7 @@ class Cursor extends Phaser.Sprite {
         else
           this.errorSound.play();
       }
-      if (this.wallText.visible == true)
+      if (this.wallText.visible)
         this.workerUnitsVisible(false);
       delete this.selectedUnit;
       this.selectedUnit = 'null';
@@ -347,7 +352,7 @@ class Cursor extends Phaser.Sprite {
   buildWall() {
     if (this.selectedUnit != 'null' && this.selectedUnit.isWorker()) {
       this.selectedUnit.build("wall", this.players, this.gameMap);
-      if (this.wallText.visible == true)
+      if (this.wallText.visible)
         this.workerUnitsVisible(false);
       delete this.selectedUnit;
       this.selectedUnit = 'null';
@@ -358,7 +363,7 @@ class Cursor extends Phaser.Sprite {
   buildTower() {
     if (this.selectedUnit != 'null' && this.selectedUnit.isWorker()) {
       this.selectedUnit.build("watchtower", this.players, this.gameMap);
-      if (this.wallText.visible == true)
+      if (this.wallText.visible)
         this.workerUnitsVisible(false);
       delete this.selectedUnit;
       this.selectedUnit = 'null';
@@ -393,6 +398,10 @@ class Cursor extends Phaser.Sprite {
       this.player1Town.createUnit("worker", this.players, this.gameMap);
     else
       this.player2Town.createUnit("worker", this.players, this.gameMap);
+  }
+
+  backToMenu(){
+    this.game.state.start('MainMenu');
   }
 }
 

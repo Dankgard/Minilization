@@ -128,7 +128,7 @@ var RulesScene = {
     var infotexA= this.game.add.text(600, 400, "-Archers-", this.ruleStyle);
     var Arch=this.game.add.sprite(615,430,'bluearcher');
     Arch.scale.setTo(2,2);
-    var infotexJ= this.game.add.text(700, 400, "-Calvary-", this.ruleStyle);
+    var infotexJ= this.game.add.text(700, 400, "-Cavalry-", this.ruleStyle);
     var Jine=this.game.add.sprite(715,430,'bluerider');
     Jine.scale.setTo(2,2);
     var infotexW= this.game.add.text(550, 500, "-Wall-", this.ruleStyle);
