@@ -122,8 +122,21 @@ var RulesScene = {
     var buildInfo2 = this.game.add.text(450, 100, "You can select a worker to see the 2 buildings it can build, \n with the same info as the city units. Select a worker and \n press the corresponding key to build on the worker´s \n position. Walls block the way for enemy units until they are \n destroyed, and towers shoot the enemy automatically when \n they approach.", this.ruleStyle);
     var combatUnitsInfo = this.game.add.text(450, 250, "Infantry units are slow and have a short range in exchange \n of having high health. Archers are slow and weak but have \n a greater range. Cavalry units are fast in exchange of \n having a short range of attack.", this.ruleStyle);
     var goalInfo = this.game.add.text(450, 350, "The objective of the game is to destroy the opponent´s town.", this.ruleStyle);
-
-
+    var infotexC= this.game.add.text(500, 400, "-Infantry-", this.ruleStyle);
+    var Infa=this.game.add.sprite(515,430,'blueknight');
+    Infa.scale.setTo(2,2);
+    var infotexA= this.game.add.text(600, 400, "-Archers-", this.ruleStyle);
+    var Arch=this.game.add.sprite(615,430,'bluearcher');
+    Arch.scale.setTo(2,2);
+    var infotexJ= this.game.add.text(700, 400, "-Calvary-", this.ruleStyle);
+    var Jine=this.game.add.sprite(715,430,'bluerider');
+    Jine.scale.setTo(2,2);
+    var infotexW= this.game.add.text(550, 500, "-Wall-", this.ruleStyle);
+    var Wa=this.game.add.sprite(555,530,'bluewall');
+    Wa.scale.setTo(2,2);
+    var infotexT= this.game.add.text(650, 500, "-Tower-", this.ruleStyle);
+    var To=this.game.add.sprite(655,530,'bluetower');
+    To.scale.setTo(2,2);
   },
   atras: function () {
     this.game.state.start('MainMenu');
