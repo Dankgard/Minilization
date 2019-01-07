@@ -319,10 +319,10 @@ class CombatUnit extends HumanUnit {
 class Archer extends CombatUnit {
   constructor(game, x, y, player, unitNumber, squareWidth, squareHeight) {
     if (player == 1) {
-      super(game, x, y, 30, 2, 'bluearcher', player, 2, 20, "archer", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, 2, 'bluearcher', player, 3, 20, "archer", unitNumber, squareWidth, squareHeight);
     }
     else {
-      super(game, x, y, 30, 2, 'redarcher', player, 2, 20, "archer", unitNumber, squareWidth, squareHeight);
+      super(game, x, y, 30, 2, 'redarcher', player, 3, 20, "archer", unitNumber, squareWidth, squareHeight);
     }
   }
 }

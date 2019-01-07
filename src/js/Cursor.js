@@ -20,9 +20,11 @@ class Cursor extends Phaser.Sprite {
 
     this.zKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
     this.zKey.onDown.add(this.actionKey, this);
+    game.input.activePointer.leftButton.onDown.add(this.actionKey, this);
 
     this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
     this.xKey.onDown.add(this.cancelSelection, this);
+    game.input.activePointer.rightButton.onDown.add(this.cancelSelection, this);
 
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.spaceKey.onDown.add(this.turnSkip, this);
@@ -153,21 +155,8 @@ class Cursor extends Phaser.Sprite {
   }
 
   handleEvents() {
-    // mover izquierda
-    if (this.leftKey.isDown)
-      this.moveLeft();
 
-    // mover derecha
-    if (this.rightKey.isDown)
-      this.moveRight();
-
-    // mover arriba
-    if (this.upKey.isDown)
-      this.moveUp();
-
-    // mover abajo 
-    if (this.downKey.isDown)
-      this.moveDown();
+    this.moveWithMouse();
 
     // saltar turno
     if (this.skipTurn) {
@@ -179,6 +168,25 @@ class Cursor extends Phaser.Sprite {
       return true;
     }
     else return false;
+  }
+
+  roundMouse(value, step) {
+    step || (step = 1.0);
+    var inv = 1.0 / step;
+    return Math.round(value * inv) / inv;
+}
+
+  moveWithMouse()
+  {
+    this.x = this.gameMap.squareWidth/2 + this.roundMouse(this.game.input.mousePointer.x - this.gameMap.squareWidth/2, this.gameMap.squareWidth);
+    this.y = this.roundMouse(this.game.input.mousePointer.y, this.gameMap.squareHeight);
+    this.posX = this.x/this.gameMap.squareWidth - 1.5;
+    console.log(this.posX);
+    this.posY = Math.round(this.y/this.gameMap.squareHeight);
+    console.log(this.posY);
+    this.updateMarker();
+    this.game.world.bringToTop(this);
+    this.showUnitBuildInfo();
   }
 
   cancelSelection() {

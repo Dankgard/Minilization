@@ -54,6 +54,7 @@ var PreloaderScene = {
     this.menumusic.loop = true;
     this.menumusic.play();
 
+    this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); } 
     this.game.state.start('MainMenu');
   }
 };

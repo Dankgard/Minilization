@@ -26,7 +26,7 @@ var PlayScene = {
     this.gameMap;
     this.gameCursor;
 
-    this.calltime = 5;
+    this.calltime = 2;
     this.call = 0;
 
     this.skipTurn = false;
@@ -89,7 +89,7 @@ var PlayScene = {
 
     this.player1Town = this.players[0].units[0];
     this.player2Town = this.players[1].units[0];
-    this.gameCursor = new cursor(this.game, 10, 10, this.squareWidth, this.squareHeight, this.gameMap, this.players, this.playingPlayer, this.player1Town, this.player2Town);
+    this.gameCursor = new cursor(this.game, 0, 0, this.squareWidth, this.squareHeight, this.gameMap, this.players, this.playingPlayer, this.player1Town, this.player2Town);
 
     var y = Math.round(Math.random() * (this.mapHeight - 1))
     this.players[0].addUnit(this.game, "worker", 0, y, this.gameMap, true);
