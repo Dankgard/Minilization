@@ -110,24 +110,14 @@ class Player {
 
   resetUnitUse() {
     for (var i = 0; i < this.numberOfUnits; i++) {
-      if (this.units[i].isMovable()) {
-        this.units[i].movementDone = false;
-
-        if (this.units[i].isCombatUnit())
-          this.units[i].attackDone = false;
-
-        if (this.units[i].isWorker())
-          this.units[i].buildDone = false;
-      }
-      else if (this.units[i].isTown())
-        this.units[i].buildDone = false;
+      this.units[i].resetUse();
     }
   }
 
   workerWork(gameMap) {
     for (var i = 0; i < this.numberOfUnits; i++) {
-      if (this.units[i] instanceof units.Worker) {
-        this.money += gameMap.squares[this.units[i].posY][this.units[i].posX].goldPerTurn;
+      {
+        this.money += this.units[i].work(gameMap.squares[this.units[i].posY][this.units[i].posX].goldPerTurn);
       }
     }
     console.log("gold: " + this.money);
@@ -135,8 +125,7 @@ class Player {
 
   towerAttack(gameMap) {
     for (var i = 0; i < this.numberOfUnits; i++) {
-      if (this.units[i] instanceof units.Watchtower)
-        this.units[i].attack(gameMap, this);
+        this.units[i].towerAttack(gameMap, this);
     }
   }
 }

@@ -14,8 +14,27 @@ class Unit extends Phaser.Sprite {
 
     var style = { font: "8px Arial", fill: "#ffffff" };
     this.healthHud = this.game.add.text(0, -5, this.hp, style);
-    this.addChild(this.healthHud);    
+    this.addChild(this.healthHud);
   }
+
+  // metodos abstractos no implementados aquí
+
+  resetUse()
+  {
+    return 0;
+  }
+
+  work(goldPerTurn)
+  {
+    return 0;
+  }
+
+  towerAttack(gameMap, player)
+  {
+    return 0;
+  }
+
+  // fin de métodos abstractos no implementados
 
   takeDamage(damage) {
     this.hp -= damage;
@@ -30,46 +49,22 @@ class Unit extends Phaser.Sprite {
 
   destroyUnit(game) {
     this.destroy();
-
-    if(this instanceof Town)
-    {
-      if(this.player==2){       
-        game.state.start('humanes');
-        console.log("Ha ganado Humanes");
-      }
-      else {  
-        game.state.start('algete');       
-        console.log("Ha ganado Algete");
-      }
-    }
   }
 
   isMovable() {
-    if (this instanceof Archer || this instanceof Infantry || this instanceof Cavalry || this instanceof Worker)
-      return true;
-    else
-      return false;
+    return false;
   }
 
   isCombatUnit() {
-    if (this instanceof Archer || this instanceof Infantry || this instanceof Cavalry)
-      return true;
-    else
-      return false;
+    return false;
   }
 
   isTown() {
-    if (this instanceof Town)
-      return true;
-    else
-      return false;
+    return false;
   }
 
   isWorker() {
-    if (this instanceof Worker)
-      return true;
-    else
-      return false;
+    return false;
   }
 }
 
@@ -83,6 +78,28 @@ class Town extends Unit {
     }
 
     this.buildDone = false;
+  }
+
+  resetUse()
+  {
+    this.buildDone = false;
+  }
+
+  isTown() {
+    return true;
+  }
+
+  destroyUnit(game) {
+    this.destroy();
+
+    if (this.player == 2) {
+      game.state.start('humanes');
+      console.log("Ha ganado Humanes");
+    }
+    else {
+      game.state.start('algete');
+      console.log("Ha ganado Algete");
+    }
   }
 
   createUnit(type, players, gameMap) {
@@ -118,7 +135,7 @@ class Watchtower extends Unit {
   }
 
   // ataque automatico a la unidad enemiga mas cercana
-  attack(gameMap, player) {
+  towerAttack(gameMap, player) {
     var attacked = false;
     var destroyed = false;
     var attackRange = 1;
@@ -190,7 +207,6 @@ class HumanUnit extends Unit {
     super(game, x, y, hp, player, sprite, unitNumber, squareWidth, squareHeight);
     this.moves = moves;
     this.movementDone = false;
-    this.attackDone = false;
   }
 
   canMove(posX, posY) {
@@ -200,6 +216,14 @@ class HumanUnit extends Unit {
       return false;
   }
 
+  isMovable() {
+    return true;
+  }
+
+  resetUse()
+  {
+    this.movementDone = false;
+  }
 
   move(posX, posY, gameMap) // posiciones absolutas a las que se va a mover la unidad
   {
@@ -207,7 +231,6 @@ class HumanUnit extends Unit {
     this.x = posX * gameMap.squareWidth + 50;
     this.posY = posY;
     this.y = posY * gameMap.squareHeight;
-
   }
 }
 
@@ -221,6 +244,21 @@ class Worker extends HumanUnit {
     }
 
     this.buildDone = false;
+  }
+
+  resetUse()
+  {
+    this.movementDone = false;
+    this.buildDone = false;
+  }
+
+  isWorker() {
+    return true;
+  }
+
+  work(goldPerTurn)
+  {
+    return goldPerTurn;
   }
 
   build(type, players, gameMap) {
@@ -238,6 +276,7 @@ class CombatUnit extends HumanUnit {
     this.range = range;
     this.damage = damage;
     this.element = element;
+    this.attackDone = false;
   }
 
   canAttack(posX, posY) {
@@ -245,6 +284,16 @@ class CombatUnit extends HumanUnit {
       return true;
     else
       return false;
+  }
+
+  isCombatUnit() {
+    return true;
+  }
+
+  resetUse()
+  {
+    this.movementDone = false;
+    this.attackDone = false;
   }
 
   attack(enemy) {
