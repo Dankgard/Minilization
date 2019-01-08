@@ -410,6 +410,10 @@ class Cursor extends Phaser.Sprite {
   }
 
   backToMenu() {
+    this.game.sound.stopAll();
+    this.menumusic = this.game.add.audio('menutheme');
+    this.menumusic.loop = true;
+    this.menumusic.play();
     this.game.state.start('MainMenu');
   }
 }
