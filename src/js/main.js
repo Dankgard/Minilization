@@ -14,7 +14,6 @@ var BootScene = {
   }
 };
 
-
 var PreloaderScene = {
   preload: function () {
     this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
@@ -45,7 +44,6 @@ var PreloaderScene = {
     this.game.load.audio('cancel', 'sounds/interface6.wav');
     this.game.load.audio('error', 'sounds/interface2.wav');
 
-
     //var casillas
   },
 
@@ -53,8 +51,6 @@ var PreloaderScene = {
     this.menumusic = this.game.add.audio('menutheme');
     this.menumusic.loop = true;
     this.menumusic.play();
-
-    this.game.add.text(0, 0, "hack", {font:"1px 8bits", fill:"#FFFFFF"});
 
     this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); } 
     this.game.state.start('MainMenu');

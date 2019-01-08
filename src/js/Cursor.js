@@ -184,8 +184,6 @@ class Cursor extends Phaser.Sprite {
     this.updateMarker();
     this.game.world.bringToTop(this);
     this.showUnitBuildInfo();
-    console.log(this.posX);
-    console.log(this.posY);
   }
 
   cancelSelection() {
