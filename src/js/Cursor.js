@@ -331,23 +331,25 @@ class Cursor extends Phaser.Sprite {
           else if (hoveringBuilding != 'null' && this.selectedUnit.player != hoveringBuilding.player)
             hovering = hoveringBuilding;
 
-          var enemyX = hovering.posX;
-          var enemyY = hovering.posY;
-          var enemyTeam = hovering.player;
-          var enemyNumber = hovering.unitNumber;
-          // si no ha atacado todavia y entra en el rango de ataque
-          if (this.selectedUnit.canAttack(enemyX, enemyY) && this.selectedUnit.attackDone == false) {
-            this.selectedUnit.attackDone = true;
-            var destroyed = this.selectedUnit.attack(hovering);
-            this.attackSound.play();
-            console.log("attacking enemy");
-            if (destroyed) {
-              this.gameMap.emptySquareFromUnit(enemyX, enemyY);
-              this.players[enemyTeam - 1].destroyUnit(enemyNumber);
+          if (hovering != undefined) {
+            var enemyX = hovering.posX;
+            var enemyY = hovering.posY;
+            var enemyTeam = hovering.player;
+            var enemyNumber = hovering.unitNumber;
+            // si no ha atacado todavia y entra en el rango de ataque
+            if (this.selectedUnit.canAttack(enemyX, enemyY) && this.selectedUnit.attackDone == false) {
+              this.selectedUnit.attackDone = true;
+              var destroyed = this.selectedUnit.attack(hovering);
+              this.attackSound.play();
+              console.log("attacking enemy");
+              if (destroyed) {
+                this.gameMap.emptySquareFromUnit(enemyX, enemyY);
+                this.players[enemyTeam - 1].destroyUnit(enemyNumber);
+              }
             }
+            else
+              this.errorSound.play();
           }
-          else
-            this.errorSound.play();
         }
         if (this.wallText.visible)
           this.workerUnitsVisible(false);
