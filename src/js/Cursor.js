@@ -4,8 +4,8 @@ class Cursor extends Phaser.Sprite {
   constructor(game, x, y, squareWidth, squareHeight, gameMap, players, playingPlayer, player1Town, player2Town) {
     super(game, x * squareWidth + 50, y * squareHeight, 'cursor');
     game.add.existing(this);
-    this.posX = x;
-    this.posY = y;
+    this.posX = 5;
+    this.posY = 5;
     this.oldX = 0;
     this.oldY = 0;
 
@@ -64,35 +64,35 @@ class Cursor extends Phaser.Sprite {
     this.unitStyle = { font: "16px Arial", fill: "#ffffff" };
 
     this.infantryHUD = this.game.add.sprite(3, 150, 'blueknight');
-    this.infantryHUD.scale.setTo(1.7,1.7);
-    this.infantryText=this.game.add.text(30,155,"(5)", this.unitStyle);
+    this.infantryHUD.scale.setTo(1.7, 1.7);
+    this.infantryText = this.game.add.text(30, 155, "(5)", this.unitStyle);
 
     this.cavalryHUD = this.game.add.sprite(3, 250, 'bluerider');
-    this.cavalryHUD.scale.setTo(1.7,1.7);
-    this.cavalryText=this.game.add.text(30, 255, "(5)", this.unitStyle);
+    this.cavalryHUD.scale.setTo(1.7, 1.7);
+    this.cavalryText = this.game.add.text(30, 255, "(5)", this.unitStyle);
 
     this.archerHUD = this.game.add.sprite(3, 350, 'bluearcher');
-    this.archerHUD.scale.setTo(1.7,1.7);
-    this.archerText=this.game.add.text(30, 355, "(5)", this.unitStyle);
-    
+    this.archerHUD.scale.setTo(1.7, 1.7);
+    this.archerText = this.game.add.text(30, 355, "(5)", this.unitStyle);
+
     this.workerHUD = this.game.add.sprite(3, 450, 'bluevillager');
-    this.workerHUD.scale.setTo(1.7,1.7);
-    this.workerText=this.game.add.text(30, 455, "(7)", this.unitStyle);
+    this.workerHUD.scale.setTo(1.7, 1.7);
+    this.workerText = this.game.add.text(30, 455, "(7)", this.unitStyle);
 
     //this.towerHUD = this.game.add.text(900 - 40, 250, "TOWER (20)", this.unitStyle);
     this.towerHUD = this.game.add.sprite(900 - 55, 250, 'bluetower');
-    this.towerHUD.scale.setTo(1.7,1.7);
-    this.towerText=this.game.add.text(900 - 30, 255, "(20)", this.unitStyle);
+    this.towerHUD.scale.setTo(1.7, 1.7);
+    this.towerText = this.game.add.text(900 - 30, 255, "(20)", this.unitStyle);
 
     //this.wallText = this.game.add.text(900 - 40, 350, "WALL (15)", this.unitStyle);
     this.wallHUD = this.game.add.sprite(900 - 50, 350, 'bluewall');
-    this.wallHUD.scale.setTo(1.7,1.7);
-    this.wallText=this.game.add.text(900 - 27, 355, "(15)", this.unitStyle);
+    this.wallHUD.scale.setTo(1.7, 1.7);
+    this.wallText = this.game.add.text(900 - 27, 355, "(15)", this.unitStyle);
 
     this.towerText.visible = false;
-    this.towerHUD.visible=false;
+    this.towerHUD.visible = false;
     this.wallText.visible = false;
-    this.wallHUD.visible=false;
+    this.wallHUD.visible = false;
     this.keyStyle = { font: "30px Arial", fill: "#ffffff" };
     this.infantryKey = this.game.add.text(16, 180, "1", this.keyStyle);
     this.cavalryKey = this.game.add.text(16, 280, "2", this.keyStyle);
@@ -123,14 +123,14 @@ class Cursor extends Phaser.Sprite {
     this.errorSound = this.game.add.audio('error');
   }
 
-  showUnitBuildInfo(){
-    if((this.posX == this.player1Town.posX && this.posY == this.player1Town.posY) || (this.posX == this.player2Town.posX && this.posY == this.player2Town.posY))
+  showUnitBuildInfo() {
+    if ((this.posX == this.player1Town.posX && this.posY == this.player1Town.posY) || (this.posX == this.player2Town.posX && this.posY == this.player2Town.posY))
       this.cityUnitsVisible(true);
     else
       this.cityUnitsVisible(false);
   }
 
-  cityUnitsVisible(visible){
+  cityUnitsVisible(visible) {
     this.infantryKey.visible = visible;
     this.cavalryKey.visible = visible;
     this.archerKey.visible = visible;
@@ -147,9 +147,9 @@ class Cursor extends Phaser.Sprite {
 
   workerUnitsVisible(visible) {
     this.towerText.visible = visible;
-    this.towerHUD.visible=visible;
+    this.towerHUD.visible = visible;
     this.wallText.visible = visible;
-    this.wallHUD.visible=visible;
+    this.wallHUD.visible = visible;
     this.towerKey.visible = visible;
     this.wallKey.visible = visible;
   }
@@ -174,24 +174,25 @@ class Cursor extends Phaser.Sprite {
     step || (step = 1.0);
     var inv = 1.0 / step;
     return Math.round(value * inv) / inv;
-}
+  }
 
-  moveWithMouse()
-  {
-    this.x = this.gameMap.squareWidth/2 + this.roundMouse(this.game.input.mousePointer.x - this.gameMap.squareWidth/2, this.gameMap.squareWidth);
+  moveWithMouse() {
+    this.x = this.gameMap.squareWidth / 2 + this.roundMouse(this.game.input.mousePointer.x - this.gameMap.squareWidth / 2, this.gameMap.squareWidth);
     this.y = this.roundMouse(this.game.input.mousePointer.y, this.gameMap.squareHeight);
-    this.posX = this.x/this.gameMap.squareWidth - 1.5;    
-    this.posY = Math.round(this.y/this.gameMap.squareHeight);    
+    this.posX = this.x / this.gameMap.squareWidth - 1.5;
+    this.posY = Math.round(this.y / this.gameMap.squareHeight);
     this.updateMarker();
     this.game.world.bringToTop(this);
     this.showUnitBuildInfo();
+    console.log(this.posX);
+    console.log(this.posY);
   }
 
   cancelSelection() {
     delete this.selectedUnit;
     this.selectedUnit = 'null';
     if (this.wallText.visible)
-        this.workerUnitsVisible(false);
+      this.workerUnitsVisible(false);
     this.unitSelection.visible = false;
     this.enemyMarker.visible = false;
     this.allyMarker.visible = false;
@@ -204,21 +205,23 @@ class Cursor extends Phaser.Sprite {
   }
 
   updateMarker() {
-    this.enemyMarker.visible = false;
-    this.allyMarker.visible = false;
-    if (this.selectedUnit != 'null') {
-      if (this.gameMap.squares[this.posY][this.posX] == undefined)
-        this.gameMap.createEmptySquare(this.posX, this.posY);
-      var hoveringSquare = this.gameMap.squares[this.posY][this.posX];
-      var marker;
-      if (hoveringSquare.unit == 'null' && hoveringSquare.building == 'null' && this.selectedUnit.canMove(this.posX, this.posY))
-        marker = this.allyMarker;
-      else if (this.selectedUnit.isCombatUnit() && this.selectedUnit.canAttack(this.posX, this.posY) && hoveringSquare.unit.player != this.selectedUnit.player)
-        marker = this.enemyMarker;
-      if (marker != undefined) {
-        marker.visible = true;
-        marker.position.x = hoveringSquare.posX * this.gameMap.squareWidth + 50;
-        marker.position.y = hoveringSquare.posY * this.gameMap.squareHeight;
+    if (this.posY <= this.gameMap.height - 1) {
+      this.enemyMarker.visible = false;
+      this.allyMarker.visible = false;
+      if (this.selectedUnit != 'null') {
+        if (this.gameMap.squares[this.posY][this.posX] == undefined)
+          this.gameMap.createEmptySquare(this.posX, this.posY);
+        var hoveringSquare = this.gameMap.squares[this.posY][this.posX];
+        var marker;
+        if (hoveringSquare.unit == 'null' && hoveringSquare.building == 'null' && this.selectedUnit.canMove(this.posX, this.posY))
+          marker = this.allyMarker;
+        else if (this.selectedUnit.isCombatUnit() && this.selectedUnit.canAttack(this.posX, this.posY) && hoveringSquare.unit.player != this.selectedUnit.player)
+          marker = this.enemyMarker;
+        if (marker != undefined) {
+          marker.visible = true;
+          marker.position.x = hoveringSquare.posX * this.gameMap.squareWidth + 50;
+          marker.position.y = hoveringSquare.posY * this.gameMap.squareHeight;
+        }
       }
     }
   }
@@ -267,91 +270,93 @@ class Cursor extends Phaser.Sprite {
       this.game.world.bringToTop(this);
       this.showUnitBuildInfo();
     }
-    else 
+    else
       this.errorSound.play();
   }
 
   actionKey() {
-    if (this.gameMap.squares[this.posY][this.posX] == undefined)
-      this.gameMap.createEmptySquare(this.posX, this.posY);
+    if (this.posX >= 0 && this.posX <= this.gameMap.width - 1) {
+      if (this.gameMap.squares[this.posY][this.posX] == undefined)
+        this.gameMap.createEmptySquare(this.posX, this.posY);
 
-    var hoveringSquare = this.gameMap.squares[this.posY][this.posX];
-    var hoveringUnit = hoveringSquare.unit;
-    var hoveringBuilding = hoveringSquare.building;
+      var hoveringSquare = this.gameMap.squares[this.posY][this.posX];
+      var hoveringUnit = hoveringSquare.unit;
+      var hoveringBuilding = hoveringSquare.building;
 
-    // seleccionar unidades
-    if (hoveringUnit != 'null' && hoveringUnit.player == this.playingPlayer && this.selectedUnit == 'null') {
-      this.oldX = this.posX;
-      this.oldY = this.posY;
-      this.selectedUnit = hoveringUnit;
-      this.unitSelection.visible = true;
-      this.unitSelection.position.x = this.posX * this.gameMap.squareWidth + 50;
-      this.unitSelection.position.y = this.posY * this.gameMap.squareHeight;
-      console.log(this.selectedUnit.element);
-      this.selectSound.play();
-      if (this.selectedUnit.isWorker())
-        this.workerUnitsVisible(true);
-    }
-    // teniendo la unidad ya seleccionada
-    else if (this.selectedUnit != 'null') {
-      // mover unidad seleccionada
-      if (hoveringUnit == 'null' && hoveringBuilding == 'null' || hoveringBuilding.player == this.selectedUnit.player) {
-        // si entra en el rango de movimiento y no se ha movido todavia
-        if (this.selectedUnit.canMove(this.posX, this.posY) && this.selectedUnit.movementDone == false) {
-          this.selectedUnit.move(this.posX, this.posY, this.gameMap);
-          this.selectedUnit.movementDone = true;
-          console.log("moved " + this.selectedUnit.element);
-          this.gameMap.emptySquareFromUnit(this.oldX, this.oldY);
-          this.gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
-          this.game.world.bringToTop(this.selectedUnit);
-          this.game.world.bringToTop(this);
-          this.moveSound.play();
-        }
-        else {
-          console.log("cannot move " + this.selectedUnit.element);
-          this.errorSound.play();
-        }
+      // seleccionar unidades
+      if (hoveringUnit != 'null' && hoveringUnit.player == this.playingPlayer && this.selectedUnit == 'null') {
+        this.oldX = this.posX;
+        this.oldY = this.posY;
+        this.selectedUnit = hoveringUnit;
+        this.unitSelection.visible = true;
+        this.unitSelection.position.x = this.posX * this.gameMap.squareWidth + 50;
+        this.unitSelection.position.y = this.posY * this.gameMap.squareHeight;
+        console.log(this.selectedUnit.element);
+        this.selectSound.play();
+        if (this.selectedUnit.isWorker())
+          this.workerUnitsVisible(true);
       }
-      // saltar movimiento de la unidad
-      else if (this.selectedUnit == hoveringUnit) {
-        this.selectedUnit.movementDone = true;
-        console.log(this.selectedUnit.element + " skipped move");
-      }
-      // atacar enemigos
-      else if (this.selectedUnit.isCombatUnit() && (hoveringUnit != 'null' || hoveringBuilding != 'null')) {
-
-        var hovering;
-        // atacar unidad enemiga
-        if (hoveringUnit != 'null' && this.selectedUnit.player != hoveringUnit.player)
-          hovering = hoveringUnit;
-
-        // atacar edificios enemigos
-        else if (hoveringBuilding != 'null' && this.selectedUnit.player != hoveringBuilding.player)
-          hovering = hoveringBuilding;
-
-        var enemyX = hovering.posX;
-        var enemyY = hovering.posY;
-        var enemyTeam = hovering.player;
-        var enemyNumber = hovering.unitNumber;
-        // si no ha atacado todavia y entra en el rango de ataque
-        if (this.selectedUnit.canAttack(enemyX, enemyY) && this.selectedUnit.attackDone == false) {
-          this.selectedUnit.attackDone = true;
-          var destroyed = this.selectedUnit.attack(hovering);
-          this.attackSound.play();
-          console.log("attacking enemy");
-          if (destroyed) {
-            this.gameMap.emptySquareFromUnit(enemyX, enemyY);
-            this.players[enemyTeam - 1].destroyUnit(enemyNumber);
+      // teniendo la unidad ya seleccionada
+      else if (this.selectedUnit != 'null') {
+        // mover unidad seleccionada
+        if (hoveringUnit == 'null' && hoveringBuilding == 'null' || hoveringBuilding.player == this.selectedUnit.player) {
+          // si entra en el rango de movimiento y no se ha movido todavia
+          if (this.selectedUnit.canMove(this.posX, this.posY) && this.selectedUnit.movementDone == false) {
+            this.selectedUnit.move(this.posX, this.posY, this.gameMap);
+            this.selectedUnit.movementDone = true;
+            console.log("moved " + this.selectedUnit.element);
+            this.gameMap.emptySquareFromUnit(this.oldX, this.oldY);
+            this.gameMap.squares[this.posY][this.posX].unit = this.selectedUnit;
+            this.game.world.bringToTop(this.selectedUnit);
+            this.game.world.bringToTop(this);
+            this.moveSound.play();
+          }
+          else {
+            console.log("cannot move " + this.selectedUnit.element);
+            this.errorSound.play();
           }
         }
-        else
-          this.errorSound.play();
+        // saltar movimiento de la unidad
+        else if (this.selectedUnit == hoveringUnit) {
+          this.selectedUnit.movementDone = true;
+          console.log(this.selectedUnit.element + " skipped move");
+        }
+        // atacar enemigos
+        else if (this.selectedUnit.isCombatUnit() && (hoveringUnit != 'null' || hoveringBuilding != 'null')) {
+
+          var hovering;
+          // atacar unidad enemiga
+          if (hoveringUnit != 'null' && this.selectedUnit.player != hoveringUnit.player)
+            hovering = hoveringUnit;
+
+          // atacar edificios enemigos
+          else if (hoveringBuilding != 'null' && this.selectedUnit.player != hoveringBuilding.player)
+            hovering = hoveringBuilding;
+
+          var enemyX = hovering.posX;
+          var enemyY = hovering.posY;
+          var enemyTeam = hovering.player;
+          var enemyNumber = hovering.unitNumber;
+          // si no ha atacado todavia y entra en el rango de ataque
+          if (this.selectedUnit.canAttack(enemyX, enemyY) && this.selectedUnit.attackDone == false) {
+            this.selectedUnit.attackDone = true;
+            var destroyed = this.selectedUnit.attack(hovering);
+            this.attackSound.play();
+            console.log("attacking enemy");
+            if (destroyed) {
+              this.gameMap.emptySquareFromUnit(enemyX, enemyY);
+              this.players[enemyTeam - 1].destroyUnit(enemyNumber);
+            }
+          }
+          else
+            this.errorSound.play();
+        }
+        if (this.wallText.visible)
+          this.workerUnitsVisible(false);
+        delete this.selectedUnit;
+        this.selectedUnit = 'null';
+        this.unitSelection.visible = false;
       }
-      if (this.wallText.visible)
-        this.workerUnitsVisible(false);
-      delete this.selectedUnit;
-      this.selectedUnit = 'null';
-      this.unitSelection.visible = false;
     }
   }
 
@@ -406,7 +411,7 @@ class Cursor extends Phaser.Sprite {
       this.player2Town.createUnit("worker", this.players, this.gameMap);
   }
 
-  backToMenu(){
+  backToMenu() {
     this.game.state.start('MainMenu');
   }
 }
