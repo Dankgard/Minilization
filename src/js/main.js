@@ -6,11 +6,11 @@ var PlayScene = require('./play_scene.js');
 var BootScene = {
   preload: function () {
     // load here assets required for the loading screen
-    this.game.load.image('preloader_bar', 'images/preloader_bar.png');
+    this.game.load.image('preloader_bar', 'images/preloader_bar.png');    
   },
 
-  create: function () {
-    this.game.state.start('preloader');
+  create: function () {        
+    this.game.state.start('preloader');    
   }
 };
 
@@ -53,6 +53,8 @@ var PreloaderScene = {
     this.menumusic = this.game.add.audio('menutheme');
     this.menumusic.loop = true;
     this.menumusic.play();
+
+    this.game.add.text(0, 0, "hack", {font:"1px 8bits", fill:"#FFFFFF"});
 
     this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); } 
     this.game.state.start('MainMenu');

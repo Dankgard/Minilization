@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+  <link rel="stylesheet" type = "text/css" href = "../css/fontLoader.css">
   <title>Minilization</title>
   <meta charset="utf-8">
 
@@ -11,10 +12,15 @@
     height: 600px;
   }
   body{
-    background-image: url("images/Fondo.png");
+    /*background-image: url("images/Fondo.png");
     background-repeat: no-repeat;
     background-size: 100% 100vh;
-    background-color:sienna;
+    background-color:sienna;*/
+    background: url('images/Fondo.png') no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
   }
   </style>
 </head>
@@ -48,8 +54,8 @@
   <footer>
 	<h3><strong>Controls</strong></h3>
 	<p>Move cursor with arrow keys</p>
-	<p>Press Z to select unit/move selected unit/attack with selected unit</p>
-	<p>Press X to deselect unit</p>
+	<p>Press Z/Left Click to select unit/move selected unit/attack with selected unit</p>
+	<p>Press X/Right Click to deselect unit</p>
 	<p>Press SPACE to skip turn</p>
 	<p>Press ESCAPE to go back to main menu</p>
     <p><strong>Minilization</strong><br>

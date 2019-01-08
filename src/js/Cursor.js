@@ -180,10 +180,8 @@ class Cursor extends Phaser.Sprite {
   {
     this.x = this.gameMap.squareWidth/2 + this.roundMouse(this.game.input.mousePointer.x - this.gameMap.squareWidth/2, this.gameMap.squareWidth);
     this.y = this.roundMouse(this.game.input.mousePointer.y, this.gameMap.squareHeight);
-    this.posX = this.x/this.gameMap.squareWidth - 1.5;
-    console.log(this.posX);
-    this.posY = Math.round(this.y/this.gameMap.squareHeight);
-    console.log(this.posY);
+    this.posX = this.x/this.gameMap.squareWidth - 1.5;    
+    this.posY = Math.round(this.y/this.gameMap.squareHeight);    
     this.updateMarker();
     this.game.world.bringToTop(this);
     this.showUnitBuildInfo();
